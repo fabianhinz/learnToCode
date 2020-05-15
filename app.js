@@ -1,3 +1,3 @@
 function openStackblitz() {
-    StackBlitzSDK.openGithubProject("fabianhinz/iib-swe-ws19")
+    StackBlitzSDK.openGithubProject("fabianhinz/learnToCode/tree/stackblitz/react/my-app")
 }
