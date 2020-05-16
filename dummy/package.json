@@ -1,6 +1,6 @@
 {
-  "name": "hska/lectures/test",
-  "version": "0.0.0",
+  "name": "learntocode",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "react": "latest",

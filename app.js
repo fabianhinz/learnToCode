@@ -1,3 +1,3 @@
 function openStackblitz() {
-    StackBlitzSDK.openGithubProject("fabianhinz/learnToCode/tree/stackblitz/sb")
+    StackBlitzSDK.openGithubProject("fabianhinz/learnToCode/tree/stackblitz/dummy")
 }
