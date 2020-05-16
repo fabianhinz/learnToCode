@@ -1,4 +1,7 @@
 {
+  "name": "hska/lectures/test",
+  "version": "0.0.0",
+  "private": true,
   "dependencies": {
     "react": "latest",
     "react-dom": "latest"
