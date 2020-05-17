@@ -23,5 +23,5 @@ async function save() {
 }
 
 async function getInitialLectureSetup() {
-   return await StackBlitzSDK.embedGithubProject("stackblitz-embedGithubProject", "fabianhinz/learnToCode/tree/test/dummy", { width: '100%', height: '100%' })
+   return await StackBlitzSDK.embedGithubProject("stackblitz-embedGithubProject", "fabianhinz/learnToCode/tree/stackblitz/dummy", { width: '100%', height: '100%' })
 }
