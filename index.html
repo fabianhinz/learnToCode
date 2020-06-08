@@ -1,30 +1,69 @@
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
 <style>
     body {
         margin: 0;
-    }
-    .header {
+        font-family: 'Ubuntu', sans-serif;
         padding: 1rem;
     }
-    #stackblitz-container {
-        width: 100%;
-        height: 600px;
-     
-    }
+
     button {
         font-size: 1.125rem;
+    }
+
+    iframe {
+        border: none;
+    }
+
+    div {
+        line-height: 1.5;
+    }
+
+    #stackblitz-container {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        padding: 1rem;
+        background: #1F1F1F;
+        border-radius: 5px;
+        height: 500px;
+
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container>* {
+        margin: 0.5rem 0;
     }
 </style>
 
 <body>
     <script src="https://unpkg.com/@stackblitz/sdk/bundles/sdk.umd.js"></script>
     <script src="app.js"></script>
-    <div class="header">
-        <h1>Lecture one</h1>
-        <h5>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</h5>
-        <button onclick="getInitialLectureSetup()">reset</button>
-    </div>
-    
-    <div id="stackblitz-container"> 
-        <div id="stackblitz-embedGithubProject"></div>
+    <div class="container">
+        <div>
+            <h1>Lecture one</h1>
+            <div>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+                labore
+                et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+                rebum.
+                Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+                amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+                aliquyam
+                erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+                gubergren,
+                no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+        </div>
+
+        <div>
+            <button onclick="getInitialLectureSetup()">reset</button>
+        </div>
+
+        <div id="stackblitz-container">
+            <div id="stackblitz-embedGithubProject"></div>
+        </div>
     </div>
 </body>
