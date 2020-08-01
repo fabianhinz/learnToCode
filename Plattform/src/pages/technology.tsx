@@ -24,7 +24,7 @@ const Lektionen = props => {
         <Layout>
             <Header />
             <Grid container spacing={4}>
-                {nodes.map(node => !node.parent.relativeDirectory.split('/')[0] && (
+                {nodes.map(node => node.parent.relativeDirectory.split('/')[0] && node.parent.relativeDirectory.split('/').length === 1 && (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
                         <Card raised>
                             <CardHeader title={node.frontmatter.title} />
@@ -52,8 +52,8 @@ const Lektionen = props => {
                             </CardContent>
 
                             <CardActions style={{ justifyContent: "flex-end" }}>
-                                <Link style={{ marginRight: "1rem" }} to={"/technology/" + node.frontmatter.title}>
-                                    DETAILS
+                                <Link style={{ marginRight: "1rem" }} to="/technology">
+                                    Auf gehts!
                                 </Link>
                             </CardActions>
                         </Card>

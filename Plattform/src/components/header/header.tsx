@@ -7,12 +7,8 @@ const Header = () => {
             <h3>Learn2Code@HsKA</h3>
             <div>
                 <Link style={{ marginRight: "1rem" }} to="/">
-                    home
-                </Link>
-                <Link style={{ marginRight: "1rem" }} to="/lektionen">
                     lektionen
                 </Link>
-
                 <Link style={{ marginRight: "1rem" }} to="/about">
                     about
                 </Link>
