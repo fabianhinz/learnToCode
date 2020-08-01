@@ -1,4 +1,13 @@
-import { AppBar, Avatar, Grid, makeStyles, Toolbar, Typography } from '@material-ui/core'
+import {
+    AppBar,
+    Avatar,
+    Grid,
+    Link as MuiLink,
+    makeStyles,
+    Toolbar,
+    Typography,
+} from '@material-ui/core'
+import { Link } from 'gatsby'
 import React from 'react'
 
 import { useFirebaseContext } from './provider/FirebaseProvider'
@@ -16,15 +25,17 @@ const Header = () => {
 
     return (
         <header>
-            <AppBar color="default" position="sticky" className={classes.appbar}>
+            <AppBar color="default" position="fixed" className={classes.appbar}>
                 <Toolbar>
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item>
-                            <Typography variant="h5">learn2Code@HsKA</Typography>
+                            <MuiLink component={Link} to="/" color="textPrimary">
+                                <Typography variant="h5">learn2Code@HsKA</Typography>
+                            </MuiLink>
                         </Grid>
 
                         <Grid item>
-                            <Grid container alignItems="center">
+                            <Grid container alignItems="center" spacing={1}>
                                 <Grid item>
                                     <Search />
                                 </Grid>
