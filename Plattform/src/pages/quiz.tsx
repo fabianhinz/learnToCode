@@ -2,12 +2,12 @@ import React from "react"
 import { Typography } from "@material-ui/core"
 import PageLayout from "../components/PageLayout"
 
-const Index = () => {
+const Quiz = () => {
     return (
         <PageLayout>
-            <Typography>hi</Typography>
+            <Typography>Quiz</Typography>
         </PageLayout>
     )
 }
 
-export default Index
+export default Quiz

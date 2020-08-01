@@ -8,12 +8,6 @@ module.exports = {
     /* Your site config here */
     plugins: [
         {
-            resolve: `gatsby-plugin-typography`,
-            options: {
-                pathToConfigModule: `src/utils/typography`,
-            },
-        },
-        {
             resolve: `gatsby-source-filesystem`,
             options: {
                 name: `markdown-pages`,
@@ -21,5 +15,7 @@ module.exports = {
             },
         },
         `gatsby-transformer-remark`,
+        `gatsby-plugin-react-helmet`,
+        `gatsby-theme-material-ui`,
     ],
 }
