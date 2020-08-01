@@ -56,15 +56,20 @@ const FirebaseProvider: FC = props => {
             })
             setFirebase(instance)
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
         if (!firebase) return
 
-        firebase.auth().onAuthStateChanged(authState => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(authState => {
             if (authState) setUser(authState.providerData[0])
             else setUser(null)
         })
+
+        return () => {
+            unsubscribe()
+        }
     }, [firebase])
 
     if (!firebase) return <></>
