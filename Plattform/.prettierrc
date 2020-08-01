@@ -1,6 +1,0 @@
-{
-    "arrowParens": "avoid",
-    "semi": false,
-    "tabWidth": 4,
-    "bracketSpacing": true
-}

@@ -1,7 +1,7 @@
-import React, { FC, useState, useEffect } from "react"
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth"
+import React, { FC, useEffect, useState } from 'react'
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 
-type Firebase = typeof import("firebase/app")
+type Firebase = typeof import('firebase/app')
 
 interface User {
     displayName: string
@@ -20,11 +20,10 @@ interface FirebaseContext {
 
 const Context = React.createContext<FirebaseContext | null>(null)
 
-export const useFirebaseContext = () =>
-    React.useContext(Context) as FirebaseContext
+export const useFirebaseContext = () => React.useContext(Context) as FirebaseContext
 
 const getUiConfig = (firebase: Firebase): firebaseui.auth.Config => ({
-    signInFlow: "popup",
+    signInFlow: 'popup',
     callbacks: {
         // ? this deactivates the redirect after a successful login
         signInSuccessWithAuthResult: () => false,
@@ -39,21 +38,21 @@ const FirebaseProvider: FC = props => {
     useEffect(() => {
         // ? gatsby builds static HTML files for each route, firebase will only work with a defined window object
         // source: https://www.gatsbyjs.org/docs/debugging-html-builds/
-        if (firebase || typeof window === "undefined") return
+        if (firebase || typeof window === 'undefined') return
 
         Promise.all([
-            import("firebase/app"),
-            import("firebase/auth"),
-            import("firebase/firestore"),
+            import('firebase/app'),
+            import('firebase/auth'),
+            import('firebase/firestore'),
         ]).then(([instance]) => {
             instance.initializeApp({
-                apiKey: "AIzaSyDg0fmdAetgwRPpyQ16D6D2hZqlDVOvQ-I",
-                authDomain: "learn2code-hska.firebaseapp.com",
-                databaseURL: "https://learn2code-hska.firebaseio.com",
-                projectId: "learn2code-hska",
-                storageBucket: "learn2code-hska.appspot.com",
-                messagingSenderId: "398211325564",
-                appId: "1:398211325564:web:90eed6fa89441f4230f3f9",
+                apiKey: 'AIzaSyDg0fmdAetgwRPpyQ16D6D2hZqlDVOvQ-I',
+                authDomain: 'learn2code-hska.firebaseapp.com',
+                databaseURL: 'https://learn2code-hska.firebaseio.com',
+                projectId: 'learn2code-hska',
+                storageBucket: 'learn2code-hska.appspot.com',
+                messagingSenderId: '398211325564',
+                appId: '1:398211325564:web:90eed6fa89441f4230f3f9',
             })
             setFirebase(instance)
         })
@@ -81,8 +80,7 @@ const FirebaseProvider: FC = props => {
                         firebaseAuth={firebase.auth()}
                     />
                 ),
-            }}
-        >
+            }}>
             {props.children}
         </Context.Provider>
     )

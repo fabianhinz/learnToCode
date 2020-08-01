@@ -1,0 +1,15 @@
+{
+    "extends": ["eslint:recommended", "react-app", "plugin:prettier/recommended"],
+    "plugins": ["simple-import-sort"],
+    "rules": {
+        "react-hooks/exhaustive-deps": "error",
+        "prettier/prettier": "warn",
+        "simple-import-sort/sort": "warn",
+        "no-restricted-imports": [
+            "error",
+            {
+                "patterns": ["@material-ui/*/*/*", "!@material-ui/core/test-utils/*"]
+            }
+        ]
+    }
+}

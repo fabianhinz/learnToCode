@@ -1,7 +1,8 @@
-import React from "react"
-import Header from "./Header"
-import Main from "./Main"
-import FirebaseProvider from "../provider/FirebaseProvider"
+import React from 'react'
+
+import Header from './Header'
+import Main from './Main'
+import FirebaseProvider from './provider/FirebaseProvider'
 
 interface Props {
     children: React.ReactNode

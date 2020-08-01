@@ -1,5 +1,5 @@
-import React, { FC } from "react"
-import { Container, Box } from "@material-ui/core"
+import { Box, Container } from '@material-ui/core'
+import React, { FC } from 'react'
 
 const Main: FC = props => (
     <main>

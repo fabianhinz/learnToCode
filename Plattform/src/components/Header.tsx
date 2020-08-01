@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react"
-import { AppBar, Toolbar, Typography, Avatar } from "@material-ui/core"
-import { useFirebaseContext } from "../provider/FirebaseProvider"
+import { AppBar, Avatar, Toolbar, Typography } from '@material-ui/core'
+import React, { useEffect } from 'react'
+
+import { useFirebaseContext } from './provider/FirebaseProvider'
 
 const Header = () => {
     const { firebase, authUi, user } = useFirebaseContext()
 
+    useEffect(() => {
+        console.log(firebase)
+    }, [])
+
     return (
         <header>
             <AppBar position="sticky">
-                <Toolbar style={{ justifyContent: "space-between" }}>
+                <Toolbar style={{ justifyContent: 'space-between' }}>
                     <Typography variant="h5">learn2Code@HsKA</Typography>
+
                     {user ? (
-                        <Avatar
-                            onClick={() => firebase.auth().signOut()}
-                            src={user.photoURL}
-                        >
+                        <Avatar onClick={() => firebase.auth().signOut()} src={user.photoURL}>
                             {user.displayName[0]}
                         </Avatar>
                     ) : (
