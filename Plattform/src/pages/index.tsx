@@ -2,7 +2,7 @@ import { ButtonBase, Grid, makeStyles, Typography } from '@material-ui/core'
 import { green } from '@material-ui/core/colors'
 import React from 'react'
 
-import PageLayout from '../components/PageLayout'
+import PageLayout from '../components/Layout/PageLayout'
 import CardBase from '../Components/Shared/CardBase'
 
 const useStyles = makeStyles(theme => ({

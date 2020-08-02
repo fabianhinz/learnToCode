@@ -13,7 +13,7 @@ interface User {
 
 interface FirebaseContext {
     firebaseInstance: FirebaseInstance
-    user: User
+    user: User | null
 }
 
 const Context = React.createContext<FirebaseContext | null>(null)

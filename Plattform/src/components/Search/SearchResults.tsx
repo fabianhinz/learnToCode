@@ -1,7 +1,5 @@
-import { List, ListItem, ListItemText, makeStyles } from '@material-ui/core'
+import { Grow, List, ListItem, ListItemText, makeStyles, Paper } from '@material-ui/core'
 import React, { useState } from 'react'
-
-import PopoverPaper from '../Shared/PopoverPaper'
 
 const useStyles = makeStyles(theme => ({
     list: {
@@ -13,6 +11,16 @@ const useStyles = makeStyles(theme => ({
         borderRadius: 0,
         borderBottomRightRadius: theme.shape.borderRadius * 4,
         borderBottomLeftRadius: theme.shape.borderRadius * 4,
+    },
+    paper: {
+        position: 'absolute',
+        borderRadius: theme.shape.borderRadius * 4,
+        boxShadow: theme.shadows[4],
+        top: 'calc(100% + 4px)',
+        right: 0,
+        minWidth: '100%',
+        zIndex: 1,
+        padding: theme.spacing(1),
     },
 }))
 
@@ -32,15 +40,17 @@ const SearchResults = (props: Props) => {
     const classes = useStyles()
 
     return (
-        <PopoverPaper growIn={props.focused}>
-            <List className={classes.list} disablePadding dense>
-                {result.values.map((item, index) => (
-                    <ListItem key={index}>
-                        <ListItemText primary={item} />
-                    </ListItem>
-                ))}
-            </List>
-        </PopoverPaper>
+        <Grow in={props.focused}>
+            <Paper className={classes.paper}>
+                <List className={classes.list} disablePadding dense>
+                    {result.values.map((item, index) => (
+                        <ListItem key={index}>
+                            <ListItemText primary={item} />
+                        </ListItem>
+                    ))}
+                </List>
+            </Paper>
+        </Grow>
     )
 }
 

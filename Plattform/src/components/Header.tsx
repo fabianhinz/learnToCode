@@ -1,9 +1,9 @@
-import { AppBar, Grid, Link as MuiLink, makeStyles, Toolbar, Typography } from '@material-ui/core'
-import { Link } from 'gatsby'
+import { AppBar, Grid, makeStyles, Toolbar } from '@material-ui/core'
 import React from 'react'
 
 import Search from './Search/Search'
-import User from './User/User'
+import AppLink from './Shared/AppLink'
+import UserAvatar from './Shared/UserAvatar'
 
 const useStyles = makeStyles(() => ({
     appbar: {
@@ -20,9 +20,9 @@ const Header = () => {
                 <Toolbar>
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item>
-                            <MuiLink component={Link} to="/" color="textPrimary">
-                                <Typography variant="h5">learn2Code@HsKA</Typography>
-                            </MuiLink>
+                            <AppLink to="/" color="textPrimary" variant="h4">
+                                learn2Code@HsKA
+                            </AppLink>
                         </Grid>
 
                         <Grid item>
@@ -31,7 +31,7 @@ const Header = () => {
                                     <Search />
                                 </Grid>
                                 <Grid item>
-                                    <User />
+                                    <UserAvatar />
                                 </Grid>
                             </Grid>
                         </Grid>
