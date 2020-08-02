@@ -1,8 +1,8 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
+import { Link } from "gatsby"
 import Layout from "./layout"
 import Header from "./header/header"
-import { CalendarToday, Category } from "@material-ui/icons"
+import { CalendarToday } from "@material-ui/icons"
 
 import {
     Grid,
@@ -10,9 +10,7 @@ import {
     CardContent,
     CardHeader,
     CardActions,
-    Button,
     Chip,
-    Divider,
     Typography,
 } from "@material-ui/core"
 
@@ -24,7 +22,7 @@ const Root = props => {
         <Layout>
             <Header />
             <Grid container spacing={4}>
-            { nodes.map(node => props.path === '/' + node.parent.relativeDirectory && (
+            { nodes.filter(node => props.path === '/' + node.parent.relativeDirectory).map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
                         <Card raised>
                             <CardHeader title={node.frontmatter.title + '\nHi I am root'} />

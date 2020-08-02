@@ -10,10 +10,8 @@ import {
     CardContent,
     CardHeader,
     CardActions,
-    Button,
-    Chip,
-    Divider,
     Typography,
+    Button,
 } from "@material-ui/core"
 
 interface Props {
@@ -60,9 +58,7 @@ const Lectures = (props: Props) => {
                             </CardContent>
 
                             <CardActions style={{ justifyContent: "flex-end" }}>
-                                <Link style={{ marginRight: "1rem" }} to={props.path === '/' ?  props.path + node.frontmatter.title : props.path + '/' + node.frontmatter.title}>
-                                    Auf gehts!
-                                </Link>
+                                <Button>Donwload</Button>
                             </CardActions>
                         </Card>
                     </Grid>
