@@ -1,4 +1,4 @@
-import { Avatar, Button, ButtonBase, ClickAwayListener, makeStyles } from '@material-ui/core'
+import { Avatar, Button, ButtonBase, makeStyles } from '@material-ui/core'
 import { AccountCircle } from '@material-ui/icons'
 import React, { useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
@@ -38,7 +38,7 @@ const User = () => {
                 firebaseAuth={firebaseInstance.auth()}
             />
         )
-
+    console.log({ popoverOpen })
     return (
         <div className={classes.userContainer}>
             <ButtonBase
@@ -47,17 +47,15 @@ const User = () => {
                 <Avatar src={user.photoURL}>{user.displayName[0]}</Avatar>
             </ButtonBase>
 
-            <ClickAwayListener onClickAway={() => setPopoverOpen(false)}>
-                <PopoverPaper growIn={popoverOpen}>
-                    Eu ad eiusmod et reprehenderit exercitation. Aliquip in dolore nisi nulla
-                    pariatur ex veniam tempor voluptate. Cillum nisi cupidatat ullamco dolore.
-                    <Button
-                        startIcon={<AccountCircle />}
-                        onClick={() => firebaseInstance.auth().signOut()}>
-                        ausloggen
-                    </Button>
-                </PopoverPaper>
-            </ClickAwayListener>
+            <PopoverPaper growIn={popoverOpen} onClose={() => setPopoverOpen(false)}>
+                Eu ad eiusmod et reprehenderit exercitation. Aliquip in dolore nisi nulla pariatur
+                ex veniam tempor voluptate. Cillum nisi cupidatat ullamco dolore.
+                <Button
+                    startIcon={<AccountCircle />}
+                    onClick={() => firebaseInstance.auth().signOut()}>
+                    ausloggen
+                </Button>
+            </PopoverPaper>
         </div>
     )
 }

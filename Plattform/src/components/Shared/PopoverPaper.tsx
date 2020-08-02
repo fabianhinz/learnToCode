@@ -1,5 +1,6 @@
-import { Grow, makeStyles, Paper } from '@material-ui/core'
+import { ClickAwayListener, Grow, makeStyles, Paper } from '@material-ui/core'
 import React, { ReactNode } from 'react'
+import { isForStatement } from 'typescript'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -17,15 +18,22 @@ const useStyles = makeStyles(theme => ({
 interface Props {
     growIn: boolean
     children: ReactNode
+    onClose?: () => void
 }
 
-const PopoverPaper = ({ children, growIn }: Props) => {
+const PopoverPaper = ({ children, growIn, onClose }: Props) => {
     const classes = useStyles()
 
+    const handleClickAway = () => {
+        if (onClose) onClose()
+    }
+
     return (
-        <Grow in={growIn}>
-            <Paper className={classes.paper}>{children}</Paper>
-        </Grow>
+        <ClickAwayListener onClickAway={handleClickAway}>
+            <Grow in={growIn}>
+                <Paper className={classes.paper}>{children}</Paper>
+            </Grow>
+        </ClickAwayListener>
     )
 }
 

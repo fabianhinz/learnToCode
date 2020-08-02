@@ -34,6 +34,7 @@
         "react-swipeable-views": "^0.13.9"
     },
     "devDependencies": {
+        "@hot-loader/react-dom": "^16.13.0",
         "@typescript-eslint/eslint-plugin": "^2.34.0",
         "@typescript-eslint/parser": "^2.34.0",
         "babel-eslint": "^10.1.0",
