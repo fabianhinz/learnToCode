@@ -1,4 +1,4 @@
-import { Box, Container, makeStyles, Toolbar } from '@material-ui/core'
+import { Container, makeStyles, Toolbar } from '@material-ui/core'
 import React, { FC } from 'react'
 
 const useStyles = makeStyles(theme => ({

@@ -1,4 +1,4 @@
-import { ClickAwayListener, makeStyles, useMediaQuery } from '@material-ui/core'
+import { ClickAwayListener, makeStyles } from '@material-ui/core'
 import React, { useState } from 'react'
 
 import SearchInput from './SearchInput'
@@ -32,10 +32,7 @@ const useStyles = makeStyles(theme => ({
 const Search = () => {
     const [focused, setFocused] = useState(false)
 
-    const hideSearch = useMediaQuery('(max-width:768px)')
     const classes = useStyles({ focused })
-
-    if (hideSearch) return <></>
 
     const handleFocusChange = (direction: 'in' | 'out') => () => {
         setFocused(direction === 'in' ? true : false)

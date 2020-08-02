@@ -1,3 +1,4 @@
+import { useMediaQuery } from '@material-ui/core'
 import React from 'react'
 
 import Header from './Header'
@@ -9,6 +10,10 @@ interface Props {
 }
 
 const PageLayout = ({ children }: Props) => {
+    const hideUi = useMediaQuery('(max-width:768px)')
+
+    if (hideUi) return <></>
+
     return (
         <FirebaseProvider>
             <Header />

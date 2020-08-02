@@ -1,17 +1,9 @@
-import {
-    AppBar,
-    Avatar,
-    Grid,
-    Link as MuiLink,
-    makeStyles,
-    Toolbar,
-    Typography,
-} from '@material-ui/core'
+import { AppBar, Grid, Link as MuiLink, makeStyles, Toolbar, Typography } from '@material-ui/core'
 import { Link } from 'gatsby'
 import React from 'react'
 
-import { useFirebaseContext } from './provider/FirebaseProvider'
 import Search from './Search/Search'
+import User from './User/User'
 
 const useStyles = makeStyles(() => ({
     appbar: {
@@ -20,7 +12,6 @@ const useStyles = makeStyles(() => ({
 }))
 
 const Header = () => {
-    const { firebase, authUi, user } = useFirebaseContext()
     const classes = useStyles()
 
     return (
@@ -40,15 +31,7 @@ const Header = () => {
                                     <Search />
                                 </Grid>
                                 <Grid item>
-                                    {user ? (
-                                        <Avatar
-                                            onClick={() => firebase.auth().signOut()}
-                                            src={user.photoURL}>
-                                            {user.displayName[0]}
-                                        </Avatar>
-                                    ) : (
-                                        authUi
-                                    )}
+                                    <User />
                                 </Grid>
                             </Grid>
                         </Grid>
