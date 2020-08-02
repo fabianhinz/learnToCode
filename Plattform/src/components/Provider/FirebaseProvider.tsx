@@ -12,7 +12,7 @@ interface User {
 }
 
 interface FirebaseContext {
-    firebaseInstance: FirebaseInstance
+    firebaseInstance: FirebaseInstance | null
     user: User | null
 }
 
