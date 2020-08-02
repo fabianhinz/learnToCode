@@ -1,7 +1,7 @@
 import React from "react"
 import { graphql, Link } from "gatsby"
-import Layout from "../components/layout"
-import Header from "../components/header/header"
+import Layout from "./layout"
+import Header from "./header/header"
 import { CalendarToday, Category } from "@material-ui/icons"
 
 import {
@@ -16,18 +16,17 @@ import {
     Typography,
 } from "@material-ui/core"
 
-const Lektionen = props => {
-    const { nodes } = props.data.allMarkdownRemark
-    console.info(nodes)
+const Technology = props => {
+    const nodes = props.pathContext.nodes
 
     return (
         <Layout>
             <Header />
             <Grid container spacing={4}>
-                {nodes.map(node => !node.parent.relativeDirectory.split('/')[0] && (
+            { nodes.map(node => props.path === '/' + node.parent.relativeDirectory && (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
                         <Card raised>
-                            <CardHeader title={node.frontmatter.title} />
+                            <CardHeader title={node.frontmatter.title + '\nHi I am technology'} />
                             <CardContent>
                                 <Grid container spacing={1}>
                                     <Grid item>
@@ -52,41 +51,16 @@ const Lektionen = props => {
                             </CardContent>
 
                             <CardActions style={{ justifyContent: "flex-end" }}>
-                                <Link style={{ marginRight: "1rem" }} to={"/technology/" + node.frontmatter.title}>
-                                    DETAILS
+                                <Link style={{ marginRight: "1rem" }} to={props.path === '/' ?  props.path + node.frontmatter.title : props.path + '/' + node.frontmatter.title}>
+                                    Auf gehts!
                                 </Link>
                             </CardActions>
                         </Card>
                     </Grid>
-                ))}
+            ))}
             </Grid>
         </Layout>
     )
 }
 
-export default Lektionen
-
-export const pageQuery = graphql`
-    query {
-        allMarkdownRemark {
-            nodes {
-                id
-                frontmatter {
-                    date(formatString: "MMMM DD, YYYY")
-                    path
-                    title
-                    shortDescription
-                    lectures
-                }
-                parent {
-                    ... on File {
-                      id
-                      name
-                      relativeDirectory
-                    }
-                  }
-                html
-            }
-        }
-    }
-`
+export default Technology
