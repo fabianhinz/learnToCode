@@ -88,7 +88,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 )
                 break
             case 3:
-                createSpecificPage(LectureComponent, path, node)
+                createSpecificPage(LectureComponent, path, [node])
                 break
             default:
                 break

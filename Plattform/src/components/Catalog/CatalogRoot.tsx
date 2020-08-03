@@ -11,10 +11,13 @@ import {
 } from '@material-ui/core'
 import React from 'react'
 
+import { GatsbyProps } from '../../model/model'
 import PageLayout from '../Layout/PageLayout'
 import AppLink from '../Shared/AppLink'
 
-const CatalogRoot = props => {
+const CatalogRoot = (props: GatsbyProps) => {
+    console.log(props.pathContext.nodes)
+
     return (
         <PageLayout>
             <Grid container spacing={4}>

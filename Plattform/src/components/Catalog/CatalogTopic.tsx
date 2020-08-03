@@ -15,6 +15,7 @@ import {
 import { Check } from '@material-ui/icons'
 import React, { useState } from 'react'
 
+import { GatsbyProps } from '../../model/model'
 import PageLayout from '../Layout/PageLayout'
 import AppLink from '../Shared/AppLink'
 
@@ -24,9 +25,10 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-const CatalogTopic = props => {
+const CatalogTopic = (props: GatsbyProps) => {
     const [expandedAccordion, setExpandedAccordion] = useState<string | null>(null)
     const classes = useStyles()
+    console.log(props.pathContext.nodes)
 
     return (
         <PageLayout>
