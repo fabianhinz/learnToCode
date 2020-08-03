@@ -18,19 +18,19 @@ interface Props {
             parent: {
                 relativeDirectory: string
             }
-        }[]
+            html: string
+        }
     }
 }
 
 const CatalogLecture = (props: Props) => {
     const nodes = props.pathContext.nodes
-    const lecture = nodes.find(node => props.path === '/' + node.parent.relativeDirectory)
 
     return (
         <PageLayout>
-            <Typography variant="h5">{lecture.frontmatter.title}</Typography>
+            <Typography variant="h5">{nodes.frontmatter.title}</Typography>
 
-            <div dangerouslySetInnerHTML={{ __html: lecture.html }} />
+            <div dangerouslySetInnerHTML={{ __html: nodes.html }} />
 
             <FixedFab stackNumber={1} color="primary" startIcon={<CloudDownload />}>
                 Download
