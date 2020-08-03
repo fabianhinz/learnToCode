@@ -1,8 +1,10 @@
 import {
+    Button,
     Card,
     CardActions,
     CardContent,
     CardHeader,
+    CardMedia,
     Chip,
     Grid,
     Typography,
@@ -12,10 +14,10 @@ import { Link } from 'gatsby'
 import React from 'react'
 
 import PageLayout from '../Layout/PageLayout'
+import AppLink from '../Shared/AppLink'
 
 const CatalogRoot = props => {
     const nodes = props.pathContext.nodes
-
     // Abprüfen, ob directory dem des Pfades entspricht
     return (
         <PageLayout>
@@ -24,40 +26,44 @@ const CatalogRoot = props => {
                     .filter(node => props.path === '/' + node.parent.relativeDirectory)
                     .map(node => (
                         <Grid item xs={12} md={6} xl={4} key={node.id}>
-                            <Card raised>
-                                <CardHeader title={node.frontmatter.title + '\nHi I am root'} />
-                                <CardContent>
-                                    <Grid container spacing={1}>
-                                        <Grid item>
-                                            <Chip
-                                                size="small"
-                                                icon={<CalendarToday />}
-                                                color="secondary"
-                                                label={node.frontmatter.date}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography>
-                                                {node.frontmatter.shortDescription}
+                            <Card variant="outlined">
+                                <div style={{ display: 'flex' }}>
+                                    <CardMedia
+                                        style={{ height: 200, flex: '1 0 200px', margin: 16 }}
+                                        image={node.frontmatter.iconPath.publicURL}
+                                    />
+                                    <div>
+                                        <CardHeader title={node.frontmatter.title} />
+                                        <CardContent>
+                                            <Typography color="textSecondary" variant="subtitle1">
+                                                {node.frontmatter.description}
                                             </Typography>
-                                            <Typography>
-                                                Lektionen: {node.frontmatter.lectures}
-                                            </Typography>
-                                            <Typography>{node.parent.relativeDirectory}</Typography>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
+                                            <Grid container spacing={1}>
+                                                {node.frontmatter.technologies.map(
+                                                    (technology, index) => (
+                                                        <Grid item key={technology + index}>
+                                                            <Chip
+                                                                size="small"
+                                                                color="secondary"
+                                                                label={technology}
+                                                            />
+                                                        </Grid>
+                                                    )
+                                                )}
+                                            </Grid>
+                                        </CardContent>
+                                    </div>
+                                </div>
 
                                 <CardActions style={{ justifyContent: 'flex-end' }}>
-                                    <Link
-                                        style={{ marginRight: '1rem' }}
+                                    <AppLink
                                         to={
                                             props.path === '/'
                                                 ? props.path + node.frontmatter.title
                                                 : props.path + '/' + node.frontmatter.title
                                         }>
-                                        Go!
-                                    </Link>
+                                        <Button color="primary">details</Button>
+                                    </AppLink>
                                 </CardActions>
                             </Card>
                         </Grid>

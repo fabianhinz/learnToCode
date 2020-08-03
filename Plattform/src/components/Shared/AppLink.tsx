@@ -1,4 +1,4 @@
-import { Link as MuiLink, LinkProps } from '@material-ui/core'
+import { Link as MuiLink, LinkProps, makeStyles } from '@material-ui/core'
 import { Link } from 'gatsby'
 import React, { ReactNode } from 'react'
 
@@ -7,10 +7,22 @@ interface Props extends Omit<LinkProps, 'component'> {
     to: string
 }
 
-const AppLink = ({ children, ...linkProps }: Props) => (
-    <MuiLink component={Link as any} {...linkProps}>
-        {children}
-    </MuiLink>
-)
+const useStyles = makeStyles(() => ({
+    link: {
+        '&:hover': {
+            textDecoration: 'none',
+        },
+    },
+}))
+
+const AppLink = ({ children, ...linkProps }: Props) => {
+    const classes = useStyles()
+
+    return (
+        <MuiLink className={classes.link} component={Link as any} {...linkProps}>
+            {children}
+        </MuiLink>
+    )
+}
 
 export default AppLink

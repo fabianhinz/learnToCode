@@ -25,8 +25,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                     id
                     frontmatter {
                         title
-                        shortDescription
-                        lectures
+                        description
+                        technologies
+                        design
+                        iconPath {
+                            publicURL
+                        }
                     }
                     parent {
                         ... on File {
