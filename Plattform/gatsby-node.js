@@ -31,6 +31,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                         iconPath {
                             publicURL
                         }
+                        lectures {
+                            title
+                            description
+                        }
                     }
                     parent {
                         ... on File {
@@ -52,13 +56,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     const CATALOG_ROOT = 'src/components/Catalog/'
 
     const RootComponent = path.resolve(CATALOG_ROOT + 'CatalogRoot.tsx')
-    const TopicsComponent = path.resolve(CATALOG_ROOT + 'CatalogTopics.tsx')
-    const TechnologiesComponent = path.resolve(CATALOG_ROOT + 'CatalogTechnologies.tsx')
-    const LecturesComponent = path.resolve(CATALOG_ROOT + 'CatalogLectures.tsx')
+    const TopicComponent = path.resolve(CATALOG_ROOT + 'CatalogTopic.tsx')
+    const LectureComponent = path.resolve(CATALOG_ROOT + 'CatalogLecture.tsx')
 
     const rootNodes = []
     const topicNodes = []
-    const technologyNodes = []
     const lectureNodes = []
 
     const createSpecificPage = (component, path, nodes) =>
@@ -71,7 +73,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 nodes,
             },
         })
-
+    // ! ToDo filter all nodes by path to avoid filtering on the client
     result.data.allMarkdownRemark.nodes.forEach(node => {
         const relDir = node.parent.relativeDirectory
         const pathLevel = !relDir ? 0 : relDir.split('/').length
@@ -83,15 +85,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 break
             case 1:
                 topicNodes.push(node)
-                createSpecificPage(TopicsComponent, path, topicNodes)
-                break
-            case 2:
-                technologyNodes.push(node)
-                createSpecificPage(TechnologiesComponent, path, technologyNodes)
+                createSpecificPage(TopicComponent, path, topicNodes)
                 break
             case 3:
                 lectureNodes.push(node)
-                createSpecificPage(LecturesComponent, path, lectureNodes)
+                createSpecificPage(LectureComponent, path, lectureNodes)
                 break
             default:
                 break

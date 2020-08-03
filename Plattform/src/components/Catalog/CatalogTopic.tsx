@@ -1,0 +1,90 @@
+import {
+    Accordion,
+    AccordionActions,
+    AccordionDetails,
+    AccordionSummary,
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    Divider,
+    Grid,
+    makeStyles,
+    Typography,
+} from '@material-ui/core'
+import { Check } from '@material-ui/icons'
+import React, { useState } from 'react'
+
+import PageLayout from '../Layout/PageLayout'
+import AppLink from '../Shared/AppLink'
+
+const useStyles = makeStyles(() => ({
+    summaryContent: {
+        justifyContent: 'space-between',
+    },
+}))
+
+const CatalogTopic = props => {
+    const [expandedAccordion, setExpandedAccordion] = useState<string | null>(null)
+    const classes = useStyles()
+
+    const nodes = props.pathContext.nodes
+
+    return (
+        <PageLayout>
+            <Grid container spacing={4}>
+                {nodes.map(
+                    node =>
+                        props.path === '/' + node.parent.relativeDirectory && (
+                            <Grid item xs={12} md={6} xl={4} key={node.id}>
+                                <Card variant="outlined">
+                                    <CardHeader title={node.frontmatter.title} />
+                                    <Divider />
+                                    <CardContent>
+                                        <Typography color="textSecondary" variant="subtitle1">
+                                            {node.frontmatter.description}
+                                        </Typography>
+                                    </CardContent>
+                                    <Divider />
+
+                                    {node.frontmatter.lectures.map((lecture, index) => (
+                                        <Accordion
+                                            expanded={expandedAccordion === lecture.title + index}
+                                            onChange={() => {
+                                                if (lecture.title + index === expandedAccordion)
+                                                    setExpandedAccordion(null)
+                                                else setExpandedAccordion(lecture.title + index)
+                                            }}
+                                            key={lecture.title + index}>
+                                            <AccordionSummary
+                                                classes={{ content: classes.summaryContent }}>
+                                                {lecture.title}
+                                                <Check color="secondary" />
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                {lecture.description}
+                                            </AccordionDetails>
+                                            <AccordionActions>
+                                                <AppLink
+                                                    to={
+                                                        props.path +
+                                                        '/' +
+                                                        node.frontmatter.title +
+                                                        '/' +
+                                                        lecture.title
+                                                    }>
+                                                    <Button>jetzt starten</Button>
+                                                </AppLink>
+                                            </AccordionActions>
+                                        </Accordion>
+                                    ))}
+                                </Card>
+                            </Grid>
+                        )
+                )}
+            </Grid>
+        </PageLayout>
+    )
+}
+
+export default CatalogTopic
