@@ -1,17 +1,17 @@
-import { Fab, FabProps, makeStyles, Slide } from '@material-ui/core'
+import { Fab, FabProps, makeStyles, Slide, useMediaQuery, useTheme } from '@material-ui/core'
 import React, { ReactNode } from 'react'
 
-type StyleProps = Pick<Props, 'stackNumber'>
+type StyleProps = Pick<Props, 'stackNumber'> & { smDown: boolean }
 
 const useStyles = makeStyles(theme => ({
     fixedFab: {
         position: 'fixed',
         bottom: (props: StyleProps) =>
-            props.stackNumber ? props.stackNumber * 96 : theme.spacing(3),
+            props.stackNumber ? props.stackNumber * (props.smDown ? 92 : 84) : theme.spacing(3),
         right: theme.spacing(3),
     },
     startIcon: {
-        marginRight: theme.spacing(1),
+        marginRight: (props: StyleProps) => (props.smDown ? 0 : theme.spacing(1)),
         display: 'flex',
     },
 }))
@@ -22,13 +22,15 @@ interface Props extends FabProps {
 }
 
 const FixedFab = ({ stackNumber, children, startIcon, ...fabProps }: Props) => {
-    const classes = useStyles({ stackNumber })
+    const theme = useTheme()
+    const smDown = useMediaQuery(theme.breakpoints.down('sm'))
+    const classes = useStyles({ stackNumber, smDown })
 
     return (
         <Slide direction="left" in>
-            <Fab variant="extended" className={classes.fixedFab} {...fabProps}>
+            <Fab variant={smDown ? 'round' : 'extended'} className={classes.fixedFab} {...fabProps}>
                 {startIcon && <span className={classes.startIcon}>{startIcon}</span>}
-                {children}
+                {!smDown && children}
             </Fab>
         </Slide>
     )

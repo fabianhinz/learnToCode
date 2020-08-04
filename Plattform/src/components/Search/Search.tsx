@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
                 : 'rgba(0, 0, 0, 0.08)',
         boxShadow: ({ focused }: StyleProps) =>
             theme.palette.type === 'light' && focused ? theme.shadows[1] : 'unset',
-        borderRadius: theme.shape.borderRadius * 4,
+        borderRadius: theme.shape.borderRadius * 2,
         padding: theme.spacing(1),
         transition: theme.transitions.create('all', {
             easing: theme.transitions.easing.easeOut,
