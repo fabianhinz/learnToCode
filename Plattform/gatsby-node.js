@@ -54,6 +54,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     const RootComponent = path.resolve(CATALOG_ROOT + 'CatalogRoot.tsx')
     const TopicComponent = path.resolve(CATALOG_ROOT + 'CatalogTopic.tsx')
     const LectureComponent = path.resolve(CATALOG_ROOT + 'CatalogLecture.tsx')
+    const TechnologyComponent = path.resolve(CATALOG_ROOT + 'CatalogTechnology.tsx')
 
     const rootNodes = []
     const topicNodes = []
@@ -86,6 +87,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                     path,
                     topicNodes.filter(node => path === '/' + node.parent.relativeDirectory)
                 )
+                topicNodes.forEach(topic =>
+                    createSpecificPage(TechnologyComponent, path + '/' + topic.frontmatter.title, [
+                        topic,
+                    ])
+                )
+
                 break
             case 3:
                 createSpecificPage(LectureComponent, path, [node])

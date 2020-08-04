@@ -7,7 +7,6 @@ import FixedFab from '../Shared/FixedFab'
 
 const CatalogLecture = (props: GatsbyProps) => {
     const node = props.pathContext.nodes[0]
-    console.log(props.pathContext.nodes)
 
     return (
         <>

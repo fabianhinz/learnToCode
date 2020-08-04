@@ -27,6 +27,7 @@
         "gatsby-theme-material-ui": "^1.0.13",
         "gatsby-transformer-remark": "^2.8.27",
         "material-auto-rotating-carousel": "^3.0.2",
+        "node-vibrant": "^3.1.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-firebaseui": "^4.1.0",

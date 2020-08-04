@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         position: 'absolute',
-        borderRadius: theme.shape.borderRadius * 4,
+        borderRadius: theme.shape.borderRadius * 2,
         boxShadow: theme.shadows[4],
         top: 'calc(100% + 4px)',
         right: 0,

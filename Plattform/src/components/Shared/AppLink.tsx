@@ -2,24 +2,33 @@ import { Link as MuiLink, LinkProps, makeStyles } from '@material-ui/core'
 import { Link } from 'gatsby'
 import React, { ReactNode } from 'react'
 
-interface Props extends Omit<LinkProps, 'component'> {
-    children: ReactNode
-    to: string
-}
+type StyleProps = Pick<Props, 'capitalize' | 'textDecoration'>
 
 const useStyles = makeStyles(() => ({
     link: {
+        textTransform: (props: StyleProps) => (props.capitalize ? 'capitalize' : undefined),
         '&:hover': {
-            textDecoration: 'none',
+            textDecoration: (props: StyleProps) => (props.textDecoration ? 'underline' : 'none'),
         },
     },
 }))
 
-const AppLink = ({ children, ...linkProps }: Props) => {
-    const classes = useStyles()
+interface Props extends Omit<LinkProps, 'component'> {
+    children: ReactNode
+    to?: string
+    capitalize?: boolean
+    textDecoration?: boolean
+}
+
+const AppLink = ({ children, capitalize, textDecoration, ...linkProps }: Props) => {
+    const classes = useStyles({ capitalize, textDecoration })
 
     return (
-        <MuiLink className={classes.link} component={Link as any} {...linkProps}>
+        <MuiLink
+            color="textPrimary"
+            className={classes.link}
+            component={linkProps.to ? (Link as any) : undefined}
+            {...linkProps}>
             {children}
         </MuiLink>
     )
