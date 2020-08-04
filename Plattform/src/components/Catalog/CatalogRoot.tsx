@@ -12,14 +12,13 @@ import {
 import React from 'react'
 
 import { GatsbyProps } from '../../model/model'
-import PageLayout from '../Layout/PageLayout'
 import AppLink from '../Shared/AppLink'
 
 const CatalogRoot = (props: GatsbyProps) => {
     console.log(props.pathContext.nodes)
 
     return (
-        <PageLayout>
+        <>
             <Grid container spacing={4}>
                 {props.pathContext.nodes.map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
@@ -66,7 +65,7 @@ const CatalogRoot = (props: GatsbyProps) => {
                     </Grid>
                 ))}
             </Grid>
-        </PageLayout>
+        </>
     )
 }
 

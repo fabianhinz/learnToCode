@@ -10,7 +10,7 @@ const Nav = () => {
 
     return (
         <Breadcrumbs separator={<ChevronRight />}>
-            <AppLink variant="h6" color="textSecondary" to="/">
+            <AppLink variant="h6" color={pathname === '/' ? 'textPrimary' : 'textSecondary'} to="/">
                 Katalog
             </AppLink>
             {pathname.length > 1 &&
@@ -21,7 +21,7 @@ const Nav = () => {
                         <AppLink
                             key={path}
                             variant="h6"
-                            color="textSecondary"
+                            color={arr.slice(-1)[0] === path ? 'textPrimary' : 'textSecondary'}
                             to={'/' + arr.slice(0, index + 1).join('/')}>
                             {path}
                         </AppLink>
