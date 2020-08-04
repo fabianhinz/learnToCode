@@ -39,7 +39,16 @@ module.exports = {
                 },
             },
         },
-        `gatsby-transformer-remark`,
+        {
+            resolve: `gatsby-transformer-remark`,
+            options: {
+                plugins: [
+                    {
+                        resolve: `gatsby-remark-highlight-code`,
+                    },
+                ],
+            },
+        },
         `gatsby-plugin-react-helmet`,
     ],
 }

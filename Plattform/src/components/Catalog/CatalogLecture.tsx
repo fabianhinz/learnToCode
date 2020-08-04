@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core'
+import { Divider, Typography } from '@material-ui/core'
 import { CloudDownload, Launch } from '@material-ui/icons'
 import React from 'react'
 
@@ -10,7 +10,10 @@ const CatalogLecture = (props: GatsbyProps) => {
 
     return (
         <>
-            <Typography variant="h5">{node.frontmatter.title}</Typography>
+            <Typography gutterBottom variant="h4" align="center">
+                {node.frontmatter.title}
+            </Typography>
+            <Divider />
 
             <div dangerouslySetInnerHTML={{ __html: node.html }} />
 
