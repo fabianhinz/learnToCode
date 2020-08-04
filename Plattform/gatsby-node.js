@@ -55,43 +55,55 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     const TopicComponent = path.resolve(CATALOG_ROOT + 'CatalogTopic.tsx')
     const LectureComponent = path.resolve(CATALOG_ROOT + 'CatalogLecture.tsx')
 
-    const rootNodes = []
     const topicNodes = []
+    const technologyNodes = []
+    const lectureNodes = []
 
-    const createSpecificPage = (component, path, nodes) =>
-        createPage({
-            path,
-            component: component,
-            context: {
-                nodes,
-            },
-        })
     result.data.allMarkdownRemark.nodes.forEach(node => {
         const relDir = node.parent.relativeDirectory
         const pathLevel = !relDir ? 0 : relDir.split('/').length
-        const path = '/' + relDir
         switch (pathLevel) {
             case 0:
-                rootNodes.push(node)
-                createSpecificPage(
-                    RootComponent,
-                    path,
-                    rootNodes.filter(node => path === '/' + node.parent.relativeDirectory)
-                )
+                topicNodes.push(node)
                 break
             case 1:
-                topicNodes.push(node)
-                createSpecificPage(
-                    TopicComponent,
-                    path,
-                    topicNodes.filter(node => path === '/' + node.parent.relativeDirectory)
-                )
+                technologyNodes.push(node)
                 break
             case 3:
-                createSpecificPage(LectureComponent, path, [node])
+                lectureNodes.push(node)
                 break
             default:
                 break
         }
+    })
+
+    const createSpecificPage = (path, component, nodes) =>
+        createPage({
+            path,
+            component,
+            context: {
+                nodes,
+            },
+        })
+
+    // create root page to display topics
+    createSpecificPage('/', RootComponent, topicNodes)
+
+    // create topic pages to display relating technologies
+    topicNodes.forEach(topicNode => {
+        createSpecificPage(
+            '/' + topicNode.frontmatter.title,
+            TopicComponent,
+            technologyNodes.filter(
+                node => topicNode.frontmatter.title === node.parent.relativeDirectory
+            )
+        )
+    })
+
+    // create separate page for each lecture
+    lectureNodes.forEach(lectureNode => {
+        createSpecificPage('/' + lectureNode.parent.relativeDirectory, LectureComponent, [
+            lectureNode,
+        ])
     })
 }

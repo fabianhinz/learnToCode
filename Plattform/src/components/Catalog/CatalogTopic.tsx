@@ -28,8 +28,6 @@ const useStyles = makeStyles(() => ({
 const CatalogTopic = (props: GatsbyProps) => {
     const [expandedAccordion, setExpandedAccordion] = useState<string | null>(null)
     const classes = useStyles()
-    console.log(props.pathContext.nodes)
-
     return (
         <PageLayout>
             <Grid container spacing={4}>
