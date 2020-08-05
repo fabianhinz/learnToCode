@@ -3,7 +3,7 @@ import React from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 
 import { FirebaseInstance, useFirebaseContext } from '../provider/FirebaseProvider'
-import AppLink from './AppLink'
+import AppLink from '../Shared/AppLink'
 
 const getUiConfig = (firebase: FirebaseInstance): firebaseui.auth.Config => ({
     signInFlow: 'popup',

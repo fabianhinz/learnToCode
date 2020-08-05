@@ -32,6 +32,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                             title
                             description
                         }
+                        lastUpdate
                     }
                     parent {
                         ... on File {

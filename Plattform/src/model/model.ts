@@ -25,6 +25,7 @@ export interface Frontmatter {
         publicURL: string
     }
     lectures: Lecture[]
+    lastUpdate?: string
 }
 
 export interface Lecture {
