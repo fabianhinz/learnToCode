@@ -21,16 +21,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 nodes {
                     id
                     frontmatter {
+                        pathTitle
                         title
                         description
-                        technologies
                         design
                         iconPath {
                             publicURL
-                        }
-                        lectures {
-                            title
-                            description
                         }
                     }
                     parent {
@@ -78,43 +74,39 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         }
     })
 
-    const createSpecificPage = (path, component, nodes) =>
+    const createSpecificPage = (path, component, node) =>
         createPage({
             path,
             component,
             context: {
-                nodes,
+                node,
             },
         })
 
     // create root page to display topics
-    createSpecificPage('/', RootComponent, topicNodes)
+    createSpecificPage('/', RootComponent, { children: topicNodes })
 
     // create topic pages to display relating technologies
     topicNodes.forEach(topicNode => {
-        createSpecificPage(
-            '/' + topicNode.frontmatter.title,
-            TopicComponent,
-            technologyNodes.filter(
-                technologyNode =>
-                    topicNode.frontmatter.title === technologyNode.parent.relativeDirectory
-            )
+        topicNode.children = technologyNodes.filter(
+            technologyNode =>
+                technologyNode.parent.relativeDirectory === topicNode.frontmatter.pathTitle
         )
+        createSpecificPage(topicNode.frontmatter.pathTitle, TopicComponent, topicNode)
     })
 
     // create technology pages to display relating lectures
     technologyNodes.forEach(technologyNode => {
-        createSpecificPage(
-            technologyNode.parent.relativeDirectory + '/' + technologyNode.frontmatter.title,
-            TechnologyComponent,
-            [technologyNode]
+        const relPath =
+            technologyNode.parent.relativeDirectory + '/' + technologyNode.frontmatter.pathTitle
+        technologyNode.children = lectureNodes.filter(lectureNode =>
+            lectureNode.parent.relativeDirectory.includes(relPath)
         )
+        createSpecificPage(relPath, TechnologyComponent, technologyNode)
     })
 
     // create separate page for each lecture
     lectureNodes.forEach(lectureNode => {
-        createSpecificPage('/' + lectureNode.parent.relativeDirectory, LectureComponent, [
-            lectureNode,
-        ])
+        createSpecificPage(lectureNode.parent.relativeDirectory, LectureComponent, lectureNode)
     })
 }

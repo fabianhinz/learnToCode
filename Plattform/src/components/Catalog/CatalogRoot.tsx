@@ -65,7 +65,7 @@ const RootElement = ({ node }: RootElementProps) => {
         <Card variant="outlined" className={classes.card}>
             <div className={classes.iconContainer}>
                 <img
-                    alt={node.frontmatter.title + ' icon'}
+                    alt={node.frontmatter.pathTitle + ' icon'}
                     className={classes.icon}
                     src={node.frontmatter.iconPath.publicURL}
                 />
@@ -78,15 +78,19 @@ const RootElement = ({ node }: RootElementProps) => {
                     </Typography>
 
                     <Grid container spacing={1} justify="flex-end">
-                        {node.frontmatter.technologies.map((technology, index) => (
-                            <Grid item key={technology + index}>
-                                <Chip size="small" color="primary" label={technology} />
+                        {node.children.map((technology, index) => (
+                            <Grid item key={technology.frontmatter.pathTitle + index}>
+                                <Chip
+                                    size="small"
+                                    color="primary"
+                                    label={technology.frontmatter.title}
+                                />
                             </Grid>
                         ))}
                     </Grid>
                 </CardContent>
                 <CardActions style={{ justifyContent: 'flex-end' }}>
-                    <AppLink to={'/' + node.frontmatter.title}>
+                    <AppLink to={'/' + node.frontmatter.pathTitle}>
                         <Button color="secondary">details</Button>
                     </AppLink>
                 </CardActions>
@@ -99,7 +103,7 @@ const CatalogRoot = (props: GatsbyProps) => {
     return (
         <>
             <Grid container spacing={2}>
-                {props.pathContext.nodes.map(node => (
+                {props.pathContext.node.children.map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
                         <RootElement node={node} />
                     </Grid>

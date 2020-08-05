@@ -8,9 +8,9 @@ const CatalogTopic = (props: GatsbyProps) => {
     return (
         <>
             <Grid container spacing={2}>
-                {props.pathContext.nodes.map(node => (
+                {props.pathContext.node.children.map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
-                        <CatalogTechnology path={props.path} pathContext={{ nodes: [node] }} />
+                        <CatalogTechnology path={props.path} pathContext={{ node }} />
                     </Grid>
                 ))}
             </Grid>

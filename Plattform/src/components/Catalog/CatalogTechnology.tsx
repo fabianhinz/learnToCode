@@ -12,7 +12,7 @@ import { Check } from '@material-ui/icons'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import React, { useState } from 'react'
 
-import { GatsbyProps, Lecture } from '../../model/model'
+import { GatsbyProps } from '../../model/model'
 import AppLink from '../Shared/AppLink'
 
 const useStyles = makeStyles(() => ({
@@ -28,18 +28,18 @@ const CatalogTechnology = (props: GatsbyProps) => {
     const [expandedAccordion, setExpandedAccordion] = useState<string | null>(null)
     const classes = useStyles()
 
-    const [node] = props.pathContext.nodes
-    const isStandalone = props.path.includes(node.frontmatter.title)
-    const getLecturePath = (lecture: Lecture) =>
+    const node = props.pathContext.node
+    const isStandalone = props.path.includes(node.frontmatter.pathTitle)
+    const getLecturePath = (lecture: string) =>
         isStandalone
-            ? `${props.path}/${lecture.title}`
-            : `${props.path}/${node.frontmatter.title}/${lecture.title}`
+            ? `${props.path}/${lecture}`
+            : `${props.path}/${node.frontmatter.pathTitle}/${lecture}`
 
-    const getChangeHandler = (lecture: Lecture, index: number) => ({
-        expanded: isStandalone ? true : expandedAccordion === lecture.title + index,
+    const getChangeHandler = (lecture: string, index: number) => ({
+        expanded: isStandalone ? true : expandedAccordion === lecture + index,
         onChange: () => {
-            if (lecture.title + index === expandedAccordion) setExpandedAccordion(null)
-            else setExpandedAccordion(lecture.title + index)
+            if (lecture + index === expandedAccordion) setExpandedAccordion(null)
+            else setExpandedAccordion(lecture + index)
         },
     })
 
@@ -47,7 +47,7 @@ const CatalogTechnology = (props: GatsbyProps) => {
         <Card variant="outlined">
             <CardHeader
                 title={
-                    <AppLink to={isStandalone ? undefined : node.frontmatter.title}>
+                    <AppLink to={isStandalone ? undefined : node.frontmatter.pathTitle}>
                         {node.frontmatter.title}{' '}
                     </AppLink>
                 }
@@ -57,15 +57,17 @@ const CatalogTechnology = (props: GatsbyProps) => {
                 {node.frontmatter.description}
             </Alert>
 
-            {node.frontmatter.lectures.map((lecture, index) => (
-                <Accordion {...getChangeHandler(lecture, index)} key={lecture.title + index}>
+            {node.children.map((lecture, index) => (
+                <Accordion
+                    {...getChangeHandler(lecture.frontmatter.pathTitle, index)}
+                    key={lecture.frontmatter.pathTitle + index}>
                     <AccordionSummary classes={{ content: classes.summaryContent }}>
-                        {lecture.title}
+                        {lecture.frontmatter.title}
                         <Check color="secondary" />
                     </AccordionSummary>
-                    <AccordionDetails>{lecture.description}</AccordionDetails>
+                    <AccordionDetails>{lecture.frontmatter.description}</AccordionDetails>
                     <AccordionActions>
-                        <AppLink to={getLecturePath(lecture)}>
+                        <AppLink to={getLecturePath(lecture.frontmatter.pathTitle)}>
                             <Button>jetzt starten</Button>
                         </AppLink>
                     </AccordionActions>

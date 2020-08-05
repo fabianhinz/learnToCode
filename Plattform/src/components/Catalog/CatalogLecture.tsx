@@ -6,7 +6,7 @@ import { GatsbyProps } from '../../model/model'
 import FixedFab from '../Shared/FixedFab'
 
 const CatalogLecture = (props: GatsbyProps) => {
-    const [node] = props.pathContext.nodes
+    const node = props.pathContext.node
 
     return (
         <>
