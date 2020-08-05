@@ -1,6 +1,6 @@
 ---
-pathTitle: "Components"
-title: "React Komponenten"
+pathTitle: "Props"
+title: "React Props"
 description: "Laborum sint occaecat consequat officia ad anim ad ea ipsum cillum tempor."
 lastUpdate: "2019-05-29"
 ---
