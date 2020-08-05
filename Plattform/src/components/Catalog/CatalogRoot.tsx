@@ -9,27 +9,33 @@ import {
     makeStyles,
     Typography,
 } from '@material-ui/core'
-import Vibrant from 'node-vibrant'
-import React, { useLayoutEffect, useState } from 'react'
+import { Check } from '@material-ui/icons'
+import React from 'react'
 
+import useVibrantBackground from '../../hooks/useVibrantBackground'
 import { GatsbyProps, PathContextNode } from '../../model/model'
+import Introduction from '../Introduction/Introduction'
 import AppLink from '../Shared/AppLink'
+import Title from '../Shared/Title'
 
 interface StyleProps {
-    iconContainerBackground: string | null
+    background: string | null
 }
 
 const useStyles = makeStyles(theme => ({
     card: {
         display: 'flex',
         flexDirection: 'row',
+        boxShadow: theme.shadows[4],
         [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
         },
     },
     iconContainer: {
-        transition: theme.transitions.create('background-color'),
-        backgroundColor: (props: StyleProps) => props.iconContainerBackground,
+        transition: theme.transitions.create('background-color', {
+            easing: theme.transitions.easing.easeOut,
+        }),
+        backgroundColor: (props: StyleProps) => props.background,
         flex: '1 0 200px',
         display: 'flex',
         alignItems: 'center',
@@ -52,17 +58,11 @@ interface RootElementProps {
 }
 
 const RootElement = ({ node }: RootElementProps) => {
-    const [iconContainerBackground, setIconContainerBackground] = useState<string | null>(null)
-    const classes = useStyles({ iconContainerBackground })
-
-    useLayoutEffect(() => {
-        Vibrant.from(node.frontmatter.iconPath.publicURL)
-            .getSwatches()
-            .then(palette => setIconContainerBackground(palette.LightVibrant.hex))
-    }, [node.frontmatter.iconPath.publicURL])
+    const background = useVibrantBackground(node.frontmatter.iconPath.publicURL)
+    const classes = useStyles({ background })
 
     return (
-        <Card variant="outlined" className={classes.card}>
+        <Card className={classes.card}>
             <div className={classes.iconContainer}>
                 <img
                     alt={node.frontmatter.pathTitle + ' icon'}
@@ -81,6 +81,7 @@ const RootElement = ({ node }: RootElementProps) => {
                         {node.children.map((technology, index) => (
                             <Grid item key={technology.frontmatter.pathTitle + index}>
                                 <Chip
+                                    icon={<Check />}
                                     size="small"
                                     color="primary"
                                     label={technology.frontmatter.title}
@@ -102,7 +103,22 @@ const RootElement = ({ node }: RootElementProps) => {
 const CatalogRoot = (props: GatsbyProps) => {
     return (
         <>
-            <Grid container spacing={2}>
+            <Grid container spacing={4}>
+                <Grid item xs={12}>
+                    <Introduction />
+                </Grid>
+                <Grid item xs={12}>
+                    <Title onClick={() => null}>Fortsetzen</Title>
+                </Grid>
+                {props.pathContext.node.children.slice(-1).map(node => (
+                    <Grid item xs={12} md={6} xl={4} key={node.id}>
+                        <RootElement node={node} />
+                    </Grid>
+                ))}
+
+                <Grid item xs={12}>
+                    <Title>Katalog</Title>
+                </Grid>
                 {props.pathContext.node.children.map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
                         <RootElement node={node} />

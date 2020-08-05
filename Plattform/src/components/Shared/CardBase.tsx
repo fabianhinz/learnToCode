@@ -17,7 +17,7 @@ const CardBase = () => {
     const classes = useStyles()
 
     return (
-        <Card variant="outlined" className={classes.card}>
+        <Card className={classes.card}>
             Sint veniam tempor voluptate ex qui deserunt ea eu enim minim ea pariatur laboris. Enim
             exercitation aute quis voluptate proident tempor exercitation tempor consectetur labore
             nostrud pariatur. Do nulla est exercitation incididunt nisi reprehenderit enim proident

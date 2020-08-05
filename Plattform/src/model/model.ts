@@ -22,7 +22,7 @@ export interface Frontmatter {
     title: string
     description: string
     design: number
-    iconPath: {
+    iconPath?: {
         publicURL: string
     }
 }
