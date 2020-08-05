@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
         backgroundImage: (props: StyleProps) => `url(${props.backgroundImage})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'max(10%, 350px)',
-        backgroundPosition: 'center left',
+        backgroundPosition: 'center right',
         backgroundOrigin: 'content-box',
         paddingLeft: theme.spacing(2),
         zIndex: -1,

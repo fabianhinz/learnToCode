@@ -1,5 +1,4 @@
 import { Grid } from '@material-ui/core'
-import { green } from '@material-ui/core/colors'
 import React from 'react'
 
 import { GatsbyProps } from '../../model/model'
@@ -30,12 +29,7 @@ const CatalogTechnology = (props: GatsbyProps) => {
                         <Title>Lektionen</Title>
                     </Grid>
                     <Grid item>
-                        <Progress
-                            value={100}
-                            height={25}
-                            backgroundColor={green[50]}
-                            barColor={green[500]}
-                        />
+                        <Progress value={100} height={25} />
                     </Grid>
                 </Grid>
             </Grid>

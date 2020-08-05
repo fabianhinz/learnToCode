@@ -1,21 +1,22 @@
 import { LinearProgress, makeStyles } from '@material-ui/core'
+import { green } from '@material-ui/core/colors'
 import React, { useLayoutEffect, useState } from 'react'
 
 const useStyles = makeStyles(() => ({
     root: {
         height: (props: Props) => props.height || 16,
         width: 200,
-        backgroundColor: (props: Props) => props.backgroundColor,
+        backgroundColor: (props: Props) => props.backgroundColor || green[50],
     },
     bar: {
-        backgroundColor: (props: Props) => props.barColor,
+        backgroundColor: (props: Props) => props.barColor || green[500],
     },
 }))
 
 interface Props {
     height?: number
-    backgroundColor: string
-    barColor: string
+    backgroundColor?: string
+    barColor?: string
     value: number
 }
 

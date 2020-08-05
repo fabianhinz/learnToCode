@@ -16,12 +16,15 @@ import React from 'react'
 import { Frontmatter, PathContextNode } from '../../model/model'
 import AppLink from '../Shared/AppLink'
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     summaryContent: {
         justifyContent: 'space-between',
     },
     checkIcon: {
         color: green[500],
+    },
+    accordion: {
+        boxShadow: theme.shadows[4],
     },
 }))
 
@@ -47,7 +50,7 @@ const TechnologyAccordion = ({
         : `${pathname}/${pathTitle}/${lecture.frontmatter.pathTitle}`
 
     return (
-        <Accordion {...accordionProps}>
+        <Accordion {...accordionProps} className={classes.accordion}>
             <AccordionSummary classes={{ content: classes.summaryContent }}>
                 <Typography variant="h6">{lecture.frontmatter.title}</Typography>
                 <CheckCircle className={classes.checkIcon} />
