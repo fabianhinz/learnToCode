@@ -1,6 +1,5 @@
 import {
     Button,
-    ButtonBase,
     Card,
     CardActions,
     CardContent,
@@ -11,7 +10,6 @@ import {
     Typography,
 } from '@material-ui/core'
 import { Check } from '@material-ui/icons'
-import { Alert } from '@material-ui/lab'
 import React from 'react'
 
 import useVibrantBackground from '../../hooks/useVibrantBackground'
@@ -67,7 +65,7 @@ const RootElement = ({ node }: RootElementProps) => {
         <Card className={classes.card}>
             <div className={classes.iconContainer}>
                 <img
-                    alt={node.frontmatter.title + ' icon'}
+                    alt={node.frontmatter.pathTitle + ' icon'}
                     className={classes.icon}
                     src={node.frontmatter.iconPath.publicURL}
                 />
@@ -80,20 +78,20 @@ const RootElement = ({ node }: RootElementProps) => {
                     </Typography>
 
                     <Grid container spacing={1} justify="flex-end">
-                        {node.frontmatter.technologies.map((technology, index) => (
-                            <Grid item key={technology + index}>
+                        {node.children.map((technology, index) => (
+                            <Grid item key={technology.frontmatter.pathTitle + index}>
                                 <Chip
                                     icon={<Check />}
                                     size="small"
                                     color="primary"
-                                    label={technology}
+                                    label={technology.frontmatter.title}
                                 />
                             </Grid>
                         ))}
                     </Grid>
                 </CardContent>
                 <CardActions style={{ justifyContent: 'flex-end' }}>
-                    <AppLink to={'/' + node.frontmatter.title}>
+                    <AppLink to={'/' + node.frontmatter.pathTitle}>
                         <Button color="secondary">details</Button>
                     </AppLink>
                 </CardActions>
@@ -112,7 +110,7 @@ const CatalogRoot = (props: GatsbyProps) => {
                 <Grid item xs={12}>
                     <Title onClick={() => null}>Fortsetzen</Title>
                 </Grid>
-                {props.pathContext.nodes.slice(-1).map(node => (
+                {props.pathContext.node.children.slice(-1).map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
                         <RootElement node={node} />
                     </Grid>
@@ -121,7 +119,7 @@ const CatalogRoot = (props: GatsbyProps) => {
                 <Grid item xs={12}>
                     <Title>Katalog</Title>
                 </Grid>
-                {props.pathContext.nodes.map(node => (
+                {props.pathContext.node.children.map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>
                         <RootElement node={node} />
                     </Grid>

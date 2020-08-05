@@ -4,7 +4,7 @@ export interface GatsbyProps {
 }
 
 export interface PathContext {
-    nodes: PathContextNode[]
+    node: PathContextNode
 }
 
 export interface PathContextNode {
@@ -13,22 +13,17 @@ export interface PathContextNode {
     parent: {
         relativeDirectory: string
     }
+    children: PathContextNode[]
     html: string
 }
 
 export interface Frontmatter {
+    pathTitle: string
     title: string
     description: string
-    technologies: string[]
     design: number
     iconPath?: {
         publicURL: string
     }
-    lectures: Lecture[]
     lastUpdate?: string
-}
-
-export interface Lecture {
-    title: string
-    description: string
 }

@@ -12,9 +12,9 @@ const CatalogTopic = (props: GatsbyProps) => {
                 <Grid item xs={12}>
                     <Title>Technologien</Title>
                 </Grid>
-                {props.pathContext.nodes.map(node => (
+                {props.pathContext.node.children.map(node => (
                     <Grid item xs={12} lg={6} key={node.id}>
-                        <CatalogTechnology path={props.path} pathContext={{ nodes: [node] }} />
+                        <CatalogTechnology path={props.path} pathContext={{ node }} />
                     </Grid>
                 ))}
             </Grid>

@@ -3,7 +3,7 @@ import { School } from '@material-ui/icons'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import React, { useState } from 'react'
 
-import { Frontmatter, Lecture } from '../../model/model'
+import { Frontmatter, PathContextNode } from '../../model/model'
 import AppLink from '../Shared/AppLink'
 import TechnologyAccordion from './TechnologyAccordion'
 
@@ -18,23 +18,31 @@ const useStyles = makeStyles(theme => ({
 
 export type TechnologyCardProps = Props
 
-interface Props extends Pick<Frontmatter, 'title' | 'description'> {
+interface Props extends Pick<Frontmatter, 'pathTitle' | 'title' | 'description'> {
     isStandalone: boolean
     iconUrl?: string
-    lectures?: Lecture[]
+    lectures?: PathContextNode[]
 }
 
-const TechnologyCard = ({ lectures, title, description, iconUrl, isStandalone }: Props) => {
+const TechnologyCard = ({
+    lectures,
+    pathTitle,
+    title,
+    description,
+    iconUrl,
+    isStandalone,
+}: Props) => {
     const [expandedAccordion, setExpandedAccordion] = useState<string | null>(null)
     const classes = useStyles()
 
-    const getChangeHandler = (lecture: Lecture, index: number) => ({
-        expanded: isStandalone ? true : expandedAccordion === lecture.title + index,
+    const getChangeHandler = (lecture: PathContextNode, index: number) => ({
+        expanded: isStandalone ? true : expandedAccordion === lecture.frontmatter.pathTitle + index,
         onChange: () => {
             if (isStandalone) return
 
-            if (lecture.title + index === expandedAccordion) setExpandedAccordion(null)
-            else setExpandedAccordion(lecture.title + index)
+            if (lecture.frontmatter.pathTitle + index === expandedAccordion)
+                setExpandedAccordion(null)
+            else setExpandedAccordion(lecture.frontmatter.pathTitle + index)
         },
     })
 
@@ -43,7 +51,7 @@ const TechnologyCard = ({ lectures, title, description, iconUrl, isStandalone }:
             <CardHeader
                 avatar={<Avatar src={iconUrl}>{title.slice(0, 1)}</Avatar>}
                 title={
-                    <AppLink variant="h5" to={!lectures ? undefined : title}>
+                    <AppLink variant="h5" to={!lectures ? undefined : pathTitle}>
                         {title}
                     </AppLink>
                 }
@@ -56,8 +64,9 @@ const TechnologyCard = ({ lectures, title, description, iconUrl, isStandalone }:
             {lectures?.map((lecture, index) => (
                 <TechnologyAccordion
                     {...getChangeHandler(lecture, index)}
-                    key={lecture.title + index}
+                    key={lecture.frontmatter.pathTitle + index}
                     isStandalone={isStandalone}
+                    pathTitle={pathTitle}
                     title={title}
                     lecture={lecture}
                 />

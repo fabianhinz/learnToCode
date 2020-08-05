@@ -10,17 +10,17 @@ import TechnologyAccordion from '../Technology/TechnologyAccordion'
 import TechnologyCard, { TechnologyCardProps } from '../Technology/TechnologyCard'
 
 const CatalogTechnology = (props: GatsbyProps) => {
-    const [node] = props.pathContext.nodes
-    const isStandalone = props.path.includes(node.frontmatter.title)
+    const node = props.pathContext.node
+    const isStandalone = props.path.includes(node.frontmatter.pathTitle)
     const sharedCardProps: TechnologyCardProps = {
         isStandalone,
+        pathTitle: node.frontmatter.pathTitle,
         title: node.frontmatter.title,
         description: node.frontmatter.description,
         iconUrl: node.frontmatter.iconPath?.publicURL,
     }
 
-    if (!isStandalone)
-        return <TechnologyCard {...sharedCardProps} lectures={node.frontmatter.lectures} />
+    if (!isStandalone) return <TechnologyCard {...sharedCardProps} lectures={node.children} />
 
     return (
         <Grid container spacing={4}>
@@ -47,11 +47,12 @@ const CatalogTechnology = (props: GatsbyProps) => {
             </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={2}>
-                    {node.frontmatter.lectures.map((lecture, index) => (
-                        <Grid item xs={12} lg={6} key={lecture.title + index}>
+                    {node.children.map((lecture, index) => (
+                        <Grid item xs={12} lg={6} key={lecture.frontmatter.pathTitle + index}>
                             <TechnologyAccordion
                                 expanded
                                 isStandalone={isStandalone}
+                                pathTitle={node.frontmatter.pathTitle}
                                 title={node.frontmatter.title}
                                 lecture={lecture}
                             />

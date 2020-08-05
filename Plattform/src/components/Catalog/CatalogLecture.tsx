@@ -8,7 +8,7 @@ import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
 
 const CatalogLecture = (props: GatsbyProps) => {
-    const node = props.pathContext.nodes[0]
+    const node = props.pathContext.node
     const manual = <div dangerouslySetInnerHTML={{ __html: node.html }} />
 
     return (

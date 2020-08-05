@@ -13,7 +13,7 @@ import { CheckCircle } from '@material-ui/icons'
 import { useLocation } from '@reach/router'
 import React from 'react'
 
-import { Frontmatter, Lecture } from '../../model/model'
+import { Frontmatter, PathContextNode } from '../../model/model'
 import AppLink from '../Shared/AppLink'
 
 const useStyles = makeStyles(() => ({
@@ -25,27 +25,35 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-interface Props extends Pick<Frontmatter, 'title'>, Pick<AccordionProps, 'expanded' | 'onChange'> {
-    lecture: Lecture
+interface Props
+    extends Pick<Frontmatter, 'pathTitle' | 'title'>,
+        Pick<AccordionProps, 'expanded' | 'onChange'> {
+    lecture: PathContextNode
     isStandalone: boolean
 }
 
-const TechnologyAccordion = ({ lecture, isStandalone, title, ...accordionProps }: Props) => {
+const TechnologyAccordion = ({
+    lecture,
+    isStandalone,
+    pathTitle,
+    title,
+    ...accordionProps
+}: Props) => {
     const classes = useStyles()
     const { pathname } = useLocation()
 
     const path = isStandalone
-        ? `${pathname}/${lecture.title}`
-        : `${pathname}/${title}/${lecture.title}`
+        ? `${pathname}/${lecture.frontmatter.pathTitle}`
+        : `${pathname}/${pathTitle}/${lecture.frontmatter.pathTitle}`
 
     return (
         <Accordion {...accordionProps}>
             <AccordionSummary classes={{ content: classes.summaryContent }}>
-                <Typography variant="h6">{lecture.title}</Typography>
+                <Typography variant="h6">{lecture.frontmatter.title}</Typography>
                 <CheckCircle className={classes.checkIcon} />
             </AccordionSummary>
             <AccordionDetails>
-                <Typography variant="subtitle1">{lecture.description}</Typography>
+                <Typography variant="subtitle1">{lecture.frontmatter.description}</Typography>
             </AccordionDetails>
             <AccordionActions>
                 <AppLink to={path}>
