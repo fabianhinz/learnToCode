@@ -53,6 +53,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
     const RootComponent = path.resolve(CATALOG_ROOT + 'CatalogRoot.tsx')
     const TopicComponent = path.resolve(CATALOG_ROOT + 'CatalogTopic.tsx')
+    const TechnologyComponent = path.resolve(CATALOG_ROOT + 'CatalogTechnology.tsx')
     const LectureComponent = path.resolve(CATALOG_ROOT + 'CatalogLecture.tsx')
 
     const topicNodes = []
@@ -95,8 +96,18 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             '/' + topicNode.frontmatter.title,
             TopicComponent,
             technologyNodes.filter(
-                node => topicNode.frontmatter.title === node.parent.relativeDirectory
+                technologyNode =>
+                    topicNode.frontmatter.title === technologyNode.parent.relativeDirectory
             )
+        )
+    })
+
+    // create technology pages to display relating lectures
+    technologyNodes.forEach(technologyNode => {
+        createSpecificPage(
+            technologyNode.parent.relativeDirectory + '/' + technologyNode.frontmatter.title,
+            TechnologyComponent,
+            [technologyNode]
         )
     })
 
