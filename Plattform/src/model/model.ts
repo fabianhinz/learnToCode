@@ -25,4 +25,5 @@ export interface Frontmatter {
     iconPath?: {
         publicURL: string
     }
+    lastUpdate?: string
 }

@@ -3,7 +3,7 @@ import React from 'react'
 
 import Search from './Search/Search'
 import AppLink from './Shared/AppLink'
-import UserAvatar from './Shared/UserAvatar'
+import UserAvatar from './User/UserAvatar'
 
 const useStyles = makeStyles(theme => ({
     appbar: {

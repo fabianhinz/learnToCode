@@ -28,6 +28,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                         iconPath {
                             publicURL
                         }
+                        lastUpdate
                     }
                     parent {
                         ... on File {

@@ -1,3 +1,7 @@
 :root {
     --deckgo-highlight-code-font-size: 16px
 }
+
+iframe {
+    border: none
+}
