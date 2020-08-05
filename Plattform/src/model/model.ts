@@ -21,7 +21,7 @@ export interface Frontmatter {
     description: string
     technologies: string[]
     design: number
-    iconPath: {
+    iconPath?: {
         publicURL: string
     }
     lectures: Lecture[]

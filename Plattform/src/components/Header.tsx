@@ -24,14 +24,14 @@ const Header = () => {
             <AppBar color="default" position="fixed" className={classes.appbar}>
                 <Toolbar>
                     <Grid container justify="space-between" alignItems="center">
-                        <Grid item>
+                        <Grid item xs={4}>
                             <AppLink to="/" color="textPrimary" variant="h5">
                                 <span className={classes.platform}>learn2Code</span>HsKA
                             </AppLink>
                         </Grid>
 
-                        <Grid item>
-                            <Grid container alignItems="center" spacing={1}>
+                        <Grid item xs={8}>
+                            <Grid container alignItems="center" justify="flex-end" spacing={1}>
                                 <Grid item>
                                     <Search />
                                 </Grid>

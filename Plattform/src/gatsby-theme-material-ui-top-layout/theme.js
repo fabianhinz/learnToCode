@@ -25,12 +25,17 @@ const theme = responsiveFontSizes(
             },
         },
         shape: {
-            borderRadius: 8,
+            borderRadius: 16,
         },
         overrides: {
             MuiChip: {
                 label: {
                     fontFamily: 'Ubuntu',
+                },
+            },
+            MuiAlert: {
+                root: {
+                    borderRadius: 'unset',
                 },
             },
         },
