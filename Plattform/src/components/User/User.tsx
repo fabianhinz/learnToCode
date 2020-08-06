@@ -4,7 +4,7 @@ import { Redirect } from '@reach/router'
 import React from 'react'
 
 import { GatsbyProps } from '../../model/model'
-import { useFirebaseContext } from '../provider/FirebaseProvider'
+import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import FixedFab from '../Shared/FixedFab'
 import Title from '../Shared/Title'
 import UserProgress from './UserProgress'

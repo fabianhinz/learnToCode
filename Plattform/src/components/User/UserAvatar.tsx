@@ -2,7 +2,7 @@ import { Avatar, ButtonBase, makeStyles } from '@material-ui/core'
 import React from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 
-import { FirebaseInstance, useFirebaseContext } from '../provider/FirebaseProvider'
+import { FirebaseInstance, useFirebaseContext } from '../Provider/FirebaseProvider'
 import AppLink from '../Shared/AppLink'
 
 const getUiConfig = (firebase: FirebaseInstance): firebaseui.auth.Config => ({
