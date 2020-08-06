@@ -56,7 +56,7 @@ module.exports = {
                 short_name: `learn2code`,
                 start_url: `/`,
                 background_color: `#f5f5f5`,
-                theme_color: `#2979ff`,
+                theme_color: `#141414`,
                 display: `standalone`,
                 icon: `${__dirname}/static/root.png`,
             },
