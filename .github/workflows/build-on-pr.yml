@@ -1,0 +1,29 @@
+name: build-on-pr
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: npm install and build
+      run: |
+        cd Plattform
+        npm install
+        npm run build
+      env:
+        CI: true
