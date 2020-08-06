@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
         backgroundSize: 'max(10%, 350px)',
         backgroundPosition: 'center right',
         backgroundOrigin: 'content-box',
-        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
         zIndex: -1,
     },
 }))

@@ -49,6 +49,19 @@ module.exports = {
                 ],
             },
         },
+        {
+            resolve: `gatsby-plugin-manifest`,
+            options: {
+                name: `learn2code@HsKA`,
+                short_name: `learn2code`,
+                start_url: `/`,
+                background_color: `#f5f5f5`,
+                theme_color: `#2979ff`,
+                display: `standalone`,
+                icon: `${__dirname}/static/root.png`,
+            },
+        },
+        `gatsby-plugin-offline`,
         `gatsby-plugin-react-helmet`,
     ],
 }
