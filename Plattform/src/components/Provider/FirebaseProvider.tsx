@@ -4,8 +4,6 @@ export type FirebaseInstance = typeof import('firebase/app')
 
 interface User {
     displayName: string
-    email: string
-    phoneNumber: string
     photoURL: string
     providerId: string
     uid: string
@@ -18,7 +16,7 @@ interface FirebaseContext {
 
 const Context = React.createContext<FirebaseContext | null>(null)
 
-export const useFirebaseContext = () => React.useContext(Context) as FirebaseContext
+export const useFirebaseContext = () => React.useContext(Context)
 
 const getInstance = async () => {
     // ? gatsby builds static HTML files for each route, firebase will only work with a defined window object
@@ -58,7 +56,13 @@ const FirebaseProvider: FC = props => {
         if (!firebaseInstance) return
 
         const unsubscribe = firebaseInstance.auth().onAuthStateChanged(authState => {
-            if (authState) setUser(authState.providerData[0])
+            if (authState)
+                setUser({
+                    photoURL: authState.providerData[0].photoURL,
+                    providerId: authState.providerData[0].providerId,
+                    displayName: authState.displayName,
+                    uid: authState.uid,
+                })
             else setUser(null)
         })
 
