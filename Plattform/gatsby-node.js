@@ -10,6 +10,50 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
     }
 }
 
+// validate markdown files
+
+const { attachFields } = require(`gatsby-plugin-node-fields`)
+
+const isPageNode = (node) => node.frontmatter ? true : false
+
+const isNonEmptyString = (data) => {
+    if(data.value) return true
+    else {
+        console.error('path: ' + data.path)
+        return false
+    }
+}
+
+const descriptors =
+    [
+        {
+          predicate: isPageNode,
+          fields: [
+            {
+                name: 'pathTitle',
+                getter: node => {return {value: node.frontmatter.pathTitle, path: node.fileAbsolutePath}},
+                validator: isNonEmptyString
+            },
+            {
+                name: 'title',
+                getter: node => {return {value: node.frontmatter.title, path: node.fileAbsolutePath}},
+                validator: isNonEmptyString
+            },
+            {
+                name: 'description',
+                getter: node => {return {value: node.frontmatter.description, path: node.fileAbsolutePath}},
+                validator: isNonEmptyString
+            },
+          ]
+        }
+      ]
+
+exports.onCreateNode = ({ node, actions, getNode }) => {
+    attachFields(node, actions, getNode, descriptors)
+}
+
+// create pages out of markdown files
+
 const path = require('path')
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
@@ -20,6 +64,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             allMarkdownRemark {
                 nodes {
                     id
+                    fileAbsolutePath
                     frontmatter {
                         pathTitle
                         title
@@ -76,6 +121,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
                 break
         }
     })
+
+    const sortNodes = (nodes) => nodes.sort((a,b) => a.frontmatter.title.toLowerCase().localeCompare(b.frontmatter.title.toLowerCase()))
+
+    sortNodes(topicNodes)
+    sortNodes(technologyNodes)
+    sortNodes(lectureNodes)
 
     const createSpecificPage = (path, component, node) =>
         createPage({
