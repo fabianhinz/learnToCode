@@ -14,6 +14,7 @@ import { useLocation } from '@reach/router'
 import React from 'react'
 
 import { Frontmatter, PathContextNode } from '../../model/model'
+import { useFirestoreContext } from '../Provider/FirestoreProvider'
 import AppLink from '../Shared/AppLink'
 
 const useStyles = makeStyles(theme => ({
@@ -45,6 +46,8 @@ const TechnologyAccordion = ({
     const classes = useStyles()
     const { pathname } = useLocation()
 
+    const { userprogressByDir } = useFirestoreContext()
+
     const path = isStandalone
         ? `${pathname}/${lecture.frontmatter.pathTitle}`
         : `${pathname}/${pathTitle}/${lecture.frontmatter.pathTitle}`
@@ -53,7 +56,9 @@ const TechnologyAccordion = ({
         <Accordion {...accordionProps} className={classes.accordion}>
             <AccordionSummary classes={{ content: classes.summaryContent }}>
                 <Typography variant="h6">{lecture.frontmatter.title}</Typography>
-                <CheckCircle className={classes.checkIcon} />
+                {userprogressByDir.get(lecture.parent.relativeDirectory)?.status === 'done' && (
+                    <CheckCircle className={classes.checkIcon} />
+                )}
             </AccordionSummary>
             <AccordionDetails>
                 <Typography variant="subtitle1">{lecture.frontmatter.description}</Typography>
