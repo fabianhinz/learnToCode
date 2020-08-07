@@ -16,13 +16,7 @@ const { attachFields } = require(`gatsby-plugin-node-fields`)
 
 const isPageNode = (node) => node.frontmatter ? true : false
 
-const isNonEmptyString = (data) => {
-    if(data.value) return true
-    else {
-        console.error('path: ' + data.path)
-        return false
-    }
-}
+const isNonEmptyString = (value) => value ? true: false
 
 const descriptors =
     [
@@ -31,17 +25,17 @@ const descriptors =
           fields: [
             {
                 name: 'pathTitle',
-                getter: node => {return {value: node.frontmatter.pathTitle, path: node.fileAbsolutePath}},
+                getter: node => node.frontmatter.pathTitle,
                 validator: isNonEmptyString
             },
             {
                 name: 'title',
-                getter: node => {return {value: node.frontmatter.title, path: node.fileAbsolutePath}},
+                getter: node => node.frontmatter.title,
                 validator: isNonEmptyString
             },
             {
                 name: 'description',
-                getter: node => {return {value: node.frontmatter.description, path: node.fileAbsolutePath}},
+                getter: node => node.frontmatter.description,
                 validator: isNonEmptyString
             },
           ]
@@ -49,7 +43,13 @@ const descriptors =
       ]
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
+    try {
     attachFields(node, actions, getNode, descriptors)
+    } catch (error) {
+        console.error('Error in ' + node.fileAbsolutePath + '\n' + error.message)
+        if(process.env.NODE_ENV === 'production')
+            process.exit(1)
+    }
 }
 
 // create pages out of markdown files
