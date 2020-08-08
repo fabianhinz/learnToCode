@@ -13,7 +13,7 @@ import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
 
 const CatalogLecture = (props: GatsbyProps) => {
-    const { firebaseInstance } = useFirebaseContext()
+    const { firebaseInstance, user } = useFirebaseContext()
     const { onProgressChange, progressByRelDir } = useFirestoreContext()
 
     useBackgroundEffect(props.pathContext.node.frontmatter.iconPath?.publicURL || lectureImage)
@@ -60,16 +60,18 @@ const CatalogLecture = (props: GatsbyProps) => {
                     {manual}
                 </Grid>
 
-                <Grid item xs={12}>
-                    <Box display="flex" justifyContent="center">
-                        <Button onClick={handleResolveLecture} startIcon={<CheckCircle />}>
-                            lektion{' '}
-                            {!prevProgress || prevProgress.status === 'done'
-                                ? 'starten'
-                                : 'abschließen'}
-                        </Button>
-                    </Box>
-                </Grid>
+                {user && (
+                    <Grid item xs={12}>
+                        <Box display="flex" justifyContent="center">
+                            <Button onClick={handleResolveLecture} startIcon={<CheckCircle />}>
+                                lektion{' '}
+                                {!prevProgress || prevProgress.status === 'done'
+                                    ? 'starten'
+                                    : 'abschließen'}
+                            </Button>
+                        </Box>
+                    </Grid>
+                )}
             </Grid>
 
             <Hidden xsDown implementation="css">
