@@ -39,7 +39,12 @@ const FirestoreProvider: FC = ({ children }) => {
     const { firebaseInstance, user } = useFirebaseContext()
 
     useEffect(() => {
-        if (!user) return
+        if (!user) {
+            setProgressByRelDir(new Map())
+            setProgressByTechnology(new Map())
+            setTopicsWithProgress(new Set())
+            return
+        }
 
         const userprogressDoc = firebaseInstance.firestore().collection('users').doc(user.uid)
 
