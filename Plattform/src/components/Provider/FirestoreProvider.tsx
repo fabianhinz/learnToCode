@@ -11,19 +11,30 @@ interface Progress {
     documentId?: string
 }
 
+interface AbsoluteProgress {
+    done: number
+    inProgress: number
+}
+
 interface FirestoreContext {
-    userprogress: Progress[]
-    userprogressByDir: Map<string, Progress>
+    progressByRelDir: Map<string, Progress>
+    progressByTechnology: Map<string, AbsoluteProgress>
+    topicsWithProgress: Set<string>
     onProgressChange: (progress: Progress) => void
 }
+
+const getProgressIdByProgress = (progress: Progress) => `/${progress.topic}/${progress.technology}`
 
 const Context = React.createContext<FirestoreContext | null>(null)
 
 export const useFirestoreContext = () => useContext(Context)
 
 const FirestoreProvider: FC = ({ children }) => {
-    const [userprogress, setUserprogress] = useState<Progress[]>([])
-    const [userprogressByDir, setUserprogressByDir] = useState<Map<string, Progress>>(new Map())
+    const [progressByRelDir, setProgressByRelDir] = useState<Map<string, Progress>>(new Map())
+    const [progressByTechnology, setProgressByTechnology] = useState<Map<string, AbsoluteProgress>>(
+        new Map()
+    )
+    const [topicsWithProgress, setTopicsWithProgress] = useState<Set<string>>(new Set())
 
     const { firebaseInstance, user } = useFirebaseContext()
 
@@ -42,8 +53,26 @@ const FirestoreProvider: FC = ({ children }) => {
             const progress = snapshot.docs.map(
                 doc => ({ documentId: doc.id, ...doc.data() } as Progress)
             )
-            setUserprogress(progress)
-            setUserprogressByDir(
+
+            const newProgressByTechnology: Map<string, AbsoluteProgress> = new Map()
+            for (const uniqueProgressId of new Set(progress.map(getProgressIdByProgress))) {
+                newProgressByTechnology.set(uniqueProgressId, {
+                    done: progress.filter(
+                        p => p.status === 'done' && getProgressIdByProgress(p) === uniqueProgressId
+                    ).length,
+                    inProgress: progress.filter(
+                        p =>
+                            p.status === 'inProgress' &&
+                            getProgressIdByProgress(p) === uniqueProgressId
+                    ).length,
+                })
+            }
+
+            setTopicsWithProgress(
+                new Set(progress.filter(p => p.status === 'done').map(p => p.topic))
+            )
+            setProgressByTechnology(newProgressByTechnology)
+            setProgressByRelDir(
                 new Map(progress.map(p => [`${p.topic}/${p.technology}/${p.lecture}`, p]))
             )
         })
@@ -61,11 +90,15 @@ const FirestoreProvider: FC = ({ children }) => {
         [firebaseInstance, user]
     )
 
-    const providerValue = useMemo(() => ({ userprogress, userprogressByDir, onProgressChange }), [
-        userprogress,
-        userprogressByDir,
-        onProgressChange,
-    ])
+    const providerValue = useMemo(
+        () => ({
+            progressByRelDir,
+            progressByTechnology,
+            topicsWithProgress,
+            onProgressChange,
+        }),
+        [progressByTechnology, progressByRelDir, onProgressChange, topicsWithProgress]
+    )
 
     return <Context.Provider value={providerValue}>{children}</Context.Provider>
 }

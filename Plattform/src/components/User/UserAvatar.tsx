@@ -40,7 +40,9 @@ const UserAvatar = () => {
         <div className={classes.userContainer}>
             <AppLink to="/account">
                 <ButtonBase className={classes.avatarButton}>
-                    <Avatar src={user.photoURL}>{user.displayName[0]}</Avatar>
+                    <Avatar variant="square" src={user.photoURL}>
+                        {user.displayName[0]}
+                    </Avatar>
                 </ButtonBase>
             </AppLink>
         </div>

@@ -2,6 +2,9 @@ import { Box, Button, Grid, Hidden } from '@material-ui/core'
 import { CheckCircle, CloudDownload, Launch } from '@material-ui/icons'
 import React from 'react'
 
+import lectureImage from '../../../static/lecture.png'
+import useBackgroundEffect from '../../hooks/useBackgroundEffect'
+import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { GatsbyProps } from '../../model/model'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import { useFirestoreContext } from '../Provider/FirestoreProvider'
@@ -11,19 +14,27 @@ import Stackblitz from '../Stackblitz/Stackblitz'
 
 const CatalogLecture = (props: GatsbyProps) => {
     const { firebaseInstance } = useFirebaseContext()
-    const { onProgressChange, userprogressByDir } = useFirestoreContext()
+    const { onProgressChange, progressByRelDir } = useFirestoreContext()
+
+    useBackgroundEffect(props.pathContext.node.frontmatter.iconPath?.publicURL || lectureImage)
+    useNavTextEffect(props.pathContext.node.frontmatter.description)
 
     const node = props.pathContext.node
+    const prevProgress = progressByRelDir.get(node.parent.relativeDirectory)
     const manual = <div dangerouslySetInnerHTML={{ __html: node.html }} />
 
     const handleResolveLecture = () => {
         const [topic, technology, lecture] = node.parent.relativeDirectory.split('/')
-        const prevProgress = userprogressByDir.get(node.parent.relativeDirectory)
+
         onProgressChange({
             topic,
             technology,
             lecture,
-            status: prevProgress?.status === 'done' ? 'inProgress' : 'done',
+            status: !prevProgress
+                ? 'inProgress'
+                : prevProgress.status === 'inProgress'
+                ? 'done'
+                : 'inProgress',
             lastTimeWorkedOn: firebaseInstance.firestore.Timestamp.fromDate(new Date()),
             documentId: prevProgress?.documentId,
         })
@@ -52,7 +63,10 @@ const CatalogLecture = (props: GatsbyProps) => {
                 <Grid item xs={12}>
                     <Box display="flex" justifyContent="center">
                         <Button onClick={handleResolveLecture} startIcon={<CheckCircle />}>
-                            lektion abschließen
+                            lektion{' '}
+                            {!prevProgress || prevProgress.status === 'done'
+                                ? 'starten'
+                                : 'abschließen'}
                         </Button>
                     </Box>
                 </Grid>

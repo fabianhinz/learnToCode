@@ -39,6 +39,7 @@ const getInstance = async () => {
             messagingSenderId: '398211325564',
             appId: '1:398211325564:web:90eed6fa89441f4230f3f9',
         })
+        instance.firestore().enablePersistence({ synchronizeTabs: true })
     }
 
     return instance

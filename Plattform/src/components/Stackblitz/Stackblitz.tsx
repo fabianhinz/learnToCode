@@ -31,9 +31,20 @@ const StackblitzContainer = ({ path }: Pick<Props, 'path'>) => {
     const classes = useStyles()
 
     useEffect(() => {
+        let mounted = true
         StackBlitzSDK.embedGithubProject(path, 'fabianhinz/learnToCode/tree/master/dummy', options)
-            .then(setVm)
-            .catch(setError)
+            .then(instance => {
+                if (!mounted) return
+                setVm(instance)
+            })
+            .catch(reason => {
+                if (!mounted) return
+                setError(reason)
+            })
+
+        return () => {
+            mounted = false
+        }
     }, [path])
 
     if (error)

@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
         top: 'calc(100% + 4px)',
         right: 0,
         minWidth: '100%',
-        zIndex: 1,
+        zIndex: theme.zIndex.appBar + 1,
         padding: theme.spacing(1),
     },
 }))

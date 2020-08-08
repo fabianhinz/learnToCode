@@ -25,7 +25,7 @@ const theme = responsiveFontSizes(
             },
         },
         shape: {
-            borderRadius: 16,
+            borderRadius: 0,
         },
         overrides: {
             MuiChip: {

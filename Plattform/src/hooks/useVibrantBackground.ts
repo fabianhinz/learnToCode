@@ -8,6 +8,8 @@ const useVibrantBackground = (src: ImageSource, paletteKey?: PaletteKey) => {
     const [background, setBackground] = useState<string | null>(null)
 
     useLayoutEffect(() => {
+        if (!src) return
+
         Vibrant.from(src)
             .getSwatches()
             .then(palette =>

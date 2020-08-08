@@ -7,12 +7,15 @@ const useStyles = makeStyles(theme => ({
     fixedFab: {
         position: 'fixed',
         bottom: (props: StyleProps) =>
-            props.stackNumber ? props.stackNumber * (props.smDown ? 92 : 84) : theme.spacing(3),
+            props.stackNumber ? props.stackNumber * (props.smDown ? 100 : 92) : theme.spacing(3),
         right: theme.spacing(3),
     },
     startIcon: {
         marginRight: (props: StyleProps) => (props.smDown ? 0 : theme.spacing(1)),
         display: 'flex',
+    },
+    fabLabel: {
+        fontWeight: 600,
     },
 }))
 
@@ -28,7 +31,10 @@ const FixedFab = ({ stackNumber, children, startIcon, ...fabProps }: Props) => {
 
     return (
         <Slide direction="left" in>
-            <Fab variant={smDown ? 'round' : 'extended'} className={classes.fixedFab} {...fabProps}>
+            <Fab
+                variant={smDown ? 'round' : 'extended'}
+                classes={{ root: classes.fixedFab, label: classes.fabLabel }}
+                {...fabProps}>
                 {startIcon && <span className={classes.startIcon}>{startIcon}</span>}
                 {!smDown && children}
             </Fab>

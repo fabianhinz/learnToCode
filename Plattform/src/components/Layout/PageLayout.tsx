@@ -15,7 +15,9 @@ const PageLayout = ({ children, path }: Props) => {
     return (
         <>
             <Helmet>
-                <title>{path.length === 1 ? 'learn2code@HsKA' : path.split('/').slice(-1)}</title>
+                <title>
+                    {path.length === 1 ? 'learn2Code' : `learn2Code | ${path.split('/').slice(-1)}`}
+                </title>
             </Helmet>
             <Header />
             <Main>{children}</Main>

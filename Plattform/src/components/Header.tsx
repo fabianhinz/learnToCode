@@ -31,7 +31,7 @@ const Header = () => {
                         </Grid>
 
                         <Grid item xs={8}>
-                            <Grid container alignItems="center" justify="flex-end" spacing={1}>
+                            <Grid container alignItems="center" justify="flex-end" spacing={2}>
                                 <Grid item>
                                     <Search />
                                 </Grid>

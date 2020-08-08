@@ -1,21 +1,14 @@
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    CardHeader,
-    Chip,
-    Grid,
-    makeStyles,
-    Typography,
-} from '@material-ui/core'
+import { CardContent, CardHeader, Chip, Grid, makeStyles, Typography } from '@material-ui/core'
 import { Check } from '@material-ui/icons'
+import { navigate } from 'gatsby'
 import React from 'react'
 
+import rootImage from '../../../static/root.png'
+import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useVibrantBackground from '../../hooks/useVibrantBackground'
 import { GatsbyProps, PathContextNode } from '../../model/model'
 import Introduction from '../Introduction/Introduction'
-import AppLink from '../Shared/AppLink'
+import ActionCard from '../Shared/ActionCard'
 import Title from '../Shared/Title'
 
 interface StyleProps {
@@ -26,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     card: {
         display: 'flex',
         flexDirection: 'row',
-        boxShadow: theme.shadows[4],
+
         [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
         },
@@ -62,7 +55,9 @@ const RootElement = ({ node }: RootElementProps) => {
     const classes = useStyles({ background })
 
     return (
-        <Card className={classes.card}>
+        <ActionCard
+            className={classes.card}
+            onClick={() => navigate('/' + node.frontmatter.pathTitle)}>
             <div className={classes.iconContainer}>
                 <img
                     alt={node.frontmatter.pathTitle + ' icon'}
@@ -78,29 +73,30 @@ const RootElement = ({ node }: RootElementProps) => {
                     </Typography>
 
                     <Grid container spacing={1} justify="flex-end">
-                        {node.children.map((technology, index) => (
-                            <Grid item key={technology.frontmatter.pathTitle + index}>
+                        {node.children.map(({ frontmatter: { pathTitle, title } }, index) => (
+                            <Grid item key={pathTitle + index}>
                                 <Chip
+                                    onClick={e => {
+                                        e.stopPropagation()
+                                        navigate(node.frontmatter.title + '/' + pathTitle)
+                                    }}
                                     icon={<Check />}
                                     size="small"
                                     color="primary"
-                                    label={technology.frontmatter.title}
+                                    label={title}
                                 />
                             </Grid>
                         ))}
                     </Grid>
                 </CardContent>
-                <CardActions style={{ justifyContent: 'flex-end' }}>
-                    <AppLink to={'/' + node.frontmatter.pathTitle}>
-                        <Button color="secondary">details</Button>
-                    </AppLink>
-                </CardActions>
             </div>
-        </Card>
+        </ActionCard>
     )
 }
 
 const CatalogRoot = (props: GatsbyProps) => {
+    useBackgroundEffect(rootImage)
+
     return (
         <>
             <Grid container spacing={4}>
@@ -108,7 +104,7 @@ const CatalogRoot = (props: GatsbyProps) => {
                     <Introduction />
                 </Grid>
                 <Grid item xs={12}>
-                    <Title onClick={() => null}>Fortsetzen</Title>
+                    <Title>Fortsetzen</Title>
                 </Grid>
                 {props.pathContext.node.children.slice(-1).map(node => (
                     <Grid item xs={12} md={6} xl={4} key={node.id}>

@@ -8,7 +8,9 @@ import {
     Typography,
 } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
+
+import { useNavTextContext } from '../Provider/NavTextProvider'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -46,6 +48,12 @@ const LectureSandbox = ({ title, children, onRenderButton, onRenderManual }: Pro
     const [transitionEnded, setTransitionEnded] = useState(false)
 
     const classes = useStyles()
+
+    const { onShowNavTextChange } = useNavTextContext()
+
+    useLayoutEffect(() => {
+        onShowNavTextChange(!open)
+    }, [onShowNavTextChange, open])
 
     return (
         <>
