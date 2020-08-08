@@ -9,7 +9,7 @@ import {
     makeStyles,
 } from '@material-ui/core'
 import { blue, green } from '@material-ui/core/colors'
-import { AccountCircle, CheckCircle } from '@material-ui/icons'
+import { AccountCircle, CheckCircle, School } from '@material-ui/icons'
 import { Rating } from '@material-ui/lab'
 import { navigate } from 'gatsby'
 import React from 'react'
@@ -56,7 +56,7 @@ const LectureListItem = ({ node, withDivider }: LectureListItemProps) => {
                     ) : progress?.status === 'inProgress' ? (
                         <AccountCircle className={classes.accountIcon} />
                     ) : (
-                        <></>
+                        <School />
                     )}
                 </ListItemAvatar>
                 <ListItemText primary={title} secondary={lastUpdate} />
