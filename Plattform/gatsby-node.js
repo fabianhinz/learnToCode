@@ -14,9 +14,9 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
 
 const { attachFields } = require(`gatsby-plugin-node-fields`)
 
-const isPageNode = node => (node.frontmatter ? true : false)
+const isPageNode = node => Boolean(node.frontmatter)
 
-const isNonEmptyString = value => (value ? true : false)
+const isNonEmptyString = value => Boolean(value)
 
 const descriptors = [
     {
