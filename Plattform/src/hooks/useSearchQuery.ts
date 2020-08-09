@@ -3,12 +3,12 @@ import { useFlexSearch } from 'react-use-flexsearch'
 
 import { Frontmatter, PathContextNode } from '../model/model'
 
-type Results = Pick<Frontmatter, 'title' | 'description'> &
+export type Result = Pick<Frontmatter, 'title' | 'description' | 'pathTitle'> &
     Pick<PathContextNode, 'id'> & { relativeDirectory: string }
 
 interface SearchResult {
-    subheader: string
-    results: Results[]
+    subheader: 'Katalog' | 'Lektion' | 'Thema'
+    results: Result[]
 }
 
 const getSubHeaderByRelDir = (relDir: string) => {
@@ -16,14 +16,12 @@ const getSubHeaderByRelDir = (relDir: string) => {
     switch (relDir.split('/').length) {
         case 1:
             return 'Thema'
-        case 2:
-            return 'Technologie'
         case 3:
             return 'Lektion'
     }
 }
 
-const getSearchResults = (flexResults: Results[]): SearchResult[] => {
+const getSearchResults = (flexResults: Result[]): SearchResult[] => {
     const subheaders = new Set(flexResults.map(s => getSubHeaderByRelDir(s.relativeDirectory)))
 
     return Array.from(subheaders, subheader => ({
@@ -46,7 +44,7 @@ const useSearchQuery = (query: string) => {
         query,
         localSearchKatalog.index,
         JSON.parse(localSearchKatalog.store)
-    ) as Results[]
+    ) as Result[]
 
     return { searchResults: getSearchResults(flexResults) }
 }

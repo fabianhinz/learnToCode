@@ -11,7 +11,7 @@ import { blueGrey } from '@material-ui/core/colors'
 import { navigate } from 'gatsby'
 import React from 'react'
 
-import useSearchQuery from '../../hooks/useSearchQuery'
+import useSearchQuery, { Result } from '../../hooks/useSearchQuery'
 
 const useStyles = makeStyles(theme => ({
     list: {
@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         position: 'absolute',
-        borderRadius: theme.shape.borderRadius * 2,
         boxShadow: theme.shadows[4],
         top: 'calc(100% + 4px)',
         right: 0,
@@ -46,6 +45,12 @@ const SearchResults = (props: Props) => {
 
     if (props.query.length === 0 || searchResults.length === 0) return <></>
 
+    const handleListItemClick = ({ relativeDirectory, pathTitle }: Result) => () => {
+        if (!relativeDirectory) navigate('/' + pathTitle)
+        else if (relativeDirectory.includes(pathTitle)) navigate('/' + relativeDirectory)
+        else navigate('/' + relativeDirectory + '/' + pathTitle)
+    }
+
     return (
         <Grow in={props.focused}>
             <Paper className={classes.paper}>
@@ -58,7 +63,7 @@ const SearchResults = (props: Props) => {
                             {results.map(result => (
                                 <ListItem
                                     button
-                                    onClick={() => navigate('/' + result.relativeDirectory)}
+                                    onClick={handleListItemClick(result)}
                                     key={result.id}>
                                     <ListItemText primary={result.title} />
                                 </ListItem>

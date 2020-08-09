@@ -75,6 +75,7 @@ module.exports = {
             options: {
                 name: 'katalog',
                 engine: 'flexsearch',
+                index: ['title', 'description'],
                 query: `
                 {
                     allMarkdownRemark {
@@ -82,6 +83,7 @@ module.exports = {
                             id
                             frontmatter {
                                 title
+                                pathTitle
                                 description
                             }
                             parent {
