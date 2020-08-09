@@ -4,7 +4,7 @@ on:
     push:
       branches: [ dev ]
     pull_request:
-      branches: [ master, dev ]
+      branches: [ dev ]
 
 jobs:
   build:
@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          ref: dev
       - name: install dependencies
         working-directory: Plattform
         run: npm install
@@ -20,7 +22,7 @@ jobs:
         working-directory: Plattform
         run: npm run build
       - name: archive build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@master
         with:
           name: public
           path: Plattform/public
@@ -31,14 +33,18 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+        with:
+          ref: dev
       - name: download build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@master
         with:
           name: public
           path: Plattform/public
       - name: deploy
-        uses: w9jds/firebase-action@dev
+        uses: w9jds/firebase-action@master
         with:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          # https://stackoverflow.com/questions/58352402/how-to-add-working-directory-to-deployment-in-github-actions
+          PROJECT_PATH: ./Plattform
