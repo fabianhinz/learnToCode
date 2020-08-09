@@ -11,8 +11,8 @@ jobs:
     name: build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout dev
-        uses: actions/checkout@dev
+      - name: checkout
+        uses: actions/checkout@v2
       - name: install dependencies
         working-directory: Plattform
         run: npm install
@@ -25,7 +25,7 @@ jobs:
         env: 
           VERSION: ${{ steps.vars.outputs.sha_short }}
       - name: archive build
-        uses: actions/upload-artifact@dev
+        uses: actions/upload-artifact@v2
         with:
           name: build
           path: build
@@ -34,10 +34,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout master
-        uses: actions/checkout@dev
+      - name: checkout
+        uses: actions/checkout@v2
       - name: download build
-        uses: actions/download-artifact@dev
+        uses: actions/download-artifact@v2
         with:
           name: build
           path: build
