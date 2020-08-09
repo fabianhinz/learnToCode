@@ -8,7 +8,6 @@ import {
     Paper,
 } from '@material-ui/core'
 import { blueGrey } from '@material-ui/core/colors'
-import { Alert } from '@material-ui/lab'
 import { navigate } from 'gatsby'
 import React from 'react'
 
@@ -29,9 +28,6 @@ const useStyles = makeStyles(theme => ({
         minWidth: '100%',
         zIndex: theme.zIndex.appBar + 1,
     },
-    alert: {
-        margin: -theme.spacing(1),
-    },
     listSubheader: {
         backgroundColor: blueGrey[50],
         lineHeight: '36px',
@@ -48,17 +44,12 @@ const SearchResults = (props: Props) => {
 
     const classes = useStyles()
 
-    if (props.query.length === 0) return <></>
+    if (props.query.length === 0 || searchResults.length === 0) return <></>
 
     return (
         <Grow in={props.focused}>
             <Paper className={classes.paper}>
                 <List className={classes.list} disablePadding dense>
-                    {searchResults.length === 0 && (
-                        <Alert className={classes.alert} color="warning">
-                            nichts gefunden
-                        </Alert>
-                    )}
                     {searchResults.map(({ subheader, results }) => (
                         <div key={subheader}>
                             <ListSubheader className={classes.listSubheader}>
