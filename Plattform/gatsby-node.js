@@ -14,41 +14,39 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
 
 const { attachFields } = require(`gatsby-plugin-node-fields`)
 
-const isPageNode = (node) => node.frontmatter ? true : false
+const isPageNode = node => (node.frontmatter ? true : false)
 
-const isNonEmptyString = (value) => value ? true: false
+const isNonEmptyString = value => (value ? true : false)
 
-const descriptors =
-    [
-        {
-          predicate: isPageNode,
-          fields: [
+const descriptors = [
+    {
+        predicate: isPageNode,
+        fields: [
             {
                 name: 'pathTitle',
                 getter: node => node.frontmatter.pathTitle,
-                validator: isNonEmptyString
+                validator: isNonEmptyString,
             },
             {
                 name: 'title',
                 getter: node => node.frontmatter.title,
-                validator: isNonEmptyString
+                validator: isNonEmptyString,
             },
             {
                 name: 'description',
                 getter: node => node.frontmatter.description,
-                validator: isNonEmptyString
+                validator: isNonEmptyString,
             },
-          ]
-        }
-      ]
+        ],
+    },
+]
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
     try {
-    attachFields(node, actions, getNode, descriptors)
+        attachFields(node, actions, getNode, descriptors)
     } catch (error) {
         console.error('Error in ' + node.fileAbsolutePath + '\n' + error.message)
-        if(process.env.NODE_ENV === 'production')
-            process.exit(1)
+        if (process.env.NODE_ENV === 'production') process.exit(1)
     }
 }
 
@@ -122,7 +120,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         }
     })
 
-    const sortNodes = (nodes) => nodes.sort((a,b) => a.frontmatter.title.toLowerCase().localeCompare(b.frontmatter.title.toLowerCase()))
+    const sortNodes = nodes =>
+        nodes.sort((a, b) =>
+            a.frontmatter.title.toLowerCase().localeCompare(b.frontmatter.title.toLowerCase())
+        )
 
     sortNodes(topicNodes)
     sortNodes(technologyNodes)
