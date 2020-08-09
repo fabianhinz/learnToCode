@@ -5,6 +5,8 @@ description: "Laborum sint occaecat consequat officia ad anim ad ea ipsum cillum
 lastUpdate: "2019-05-29"
 ---
 
+![Alt text here](../../react.png)
+
 ## Funktionen
 
 ```jsx

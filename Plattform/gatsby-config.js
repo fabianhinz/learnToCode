@@ -46,6 +46,12 @@ module.exports = {
                     {
                         resolve: `gatsby-remark-highlight-code`,
                     },
+                    {
+                        resolve: `gatsby-remark-images`,
+                        options: {
+                            maxWidth: 500,
+                        },
+                    },
                 ],
             },
         },
@@ -61,6 +67,7 @@ module.exports = {
                 icon: `${__dirname}/static/root.png`,
             },
         },
+        `gatsby-plugin-sharp`,
         `gatsby-plugin-offline`,
         `gatsby-plugin-react-helmet`,
     ],
