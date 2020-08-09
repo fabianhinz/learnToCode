@@ -70,5 +70,36 @@ module.exports = {
         `gatsby-plugin-sharp`,
         `gatsby-plugin-offline`,
         `gatsby-plugin-react-helmet`,
+        {
+            resolve: 'gatsby-plugin-local-search',
+            options: {
+                name: 'katalog',
+                engine: 'flexsearch',
+                query: `
+                {
+                    allMarkdownRemark {
+                        nodes {
+                            id
+                            frontmatter {
+                                title
+                                description
+                            }
+                            parent {
+                                ... on File {
+                                    relativeDirectory
+                                }
+                            }
+                        }
+                    }
+                }
+              `,
+                normalizer: ({ data }) =>
+                    data.allMarkdownRemark.nodes.map(node => ({
+                        id: node.id,
+                        ...node.frontmatter,
+                        relativeDirectory: node.parent.relativeDirectory,
+                    })),
+            },
+        },
     ],
 }

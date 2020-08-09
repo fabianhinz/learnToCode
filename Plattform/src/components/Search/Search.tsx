@@ -29,7 +29,13 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
+export interface SearchQuery {
+    value: string
+    loading: boolean
+}
+
 const Search = () => {
+    const [query, setQuery] = useState('')
     const [focused, setFocused] = useState(false)
 
     const classes = useStyles({ focused })
@@ -41,8 +47,8 @@ const Search = () => {
     return (
         <ClickAwayListener onClickAway={handleFocusChange('out')}>
             <div onFocus={handleFocusChange('in')} className={classes.searchContainer}>
-                <SearchInput focused={focused} />
-                <SearchResults focused={focused} />
+                <SearchInput focused={focused} value={query} onValueChange={setQuery} />
+                <SearchResults focused={focused} query={query} />
             </div>
         </ClickAwayListener>
     )

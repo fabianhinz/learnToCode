@@ -1,16 +1,24 @@
-import { Grow, List, ListItem, ListItemText, makeStyles, Paper } from '@material-ui/core'
-import React, { useState } from 'react'
+import {
+    Grow,
+    List,
+    ListItem,
+    ListItemText,
+    ListSubheader,
+    makeStyles,
+    Paper,
+} from '@material-ui/core'
+import { blueGrey } from '@material-ui/core/colors'
+import { Alert } from '@material-ui/lab'
+import { navigate } from 'gatsby'
+import React from 'react'
+
+import useSearchQuery from '../../hooks/useSearchQuery'
 
 const useStyles = makeStyles(theme => ({
     list: {
         maxHeight: '50vh',
         overflowY: 'auto',
         overflowX: 'hidden',
-    },
-    alert: {
-        borderRadius: 0,
-        borderBottomRightRadius: theme.shape.borderRadius * 4,
-        borderBottomLeftRadius: theme.shape.borderRadius * 4,
     },
     paper: {
         position: 'absolute',
@@ -20,33 +28,51 @@ const useStyles = makeStyles(theme => ({
         right: 0,
         minWidth: '100%',
         zIndex: theme.zIndex.appBar + 1,
-        padding: theme.spacing(1),
+    },
+    alert: {
+        margin: -theme.spacing(1),
+    },
+    listSubheader: {
+        backgroundColor: blueGrey[50],
+        lineHeight: '36px',
     },
 }))
 
 interface Props {
-    focused
+    focused: boolean
+    query: string
 }
 
 const SearchResults = (props: Props) => {
-    const [result] = useState<{ values: string[]; info: string | null }>({
-        values: [
-            'Id dolore officia aliqua commodo quis deserunt sint officia est aute.',
-            'Deserunt est pariatur ullamco laborum commodo et occaecat eiusmod Lorem pariatur sit occaecat aliqua amet.',
-        ],
-        info: null,
-    })
+    const { searchResults } = useSearchQuery(props.query)
 
     const classes = useStyles()
+
+    if (props.query.length === 0) return <></>
 
     return (
         <Grow in={props.focused}>
             <Paper className={classes.paper}>
                 <List className={classes.list} disablePadding dense>
-                    {result.values.map((item, index) => (
-                        <ListItem key={index}>
-                            <ListItemText primary={item} />
-                        </ListItem>
+                    {searchResults.length === 0 && (
+                        <Alert className={classes.alert} color="warning">
+                            nichts gefunden
+                        </Alert>
+                    )}
+                    {searchResults.map(({ subheader, results }) => (
+                        <div key={subheader}>
+                            <ListSubheader className={classes.listSubheader}>
+                                {subheader}
+                            </ListSubheader>
+                            {results.map(result => (
+                                <ListItem
+                                    button
+                                    onClick={() => navigate('/' + result.relativeDirectory)}
+                                    key={result.id}>
+                                    <ListItemText primary={result.title} />
+                                </ListItem>
+                            ))}
+                        </div>
                     ))}
                 </List>
             </Paper>
