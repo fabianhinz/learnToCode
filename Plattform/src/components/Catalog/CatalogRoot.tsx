@@ -7,7 +7,6 @@ import rootImage from '../../../static/root.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useVibrantBackground from '../../hooks/useVibrantBackground'
 import { GatsbyProps, PathContextNode } from '../../model/model'
-import Introduction from '../Introduction/Introduction'
 import ActionCard from '../Shared/ActionCard'
 import Title from '../Shared/Title'
 
@@ -98,30 +97,25 @@ const CatalogRoot = (props: GatsbyProps) => {
     useBackgroundEffect(rootImage)
 
     return (
-        <>
-            <Grid container spacing={4}>
-                <Grid item xs={12}>
-                    <Introduction />
-                </Grid>
-                <Grid item xs={12}>
-                    <Title>Fortsetzen</Title>
-                </Grid>
-                {props.pathContext.node.children.slice(-1).map(node => (
-                    <Grid item xs={12} md={6} xl={4} key={node.id}>
-                        <RootElement node={node} />
-                    </Grid>
-                ))}
-
-                <Grid item xs={12}>
-                    <Title>Katalog</Title>
-                </Grid>
-                {props.pathContext.node.children.map(node => (
-                    <Grid item xs={12} md={6} xl={4} key={node.id}>
-                        <RootElement node={node} />
-                    </Grid>
-                ))}
+        <Grid container spacing={4}>
+            <Grid item xs={12}>
+                <Title>Fortsetzen</Title>
             </Grid>
-        </>
+            {props.pathContext.node.children.slice(-1).map(node => (
+                <Grid item xs={12} md={6} xl={4} key={node.id}>
+                    <RootElement node={node} />
+                </Grid>
+            ))}
+
+            <Grid item xs={12}>
+                <Title>Katalog</Title>
+            </Grid>
+            {props.pathContext.node.children.map(node => (
+                <Grid item xs={12} md={6} xl={4} key={node.id}>
+                    <RootElement node={node} />
+                </Grid>
+            ))}
+        </Grid>
     )
 }
 

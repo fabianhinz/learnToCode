@@ -14,7 +14,7 @@ import { navigate } from 'gatsby'
 import React from 'react'
 
 import { PathContextNode } from '../../model/model'
-import { useFirestoreContext } from '../Provider/FirestoreProvider'
+import { useProgressContext } from '../Provider/ProgressProvider'
 import Progress from '../Shared/Progress'
 import UserInfos from './Userinfos'
 
@@ -58,7 +58,7 @@ interface ProgressListItemProps {
 }
 
 const ProgressListItem = (props: ProgressListItemProps) => {
-    const { progressByTechnology } = useFirestoreContext()
+    const { progressByTechnology } = useProgressContext()
     const classes = useStyles()
 
     const {

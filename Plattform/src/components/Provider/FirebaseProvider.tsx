@@ -2,11 +2,12 @@ import React, { FC, useEffect, useState } from 'react'
 
 export type FirebaseInstance = typeof import('firebase/app')
 
-interface User {
+export interface User {
     displayName: string
     photoURL: string
     providerId: string
     uid: string
+    introduction?: boolean
 }
 
 interface FirebaseContext {

@@ -7,7 +7,7 @@ import topicOrTechnologyImage from '../../../static/topicOrTechnology.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { GatsbyProps } from '../../model/model'
-import { useFirestoreContext } from '../Provider/FirestoreProvider'
+import { useProgressContext } from '../Provider/ProgressProvider'
 import ActionCard from '../Shared/ActionCard'
 import Title from '../Shared/Title'
 import UserInfos from '../User/Userinfos'
@@ -39,7 +39,7 @@ const LectureInfos = ({ total, inProgress, done }: LectureInfosProps) => (
 )
 
 const CatalogTopic = (props: GatsbyProps) => {
-    const { progressByTechnology } = useFirestoreContext()
+    const { progressByTechnology } = useProgressContext()
 
     const classes = useStyles()
 

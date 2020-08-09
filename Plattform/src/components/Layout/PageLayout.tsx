@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet'
 
 import { GatsbyProps } from '../../model/model'
 import Header from '../Header'
+import Introduction from '../Introduction/Introduction'
 import Main from '../Main'
 
 interface Props extends Pick<GatsbyProps, 'path'> {
@@ -21,6 +22,7 @@ const PageLayout = ({ children, path }: Props) => {
             </Helmet>
             <Header />
             <Main>{children}</Main>
+            <Introduction />
         </>
     )
 }

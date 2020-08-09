@@ -1,11 +1,11 @@
 import React, { FC } from 'react'
 
 import FirebaseProvider from '../Provider/FirebaseProvider'
-import FirestoreProvider from '../Provider/FirestoreProvider'
+import ProgressProvider from '../Provider/ProgressProvider'
 
 const RootLayout: FC = ({ children }) => (
     <FirebaseProvider>
-        <FirestoreProvider>{children}</FirestoreProvider>
+        <ProgressProvider>{children}</ProgressProvider>
     </FirebaseProvider>
 )
 

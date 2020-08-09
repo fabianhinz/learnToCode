@@ -18,7 +18,7 @@ import topicOrTechnologyImage from '../../../static/topicOrTechnology.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { GatsbyProps, PathContextNode } from '../../model/model'
-import { useFirestoreContext } from '../Provider/FirestoreProvider'
+import { useProgressContext } from '../Provider/ProgressProvider'
 import ActionCard from '../Shared/ActionCard'
 import Title from '../Shared/Title'
 
@@ -38,7 +38,7 @@ interface LectureListItemProps {
 }
 
 const LectureListItem = ({ node, withDivider }: LectureListItemProps) => {
-    const { progressByRelDir } = useFirestoreContext()
+    const { progressByRelDir } = useProgressContext()
     const classes = useStyles()
 
     const {

@@ -27,9 +27,9 @@ const getProgressIdByProgress = (progress: Progress) => `/${progress.topic}/${pr
 
 const Context = React.createContext<FirestoreContext | null>(null)
 
-export const useFirestoreContext = () => useContext(Context)
+export const useProgressContext = () => useContext(Context)
 
-const FirestoreProvider: FC = ({ children }) => {
+const ProgressProvider: FC = ({ children }) => {
     const [progressByRelDir, setProgressByRelDir] = useState<Map<string, Progress>>(new Map())
     const [progressByTechnology, setProgressByTechnology] = useState<Map<string, AbsoluteProgress>>(
         new Map()
@@ -108,4 +108,4 @@ const FirestoreProvider: FC = ({ children }) => {
     return <Context.Provider value={providerValue}>{children}</Context.Provider>
 }
 
-export default FirestoreProvider
+export default ProgressProvider
