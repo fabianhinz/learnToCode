@@ -1,0 +1,52 @@
+name: firebase-deploy-hosting
+
+on:
+    push:
+      branches: [ dev ]
+    pull_request:
+      branches: [ master, dev ]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout dev
+        uses: actions/checkout@dev
+      - name: install dependencies
+        working-directory: Plattform
+        run: npm install
+      - name: set short sha
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: build
+        working-directory: Plattform
+        run: npm run build
+        env: 
+          VERSION: ${{ steps.vars.outputs.sha_short }}
+      - name: archive build
+        uses: actions/upload-artifact@dev
+        with:
+          name: build
+          path: build
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout master
+        uses: actions/checkout@dev
+      - name: download build
+        uses: actions/download-artifact@dev
+        with:
+          name: build
+          path: build
+      - name: set short sha
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: deploy
+        uses: w9jds/firebase-action@dev
+        with:
+          args: deploy --only hosting --message ${{ steps.vars.outputs.sha_short }}
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
