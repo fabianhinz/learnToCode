@@ -46,6 +46,12 @@ module.exports = {
                     {
                         resolve: `gatsby-remark-highlight-code`,
                     },
+                    {
+                        resolve: `gatsby-remark-images`,
+                        options: {
+                            maxWidth: 500,
+                        },
+                    },
                 ],
             },
         },
@@ -61,7 +67,41 @@ module.exports = {
                 icon: `${__dirname}/static/root.png`,
             },
         },
+        `gatsby-plugin-sharp`,
         `gatsby-plugin-offline`,
         `gatsby-plugin-react-helmet`,
+        {
+            resolve: 'gatsby-plugin-local-search',
+            options: {
+                name: 'katalog',
+                engine: 'flexsearch',
+                index: ['title', 'description'],
+                query: `
+                {
+                    allMarkdownRemark {
+                        nodes {
+                            id
+                            frontmatter {
+                                title
+                                pathTitle
+                                description
+                            }
+                            parent {
+                                ... on File {
+                                    relativeDirectory
+                                }
+                            }
+                        }
+                    }
+                }
+              `,
+                normalizer: ({ data }) =>
+                    data.allMarkdownRemark.nodes.map(node => ({
+                        id: node.id,
+                        ...node.frontmatter,
+                        relativeDirectory: node.parent.relativeDirectory,
+                    })),
+            },
+        },
     ],
 }

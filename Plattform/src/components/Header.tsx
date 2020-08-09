@@ -1,4 +1,4 @@
-import { AppBar, Grid, makeStyles, Toolbar } from '@material-ui/core'
+import { AppBar, Grid, Hidden, makeStyles, Toolbar } from '@material-ui/core'
 import React from 'react'
 
 import Search from './Search/Search'
@@ -32,9 +32,11 @@ const Header = () => {
 
                         <Grid item xs={8}>
                             <Grid container alignItems="center" justify="flex-end" spacing={2}>
-                                <Grid item>
-                                    <Search />
-                                </Grid>
+                                <Hidden smDown>
+                                    <Grid item>
+                                        <Search />
+                                    </Grid>
+                                </Hidden>
                                 <Grid item>
                                     <UserAvatar />
                                 </Grid>

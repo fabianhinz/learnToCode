@@ -7,14 +7,14 @@ import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { GatsbyProps } from '../../model/model'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
-import { useFirestoreContext } from '../Provider/FirestoreProvider'
+import { useProgressContext } from '../Provider/ProgressProvider'
 import FixedFab from '../Shared/FixedFab'
 import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
 
 const CatalogLecture = (props: GatsbyProps) => {
     const { firebaseInstance, user } = useFirebaseContext()
-    const { onProgressChange, progressByRelDir } = useFirestoreContext()
+    const { onProgressChange, progressByRelDir } = useProgressContext()
 
     useBackgroundEffect(props.pathContext.node.frontmatter.iconPath?.publicURL || lectureImage)
     useNavTextEffect(props.pathContext.node.frontmatter.description)

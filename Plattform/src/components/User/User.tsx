@@ -7,14 +7,14 @@ import accountImage from '../../../static/account.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import { GatsbyProps } from '../../model/model'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
-import { useFirestoreContext } from '../Provider/FirestoreProvider'
+import { useProgressContext } from '../Provider/ProgressProvider'
 import FixedFab from '../Shared/FixedFab'
 import Title from '../Shared/Title'
 import UserProgress from './UserProgress'
 
 const User = (props: GatsbyProps) => {
     const { user, firebaseInstance } = useFirebaseContext()
-    const { topicsWithProgress } = useFirestoreContext()
+    const { topicsWithProgress } = useProgressContext()
 
     useBackgroundEffect(accountImage)
 
