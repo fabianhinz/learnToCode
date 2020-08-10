@@ -87,7 +87,7 @@ const CatalogTechnology = (props: GatsbyProps) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <ActionCard>
+                    <ActionCard disableActionArea>
                         <List disablePadding>
                             {props.pathContext.node.children.map((node, index) => (
                                 <LectureListItem

@@ -2,7 +2,7 @@ import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from
 
 import { useFirebaseContext } from './FirebaseProvider'
 
-interface Progress {
+export interface Progress {
     topic: string
     technology: string
     lecture: string

@@ -7,8 +7,10 @@ import rootImage from '../../../static/root.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useVibrantBackground from '../../hooks/useVibrantBackground'
 import { GatsbyProps, PathContextNode } from '../../model/model'
+import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import ActionCard from '../Shared/ActionCard'
 import Title from '../Shared/Title'
+import UserLectures from '../User/UserLectures'
 
 interface StyleProps {
     background: string | null
@@ -94,27 +96,26 @@ const RootElement = ({ node }: RootElementProps) => {
 }
 
 const CatalogRoot = (props: GatsbyProps) => {
+    const { user } = useFirebaseContext()
+
     useBackgroundEffect(rootImage)
 
     return (
         <Grid container spacing={4}>
-            <Grid item xs={12}>
-                <Title>Fortsetzen</Title>
-            </Grid>
-            {props.pathContext.node.children.slice(-1).map(node => (
-                <Grid item xs={12} md={6} xl={4} key={node.id}>
-                    <RootElement node={node} />
+            {user && (
+                <Grid item xs={12}>
+                    <Title>Katalog</Title>
                 </Grid>
-            ))}
-
-            <Grid item xs={12}>
-                <Title>Katalog</Title>
-            </Grid>
+            )}
             {props.pathContext.node.children.map(node => (
                 <Grid item xs={12} md={6} xl={4} key={node.id}>
                     <RootElement node={node} />
                 </Grid>
             ))}
+
+            <Grid item xs={12}>
+                <UserLectures />
+            </Grid>
         </Grid>
     )
 }

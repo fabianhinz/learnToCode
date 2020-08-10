@@ -1,7 +1,11 @@
-import { Card, withStyles } from '@material-ui/core'
+import { Card, CardActionArea, CardProps, WithStyles, withStyles } from '@material-ui/core'
+import React from 'react'
 
-const ActionCard = withStyles(theme => ({
+type Props = WithStyles & CardProps & { disableActionArea?: boolean }
+
+export default withStyles(theme => ({
     root: { cursor: 'pointer', boxShadow: theme.shadows[4] },
-}))(Card)
-
-export default ActionCard
+}))(function ActionCard({ children, disableActionArea, ...cardProps }: Props) {
+    const card = <Card {...cardProps}>{children}</Card>
+    return disableActionArea ? card : <CardActionArea>{card}</CardActionArea>
+})
