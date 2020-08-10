@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
             padding: `${theme.spacing(2)}px ${theme.spacing(2)}px`,
             top: 56,
         },
+        borderBottom: `1px solid ${theme.palette.divider}`,
     },
 }))
 

@@ -1,4 +1,5 @@
 import { graphql, useStaticQuery } from 'gatsby'
+import { useEffect, useState } from 'react'
 import { useFlexSearch } from 'react-use-flexsearch'
 
 import { Frontmatter, PathContextNode } from '../model/model'
@@ -6,31 +7,42 @@ import { Frontmatter, PathContextNode } from '../model/model'
 export type Result = Pick<Frontmatter, 'title' | 'description' | 'pathTitle'> &
     Pick<PathContextNode, 'id'> & { relativeDirectory: string }
 
+type Subheader = 'Thema' | 'Technologie' | 'Lektion'
+
+const SUBHEADERS: [Subheader, Subheader, Subheader] = ['Thema', 'Technologie', 'Lektion']
+
 interface SearchResult {
-    subheader: 'Katalog' | 'Lektion' | 'Thema'
+    subheader: Subheader
     results: Result[]
 }
 
 const getSubHeaderByRelDir = (relDir: string) => {
-    if (relDir.length === 0) return 'Katalog'
+    if (relDir.length === 0) return 'Thema'
     switch (relDir.split('/').length) {
         case 1:
-            return 'Thema'
+            return 'Technologie'
         case 3:
             return 'Lektion'
     }
 }
 
-const getSearchResults = (flexResults: Result[]): SearchResult[] => {
-    const subheaders = new Set(flexResults.map(s => getSubHeaderByRelDir(s.relativeDirectory)))
-
-    return Array.from(subheaders, subheader => ({
+const getSearchResults = (flexResults: Result[]): SearchResult[] =>
+    SUBHEADERS.map(subheader => ({
         subheader,
         results: flexResults.filter(s => getSubHeaderByRelDir(s.relativeDirectory) === subheader),
-    }))
-}
+    })).filter(r => r.results.length > 0)
 
 const useSearchQuery = (query: string) => {
+    const [debouncedQuery, setDebouncedQuery] = useState('')
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setDebouncedQuery(query), 250)
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [query])
+
     const { localSearchKatalog } = useStaticQuery(graphql`
         query MyQuery {
             localSearchKatalog {
@@ -41,7 +53,7 @@ const useSearchQuery = (query: string) => {
     `)
 
     const flexResults = useFlexSearch(
-        query,
+        debouncedQuery,
         localSearchKatalog.index,
         JSON.parse(localSearchKatalog.store)
     ) as Result[]
