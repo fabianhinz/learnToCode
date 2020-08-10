@@ -102,20 +102,21 @@ const CatalogRoot = (props: GatsbyProps) => {
 
     return (
         <Grid container spacing={4}>
-            {user && (
-                <Grid item xs={12}>
-                    <Title>Katalog</Title>
-                </Grid>
-            )}
+            <Grid item xs={12}>
+                <Title>Katalog</Title>
+            </Grid>
+
             {props.pathContext.node.children.map(node => (
                 <Grid item xs={12} md={6} xl={4} key={node.id}>
                     <RootElement node={node} />
                 </Grid>
             ))}
 
-            <Grid item xs={12}>
-                <UserLectures />
-            </Grid>
+            {user && (
+                <Grid item xs={12}>
+                    <UserLectures />
+                </Grid>
+            )}
         </Grid>
     )
 }
