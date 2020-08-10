@@ -102,6 +102,12 @@ const CatalogRoot = (props: GatsbyProps) => {
 
     return (
         <Grid container spacing={4}>
+            {user && (
+                <Grid item xs={12}>
+                    <UserLectures />
+                </Grid>
+            )}
+
             <Grid item xs={12}>
                 <Title>Katalog</Title>
             </Grid>
@@ -111,12 +117,6 @@ const CatalogRoot = (props: GatsbyProps) => {
                     <RootElement node={node} />
                 </Grid>
             ))}
-
-            {user && (
-                <Grid item xs={12}>
-                    <UserLectures />
-                </Grid>
-            )}
         </Grid>
     )
 }

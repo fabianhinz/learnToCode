@@ -2,17 +2,12 @@ import { AppBar, Grid, Hidden, makeStyles, Toolbar } from '@material-ui/core'
 import React from 'react'
 
 import Search from './Search/Search'
-import AppLink from './Shared/AppLink'
+import Brand from './Shared/Brand'
 import UserAvatar from './User/UserAvatar'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     appbar: {
         maxHeight: 64,
-    },
-    platform: {
-        marginRight: theme.spacing(0.5),
-        padding: theme.spacing(0.5),
-        border: `2px solid ${theme.palette.text.primary}`,
     },
 }))
 
@@ -25,9 +20,7 @@ const Header = () => {
                 <Toolbar>
                     <Grid container justify="space-between" alignItems="center">
                         <Grid item xs={4}>
-                            <AppLink to="/" color="textPrimary" variant="h5">
-                                <span className={classes.platform}>learn2Code</span>HsKA
-                            </AppLink>
+                            <Brand variant="h5" />
                         </Grid>
 
                         <Grid item xs={8}>

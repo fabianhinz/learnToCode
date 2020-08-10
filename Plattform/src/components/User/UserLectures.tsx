@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
         height: 160,
         ...theme.typography.h4,
         backgroundColor: (props: StyleProps) => props?.backgroundColor || undefined,
+        transition: theme.transitions.create('background-color', {
+            easing: theme.transitions.easing.easeOut,
+        }),
         boxShadow: theme.shadows[4],
         textTransform: 'uppercase',
     },

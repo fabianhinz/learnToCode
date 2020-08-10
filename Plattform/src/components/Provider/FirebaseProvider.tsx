@@ -13,6 +13,7 @@ export interface User {
 interface FirebaseContext {
     firebaseInstance: FirebaseInstance | null
     user: User | null
+    authReady: boolean
 }
 
 const Context = React.createContext<FirebaseContext | null>(null)
@@ -49,6 +50,7 @@ const getInstance = async () => {
 const FirebaseProvider: FC = props => {
     const [firebaseInstance, setFirebaseInstance] = useState<FirebaseInstance | null>(null)
     const [user, setUser] = useState<User | null>(null)
+    const [authReady, setAuthReady] = useState(false)
 
     useEffect(() => {
         getInstance().then(setFirebaseInstance)
@@ -65,7 +67,11 @@ const FirebaseProvider: FC = props => {
                     displayName: authState.displayName,
                     uid: authState.uid,
                 })
-            else setUser(null)
+            else {
+                setUser(null)
+            }
+            // wait for the next tick ;)
+            setAuthReady(true)
         })
 
         return () => {
@@ -79,6 +85,7 @@ const FirebaseProvider: FC = props => {
         <Context.Provider
             value={{
                 firebaseInstance,
+                authReady,
                 user,
             }}>
             {props.children}
