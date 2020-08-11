@@ -1,7 +1,8 @@
 import { GithubIssue } from '../model/model'
 
+const BASE_URL = 'https://github.com/fabianhinz/learnToCode/issues/new?'
+
 export const createPrefilledIssue = ({
-    repoUrl,
     assignees,
     body,
     labels,
@@ -19,5 +20,5 @@ export const createPrefilledIssue = ({
     if (template) params.set('template', template)
     if (title) params.set('title', title)
 
-    return repoUrl + '/issues/new?' + params.toString()
+    return BASE_URL + params.toString()
 }

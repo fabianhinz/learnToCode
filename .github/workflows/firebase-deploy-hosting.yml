@@ -2,9 +2,9 @@ name: firebase-deploy-hosting
 
 on:
     push:
-      branches: [ dev ]
+      branches: [ master ]
     pull_request:
-      branches: [ dev ]
+      branches: [ master ]
 
 jobs:
   build:
@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-        with:
-          ref: dev
       - name: install dependencies
         working-directory: Plattform
         run: npm install
@@ -33,8 +31,6 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-        with:
-          ref: dev
       - name: download build
         uses: actions/download-artifact@master
         with:

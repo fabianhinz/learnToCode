@@ -29,7 +29,6 @@ export interface Frontmatter {
 }
 
 export interface GithubIssue {
-    repoUrl: string
     body?: string
     title?: string
     labels?: string[]

@@ -6,13 +6,8 @@ import { GithubIssue } from '../../model/model'
 import { createPrefilledIssue } from '../../util/github-service'
 
 const IssueButton = (props: GithubIssue) => {
-    const handleButtonClick = () => {
-        const url = createPrefilledIssue({ ...props })
-        window.open(url)
-    }
-
     return (
-        <IconButton color="inherit" onClick={handleButtonClick}>
+        <IconButton color="inherit" onClick={() => window.open(createPrefilledIssue({ ...props }))}>
             <HelpOutline />
         </IconButton>
     )

@@ -56,7 +56,6 @@ const CatalogLecture = (props: GatsbyProps) => {
                         )}
                         <Grid item>
                             <IssueButton
-                                repoUrl="https://github.com/fabianhinz/learnToCode"
                                 title={node.frontmatter.title}
                                 labels={['help wanted']}
                                 assignees={['fabianhinz']}
