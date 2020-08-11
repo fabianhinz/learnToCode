@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 
 import { GatsbyProps } from '../../model/model'
-import Footer from '../Footer'
+import BuildVersion from '../BuildVersion/BuildVersion'
 import Header from '../Header'
 import Introduction from '../Introduction/Introduction'
 import Main from '../Main'
@@ -52,7 +52,7 @@ const PageLayout = ({ children, path }: Props) => {
                     <Header />
                     <Main>{children}</Main>
                     <Introduction />
-                    <Footer />
+                    <BuildVersion />
                 </div>
             </Fade>
         </>
