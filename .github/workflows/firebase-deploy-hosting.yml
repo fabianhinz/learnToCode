@@ -40,10 +40,13 @@ jobs:
         with:
           name: public
           path: Plattform/public
+      - name: set short sha
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: deploy
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --only hosting --message ${{ steps.vars.outputs.sha_short }}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           # https://stackoverflow.com/questions/58352402/how-to-add-working-directory-to-deployment-in-github-actions

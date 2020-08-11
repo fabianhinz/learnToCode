@@ -9,3 +9,5 @@ declare module 'react-use-flexsearch' {
         options?: Object
     ): Object[]
 }
+
+declare var __VERSION__: string
