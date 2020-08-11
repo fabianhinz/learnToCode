@@ -1,73 +1,13 @@
-import {
-    Divider,
-    Grid,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemSecondaryAction,
-    ListItemText,
-    makeStyles,
-} from '@material-ui/core'
-import { blue, green } from '@material-ui/core/colors'
-import { AccountCircle, CheckCircle, School } from '@material-ui/icons'
-import { Rating } from '@material-ui/lab'
-import { navigate } from 'gatsby'
+import { Grid, List } from '@material-ui/core'
 import React from 'react'
 
 import topicOrTechnologyImage from '../../../static/topicOrTechnology.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
-import { GatsbyProps, PathContextNode } from '../../model/model'
-import { useProgressContext } from '../Provider/ProgressProvider'
+import { GatsbyProps } from '../../model/model'
+import LectureListItem from '../Lecture/LectureListItem'
 import ActionCard from '../Shared/ActionCard'
 import Title from '../Shared/Title'
-
-const useStyles = makeStyles(() => ({
-    checkIcon: {
-        color: green[500],
-    },
-    accountIcon: {
-        color: blue[500],
-    },
-    listItemAvatar: { display: 'flex' },
-}))
-
-interface LectureListItemProps {
-    node: PathContextNode
-    withDivider: boolean
-}
-
-const LectureListItem = ({ node, withDivider }: LectureListItemProps) => {
-    const { progressByRelDir } = useProgressContext()
-    const classes = useStyles()
-
-    const {
-        frontmatter: { pathTitle, title, lastUpdate },
-        parent,
-    } = node
-    const progress = progressByRelDir.get(parent.relativeDirectory)
-
-    return (
-        <div>
-            <ListItem button onClick={() => navigate(pathTitle)}>
-                <ListItemAvatar className={classes.listItemAvatar}>
-                    {progress?.status === 'done' ? (
-                        <CheckCircle className={classes.checkIcon} />
-                    ) : progress?.status === 'inProgress' ? (
-                        <AccountCircle className={classes.accountIcon} />
-                    ) : (
-                        <School />
-                    )}
-                </ListItemAvatar>
-                <ListItemText primary={title} secondary={lastUpdate} />
-                <ListItemSecondaryAction>
-                    <Rating name={pathTitle} />
-                </ListItemSecondaryAction>
-            </ListItem>
-            {withDivider && <Divider />}
-        </div>
-    )
-}
 
 const CatalogTechnology = (props: GatsbyProps) => {
     useBackgroundEffect(
