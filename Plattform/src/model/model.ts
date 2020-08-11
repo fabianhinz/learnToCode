@@ -27,3 +27,14 @@ export interface Frontmatter {
     }
     lastUpdate?: string
 }
+
+export interface GithubIssue {
+    repoUrl: string
+    body?: string
+    title?: string
+    labels?: string[]
+    template?: string
+    milestone?: string
+    assignees?: string[]
+    projects?: string[]
+}

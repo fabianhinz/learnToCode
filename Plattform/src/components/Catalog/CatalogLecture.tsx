@@ -9,6 +9,7 @@ import { GatsbyProps } from '../../model/model'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import { useProgressContext } from '../Provider/ProgressProvider'
 import FixedFab from '../Shared/FixedFab'
+import IssueButton from '../Shared/IssueButton'
 import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
 
@@ -53,6 +54,14 @@ const CatalogLecture = (props: GatsbyProps) => {
                                 <Title>{node.frontmatter.lastUpdate}</Title>
                             </Grid>
                         )}
+                        <Grid item>
+                            <IssueButton
+                                repoUrl="https://github.com/fabianhinz/learnToCode"
+                                title={node.frontmatter.title}
+                                labels={['help wanted']}
+                                assignees={['fabianhinz']}
+                            />
+                        </Grid>
                     </Grid>
                 </Grid>
 

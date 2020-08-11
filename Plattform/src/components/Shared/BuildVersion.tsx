@@ -3,8 +3,8 @@ import React from 'react'
 
 const BuildVersion = () => {
     return (
-        <Box position="fixed" left="10px" bottom="5px" zIndex="-1">
-            <Typography color="textSecondary" variant="body2">
+        <Box position="fixed" bottom={5} left={10} zIndex="-1">
+            <Typography color="textSecondary" variant="caption">
                 Version: {__VERSION__}
             </Typography>
         </Box>
