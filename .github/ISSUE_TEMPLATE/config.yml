@@ -1,5 +1,5 @@
-## if a template is provided a blank issue is prefilled with the provided template
-# blank_issues_enabled: true
+# if a default template is provided a blank issue is prefilled with the provided template
+blank_issues_enabled: false
 ## it is possible to refer to extern contacts for specific issues
 # contact_links:
 #   - name: GitHub Community Support
