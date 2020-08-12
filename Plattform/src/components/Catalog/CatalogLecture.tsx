@@ -56,9 +56,10 @@ const CatalogLecture = (props: GatsbyProps) => {
                         )}
                         <Grid item>
                             <IssueButton
-                                title={node.frontmatter.title}
+                                title={node.frontmatter.title + ', Version: ' + __VERSION__}
                                 labels={['help wanted']}
                                 assignees={['fabianhinz']}
+                                template='lecture_issue_template.md'
                             />
                         </Grid>
                     </Grid>

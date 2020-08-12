@@ -1,0 +1,10 @@
+## if a template is provided a blank issue is prefilled with the provided template
+# blank_issues_enabled: true
+## it is possible to refer to extern contacts for specific issues
+# contact_links:
+#   - name: GitHub Community Support
+#     url: https://github.community/
+#     about: Please ask and answer questions here.
+#   - name: GitHub Security Bug Bounty
+#     url: https://bounty.github.com/
+#     about: Please report security vulnerabilities here.
