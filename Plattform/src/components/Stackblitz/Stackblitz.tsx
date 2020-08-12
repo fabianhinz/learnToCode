@@ -6,6 +6,7 @@ import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
 import { VM } from '@stackblitz/sdk/typings/VM'
 import React, { useEffect, useState } from 'react'
 
+import { relativeDir2CatalogBase } from '../../util/mapper'
 import { LectureNodeProps } from '../Catalog/CatalogLecture'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import { useProgressContext } from '../Provider/ProgressProvider'
@@ -82,7 +83,9 @@ const Stackblitz = ({ path, node, open, onClose }: Props) => {
     const prevProgress = progressByRelDir.get(node.parent.relativeDirectory)
 
     const handleResolveLecture = () => {
-        const [topic, technology, lecture] = node.parent.relativeDirectory.split('/')
+        const { topic, technology, lecture } = relativeDir2CatalogBase(
+            node.parent.relativeDirectory
+        )
 
         onProgressChange({
             topic,
