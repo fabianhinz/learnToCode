@@ -1,9 +1,9 @@
-import { AppBar, Grid, makeStyles, Toolbar } from '@material-ui/core'
+import { AppBar, Grid, Hidden, makeStyles, Toolbar } from '@material-ui/core'
 import React from 'react'
 
 import Search from './Search/Search'
-import AppLink from './Shared/AppLink'
-import UserAvatar from './Shared/UserAvatar'
+import Brand from './Shared/Brand'
+import UserAvatar from './User/UserAvatar'
 
 const useStyles = makeStyles(() => ({
     appbar: {
@@ -19,17 +19,17 @@ const Header = () => {
             <AppBar color="default" position="fixed" className={classes.appbar}>
                 <Toolbar>
                     <Grid container justify="space-between" alignItems="center">
-                        <Grid item>
-                            <AppLink to="/" color="textPrimary" variant="h4">
-                                learn2Code@HsKA
-                            </AppLink>
+                        <Grid item xs={4}>
+                            <Brand variant="h5" />
                         </Grid>
 
-                        <Grid item>
-                            <Grid container alignItems="center" spacing={1}>
-                                <Grid item>
-                                    <Search />
-                                </Grid>
+                        <Grid item xs={8}>
+                            <Grid container alignItems="center" justify="flex-end" spacing={2}>
+                                <Hidden smDown>
+                                    <Grid item>
+                                        <Search />
+                                    </Grid>
+                                </Hidden>
                                 <Grid item>
                                     <UserAvatar />
                                 </Grid>

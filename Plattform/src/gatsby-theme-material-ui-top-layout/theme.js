@@ -7,6 +7,38 @@ const theme = responsiveFontSizes(
             primary: red,
             secondary: blue,
         },
+        typography: {
+            h1: {
+                fontFamily: 'Noto Sans',
+            },
+            h2: {
+                fontFamily: 'Noto Sans',
+            },
+            h3: {
+                fontFamily: 'Noto Sans',
+            },
+            h4: {
+                fontFamily: 'Noto Sans',
+            },
+            h5: {
+                fontFamily: 'Noto Sans',
+            },
+        },
+        shape: {
+            borderRadius: 0,
+        },
+        overrides: {
+            MuiChip: {
+                label: {
+                    fontFamily: 'Ubuntu',
+                },
+            },
+            MuiAlert: {
+                root: {
+                    borderRadius: 'unset',
+                },
+            },
+        },
     })
 )
 

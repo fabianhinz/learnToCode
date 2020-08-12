@@ -20,16 +20,22 @@ const useStyles = makeStyles(theme => ({
                 : 'rgba(0, 0, 0, 0.08)',
         boxShadow: ({ focused }: StyleProps) =>
             theme.palette.type === 'light' && focused ? theme.shadows[1] : 'unset',
-        borderRadius: theme.shape.borderRadius * 4,
+        borderRadius: theme.shape.borderRadius * 2,
         padding: theme.spacing(1),
         transition: theme.transitions.create('all', {
             easing: theme.transitions.easing.easeOut,
         }),
-        width: (props: StyleProps) => (props.focused ? 350 : 200),
+        width: (props: StyleProps) => (props.focused ? 300 : 200),
     },
 }))
 
+export interface SearchQuery {
+    value: string
+    loading: boolean
+}
+
 const Search = () => {
+    const [query, setQuery] = useState('')
     const [focused, setFocused] = useState(false)
 
     const classes = useStyles({ focused })
@@ -41,8 +47,8 @@ const Search = () => {
     return (
         <ClickAwayListener onClickAway={handleFocusChange('out')}>
             <div onFocus={handleFocusChange('in')} className={classes.searchContainer}>
-                <SearchInput focused={focused} />
-                <SearchResults focused={focused} />
+                <SearchInput focused={focused} value={query} onValueChange={setQuery} />
+                <SearchResults focused={focused} query={query} />
             </div>
         </ClickAwayListener>
     )

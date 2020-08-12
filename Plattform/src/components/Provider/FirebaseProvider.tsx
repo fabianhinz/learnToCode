@@ -2,23 +2,23 @@ import React, { FC, useEffect, useState } from 'react'
 
 export type FirebaseInstance = typeof import('firebase/app')
 
-interface User {
+export interface User {
     displayName: string
-    email: string
-    phoneNumber: string
     photoURL: string
     providerId: string
     uid: string
+    introduction?: boolean
 }
 
 interface FirebaseContext {
     firebaseInstance: FirebaseInstance | null
     user: User | null
+    authReady: boolean
 }
 
 const Context = React.createContext<FirebaseContext | null>(null)
 
-export const useFirebaseContext = () => React.useContext(Context) as FirebaseContext
+export const useFirebaseContext = () => React.useContext(Context)
 
 const getInstance = async () => {
     // ? gatsby builds static HTML files for each route, firebase will only work with a defined window object
@@ -41,6 +41,7 @@ const getInstance = async () => {
             messagingSenderId: '398211325564',
             appId: '1:398211325564:web:90eed6fa89441f4230f3f9',
         })
+        instance.firestore().enablePersistence({ synchronizeTabs: true })
     }
 
     return instance
@@ -49,6 +50,7 @@ const getInstance = async () => {
 const FirebaseProvider: FC = props => {
     const [firebaseInstance, setFirebaseInstance] = useState<FirebaseInstance | null>(null)
     const [user, setUser] = useState<User | null>(null)
+    const [authReady, setAuthReady] = useState(false)
 
     useEffect(() => {
         getInstance().then(setFirebaseInstance)
@@ -58,8 +60,18 @@ const FirebaseProvider: FC = props => {
         if (!firebaseInstance) return
 
         const unsubscribe = firebaseInstance.auth().onAuthStateChanged(authState => {
-            if (authState) setUser(authState.providerData[0])
-            else setUser(null)
+            if (authState)
+                setUser({
+                    photoURL: authState.providerData[0].photoURL,
+                    providerId: authState.providerData[0].providerId,
+                    displayName: authState.displayName,
+                    uid: authState.uid,
+                })
+            else {
+                setUser(null)
+            }
+            // wait for the next tick ;)
+            setAuthReady(true)
         })
 
         return () => {
@@ -73,6 +85,7 @@ const FirebaseProvider: FC = props => {
         <Context.Provider
             value={{
                 firebaseInstance,
+                authReady,
                 user,
             }}>
             {props.children}

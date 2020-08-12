@@ -22,9 +22,11 @@ const useStyles = makeStyles(theme => ({
 
 interface Props {
     focused: boolean
+    value: string
+    onValueChange: (newValue: string) => void
 }
 
-const SearchInput = ({ focused }: Props) => {
+const SearchInput = ({ focused, value, onValueChange }: Props) => {
     const classes = useStyles({ focused })
 
     return (
@@ -34,6 +36,8 @@ const SearchInput = ({ focused }: Props) => {
                     root: classes.searchRoot,
                     input: classes.searchInput,
                 }}
+                value={value}
+                onChange={({ target }) => onValueChange(target.value)}
                 fullWidth
                 placeholder="Suche"
                 startAdornment={
