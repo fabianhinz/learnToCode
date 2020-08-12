@@ -11,7 +11,7 @@ import { AccountCircle, CheckCircle, School } from '@material-ui/icons'
 import { navigate } from 'gatsby'
 import React from 'react'
 
-import { PathContextNode } from '../../model/model'
+import { LectureNodeProps } from '../Catalog/CatalogLecture'
 import { useProgressContext } from '../Provider/ProgressProvider'
 import LectureRating from './LectureRating'
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 interface LectureListItemProps {
-    node: PathContextNode
+    node: LectureNodeProps
     withDivider: boolean
 }
 

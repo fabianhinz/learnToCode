@@ -3,7 +3,7 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import { navigate } from 'gatsby'
 import React from 'react'
 
-import { PathContextNode } from '../../model/model'
+import { TechnologyNodeProps } from '../Catalog/CatalogTechnology'
 import { useProgressContext } from '../Provider/ProgressProvider'
 import ActionCard from '../Shared/ActionCard'
 import TechnologyInfos from './TechnologyInfos'
@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 interface Props {
-    node: PathContextNode
+    node: TechnologyNodeProps
     topicPathTitle: string
 }
 

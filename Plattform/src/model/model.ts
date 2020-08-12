@@ -1,31 +1,37 @@
-export interface GatsbyProps {
+export interface NodeContext<N> {
     path: string
-    pathContext: PathContext
+    pathContext: PathContext<N>
 }
 
-export interface PathContext {
-    node: PathContextNode
+export interface PathContext<N> {
+    node: N
 }
 
-export interface PathContextNode {
-    id: string
-    frontmatter: Frontmatter
-    parent: {
-        relativeDirectory: string
-    }
-    children: PathContextNode[]
-    html: string
-}
-
-export interface Frontmatter {
+export interface BaseFrontmatter {
     pathTitle: string
     title: string
     description: string
-    design: number
-    iconPath?: {
-        publicURL: string
-    }
+    iconPath?: IconPath
+}
+
+export interface IconPath {
+    publicURL: string
+}
+
+export interface TopicFrontmatter extends BaseFrontmatter {
+    design: string
+}
+
+export interface TechnologyFrontmatter extends BaseFrontmatter {
+    design: string
+}
+
+export interface LectureFrontmatter extends BaseFrontmatter {
     lastUpdate?: string
+}
+
+export interface ParentNode {
+    relativeDirectory: string
 }
 
 export interface GithubIssue {

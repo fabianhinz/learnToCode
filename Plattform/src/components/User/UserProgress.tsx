@@ -13,7 +13,8 @@ import {
 import { navigate } from 'gatsby'
 import React from 'react'
 
-import { PathContextNode } from '../../model/model'
+import { TechnologyNodeProps } from '../Catalog/CatalogTechnology'
+import { TopicNodeProps } from '../Catalog/CatalogTopic'
 import { useProgressContext } from '../Provider/ProgressProvider'
 import Progress from '../Shared/Progress'
 import UserInfos from './Userinfos'
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 interface Props {
-    node: PathContextNode
+    node: TopicNodeProps
 }
 
 const normaliseValue = (done: number, total: number) => (done * 100) / total
@@ -53,7 +54,7 @@ export const LinearUserProgress = ({ done, total }: LinearUserProgressProps) => 
 )
 
 interface ProgressListItemProps {
-    progress: PathContextNode
+    progress: TechnologyNodeProps
     technologyPathTitle: string
 }
 

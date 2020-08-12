@@ -4,7 +4,7 @@ import { navigate } from 'gatsby'
 import React from 'react'
 
 import useVibrantBackground from '../../hooks/useVibrantBackground'
-import { PathContextNode } from '../../model/model'
+import { TopicNodeProps } from '../Catalog/CatalogTopic'
 import ActionCard from '../Shared/ActionCard'
 
 interface StyleProps {
@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 interface Props {
-    node: PathContextNode
+    node: TopicNodeProps
 }
 
 const Topic = ({ node }: Props) => {

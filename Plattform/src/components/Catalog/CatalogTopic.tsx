@@ -4,11 +4,19 @@ import React from 'react'
 import topicOrTechnologyImage from '../../../static/topicOrTechnology.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
-import { GatsbyProps } from '../../model/model'
+import { NodeContext, ParentNode, TopicFrontmatter } from '../../model/model'
 import Title from '../Shared/Title'
 import TechnologyCard from '../Technology/TechnologyCard'
+import { TechnologyNodeProps } from './CatalogTechnology'
 
-const CatalogTopic = (props: GatsbyProps) => {
+export interface TopicNodeProps {
+    id: string
+    frontmatter: TopicFrontmatter
+    parent: ParentNode
+    children: TechnologyNodeProps[]
+}
+
+const CatalogTopic = (props: NodeContext<TopicNodeProps>) => {
     useBackgroundEffect(
         props.pathContext.node.frontmatter.iconPath?.publicURL || topicOrTechnologyImage
     )

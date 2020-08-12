@@ -4,14 +4,21 @@ import React, { useState } from 'react'
 import lectureImage from '../../../static/lecture.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
-import { GatsbyProps } from '../../model/model'
+import { LectureFrontmatter, NodeContext, ParentNode } from '../../model/model'
 import { createPrefilledIssue } from '../../util/github-service'
 import LectureSpeedDial, { SpeedDialParentAction } from '../Lecture/LectureSpeedDial'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
 
-const CatalogLecture = (props: GatsbyProps) => {
+export interface LectureNodeProps {
+    id: string
+    frontmatter: LectureFrontmatter
+    parent: ParentNode
+    html: string
+}
+
+const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
     const [stackblitzOpen, setStackblitzOpen] = useState(false)
     const { user } = useFirebaseContext()
 
