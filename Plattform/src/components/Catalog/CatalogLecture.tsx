@@ -36,9 +36,10 @@ const CatalogLecture = (props: GatsbyProps) => {
             case 'openGithubIssue': {
                 window.open(
                     createPrefilledIssue({
-                        title,
+                        title: title + ', Version: ' + __VERSION__,
                         labels: ['help wanted'],
                         assignees: ['fabianhinz'],
+                        template: 'lecture_issue_template.md',
                     })
                 )
                 break
