@@ -35,7 +35,8 @@ const useStyles = makeStyles(theme => ({
         width: 160,
         height: 160,
         ...theme.typography.h4,
-        backgroundColor: (props: StyleProps) => props?.backgroundColor || undefined,
+        backgroundColor: (props: StyleProps) =>
+            props?.backgroundColor || theme.palette.background.paper,
         transition: theme.transitions.create('background-color', {
             easing: theme.transitions.easing.easeOut,
         }),
