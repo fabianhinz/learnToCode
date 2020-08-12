@@ -43,3 +43,9 @@ export interface GithubIssue {
     assignees?: string[]
     projects?: string[]
 }
+
+export interface CatalogBase {
+    topic: string
+    technology: string
+    lecture: string
+}

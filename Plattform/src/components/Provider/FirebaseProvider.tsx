@@ -1,18 +1,10 @@
 import React, { FC, useEffect, useState } from 'react'
 
-export type FirebaseInstance = typeof import('firebase/app')
-
-export interface User {
-    displayName: string
-    photoURL: string
-    providerId: string
-    uid: string
-    introduction?: boolean
-}
+import { FirebaseInstance, FirestoreUserDoc } from '../../model/firebase'
 
 interface FirebaseContext {
     firebaseInstance: FirebaseInstance | null
-    user: User | null
+    user: FirestoreUserDoc | null
     authReady: boolean
 }
 
@@ -49,7 +41,7 @@ const getInstance = async () => {
 
 const FirebaseProvider: FC = props => {
     const [firebaseInstance, setFirebaseInstance] = useState<FirebaseInstance | null>(null)
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<FirestoreUserDoc | null>(null)
     const [authReady, setAuthReady] = useState(false)
 
     useEffect(() => {

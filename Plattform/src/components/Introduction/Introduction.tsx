@@ -5,7 +5,8 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import { AutoRotatingCarousel, Slide } from 'material-auto-rotating-carousel'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { useFirebaseContext, User } from '../Provider/FirebaseProvider'
+import { FirestoreUserDoc } from '../../model/firebase'
+import { useFirebaseContext } from '../Provider/FirebaseProvider'
 
 const Introduction = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(() => {
@@ -40,7 +41,7 @@ const Introduction = () => {
             userDocRef.set(
                 {
                     introduction: false,
-                } as Pick<User, 'introduction'>,
+                } as Pick<FirestoreUserDoc, 'introduction'>,
                 { merge: true }
             )
     }

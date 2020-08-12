@@ -1,13 +1,9 @@
 import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
+import { FirestoreUserProgressDoc } from '../../model/firebase'
 import { useFirebaseContext } from './FirebaseProvider'
 
-export interface Progress {
-    topic: string
-    technology: string
-    lecture: string
-    status: 'inProgress' | 'done'
-    lastTimeWorkedOn: import('firebase/app').firestore.Timestamp
+export interface Progress extends FirestoreUserProgressDoc {
     documentId?: string
 }
 

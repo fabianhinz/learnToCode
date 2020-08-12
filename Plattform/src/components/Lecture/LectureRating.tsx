@@ -1,17 +1,29 @@
 import { Box, Hidden, Typography } from '@material-ui/core'
 import { People } from '@material-ui/icons'
 import { Rating } from '@material-ui/lab'
-import React, { useState } from 'react'
+import React from 'react'
+
+import { relativeDir2CatalogBase } from '../../util/mapper'
+import { useFirebaseContext } from '../Provider/FirebaseProvider'
+import { useRatingContext } from '../Provider/RatingProvider'
 
 interface Props {
     relativeDirectory: string
 }
-// tbd firestore save & function calc & model
-const LectureRating = ({ relativeDirectory }: Props) => {
-    const [rating, setRating] = useState<number | null>(null)
 
-    // eslint-disable-next-line prettier/prettier
-    const [topic, technology, lecture] = relativeDirectory.split('/')
+const LectureRating = ({ relativeDirectory }: Props) => {
+    const { user } = useFirebaseContext()
+    const { userRatings, onUserRatingChange, communityRatings } = useRatingContext()
+
+    const userRating = userRatings.get(relativeDirectory)
+    const communityRating = communityRatings.get(relativeDirectory)
+
+    const handleRatingChange = (_: React.ChangeEvent<{}>, newRating: number) => {
+        onUserRatingChange({
+            ...relativeDir2CatalogBase(relativeDirectory),
+            value: newRating,
+        })
+    }
 
     return (
         <>
@@ -19,23 +31,25 @@ const LectureRating = ({ relativeDirectory }: Props) => {
                 <Hidden xsDown>
                     <Box mr={1}>
                         <Rating
-                            value={rating}
-                            precision={0.5}
-                            onChange={(_, newRating) => setRating(newRating)}
+                            disabled={!user}
+                            value={userRating?.value ?? null}
+                            onChange={handleRatingChange}
                             name={relativeDirectory}
                         />
                     </Box>
                 </Hidden>
+
                 <Box width={55} display="flex" flexDirection="column">
                     <Box mb={0.5} display="flex" alignItems="center">
                         <Box mr={0.5} lineHeight={0}>
                             <People color="inherit" />
                         </Box>
-                        <Typography>4.8</Typography>
+                        <Typography>{communityRating?.average ?? '-'}</Typography>
                     </Box>
                 </Box>
             </Box>
-            <Typography variant="caption">20 insgesamt</Typography>
+
+            <Typography variant="caption">{communityRating?.votes ?? '0'} insgesamt</Typography>
         </>
     )
 }
