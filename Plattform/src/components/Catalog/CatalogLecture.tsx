@@ -1,44 +1,50 @@
-import { Box, Button, Grid, Hidden } from '@material-ui/core'
-import { CheckCircle, CloudDownload, Launch } from '@material-ui/icons'
-import React from 'react'
+import { Box, Grid } from '@material-ui/core'
+import React, { useState } from 'react'
 
 import lectureImage from '../../../static/lecture.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { GatsbyProps } from '../../model/model'
+import { createPrefilledIssue } from '../../util/github-service'
+import LectureSpeedDial, { SpeedDialParentAction } from '../Lecture/LectureSpeedDial'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
-import { useProgressContext } from '../Provider/ProgressProvider'
-import FixedFab from '../Shared/FixedFab'
-import IssueButton from '../Shared/IssueButton'
 import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
 
 const CatalogLecture = (props: GatsbyProps) => {
-    const { firebaseInstance, user } = useFirebaseContext()
-    const { onProgressChange, progressByRelDir } = useProgressContext()
+    const [stackblitzOpen, setStackblitzOpen] = useState(false)
+    const { user } = useFirebaseContext()
 
     useBackgroundEffect(props.pathContext.node.frontmatter.iconPath?.publicURL || lectureImage)
     useNavTextEffect(props.pathContext.node.frontmatter.description)
 
-    const node = props.pathContext.node
-    const prevProgress = progressByRelDir.get(node.parent.relativeDirectory)
-    const manual = <div dangerouslySetInnerHTML={{ __html: node.html }} />
+    const {
+        frontmatter: { title, lastUpdate },
+        html,
+    } = props.pathContext.node
 
-    const handleResolveLecture = () => {
-        const [topic, technology, lecture] = node.parent.relativeDirectory.split('/')
-
-        onProgressChange({
-            topic,
-            technology,
-            lecture,
-            status: !prevProgress
-                ? 'inProgress'
-                : prevProgress.status === 'inProgress'
-                ? 'done'
-                : 'inProgress',
-            lastTimeWorkedOn: firebaseInstance.firestore.Timestamp.fromDate(new Date()),
-            documentId: prevProgress?.documentId,
-        })
+    const handleSpeedDialAction = (action: SpeedDialParentAction) => {
+        switch (action) {
+            case 'downloadLecture': {
+                alert('todo')
+                break
+            }
+            case 'openStackblitz': {
+                setStackblitzOpen(true)
+                break
+            }
+            case 'openGithubIssue': {
+                window.open(
+                    createPrefilledIssue({
+                        title: title + ', Version: ' + __VERSION__,
+                        labels: ['help wanted'],
+                        assignees: ['fabianhinz'],
+                        template: 'lecture_issue_template.md',
+                    })
+                )
+                break
+            }
+        }
     }
 
     return (
@@ -47,57 +53,35 @@ const CatalogLecture = (props: GatsbyProps) => {
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item>
-                            <Title>{node.frontmatter.title}</Title>
+                            <Title>{title}</Title>
                         </Grid>
-                        {node.frontmatter.lastUpdate && (
+                        {lastUpdate && (
                             <Grid item>
-                                <Title>{node.frontmatter.lastUpdate}</Title>
+                                <Title>{lastUpdate}</Title>
                             </Grid>
                         )}
-                        <Grid item>
-                            <IssueButton
-                                title={node.frontmatter.title + ', Version: ' + __VERSION__}
-                                labels={['help wanted']}
-                                assignees={['fabianhinz']}
-                                template='lecture_issue_template.md'
-                            />
-                        </Grid>
                     </Grid>
                 </Grid>
 
                 <Grid item xs={12}>
-                    {manual}
+                    <div dangerouslySetInnerHTML={{ __html: html }} />
                 </Grid>
 
                 {user && (
                     <Grid item xs={12}>
-                        <Box display="flex" justifyContent="center">
-                            <Button onClick={handleResolveLecture} startIcon={<CheckCircle />}>
-                                lektion{' '}
-                                {!prevProgress || prevProgress.status === 'done'
-                                    ? 'starten'
-                                    : 'abschließen'}
-                            </Button>
-                        </Box>
+                        <Box display="flex" justifyContent="center"></Box>
                     </Grid>
                 )}
             </Grid>
 
-            <Hidden xsDown implementation="css">
-                <Stackblitz
-                    manual={manual}
-                    path={props.path}
-                    onRenderButton={() => (
-                        <FixedFab stackNumber={1} color="secondary" startIcon={<Launch />}>
-                            Ausprobieren
-                        </FixedFab>
-                    )}
-                />
-            </Hidden>
+            <LectureSpeedDial onActionClick={handleSpeedDialAction} />
 
-            <FixedFab color="primary" startIcon={<CloudDownload />}>
-                herunterladen
-            </FixedFab>
+            <Stackblitz
+                path={props.path}
+                node={props.pathContext.node}
+                open={stackblitzOpen}
+                onClose={() => setStackblitzOpen(false)}
+            />
         </>
     )
 }

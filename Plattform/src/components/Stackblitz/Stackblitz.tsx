@@ -1,10 +1,14 @@
-import { makeStyles } from '@material-ui/core'
+import { Button, Hidden, makeStyles } from '@material-ui/core'
+import { CheckCircle } from '@material-ui/icons'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import StackBlitzSDK from '@stackblitz/sdk'
 import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
 import { VM } from '@stackblitz/sdk/typings/VM'
 import React, { useEffect, useState } from 'react'
 
+import { PathContextNode } from '../../model/model'
+import { useFirebaseContext } from '../Provider/FirebaseProvider'
+import { useProgressContext } from '../Provider/ProgressProvider'
 import LectureSandbox from '../Shared/LectureSandbox'
 
 const options: EmbedOptions = {
@@ -23,7 +27,7 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-const StackblitzContainer = ({ path }: Pick<Props, 'path'>) => {
+const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boolean }) => {
     const [error, setError] = useState<string | null>(null)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [vm, setVm] = useState<VM | null>(null)
@@ -31,6 +35,8 @@ const StackblitzContainer = ({ path }: Pick<Props, 'path'>) => {
     const classes = useStyles()
 
     useEffect(() => {
+        if (!open) return
+
         let mounted = true
         StackBlitzSDK.embedGithubProject(path, 'fabianhinz/learnToCode/tree/master/dummy', options)
             .then(instance => {
@@ -45,7 +51,7 @@ const StackblitzContainer = ({ path }: Pick<Props, 'path'>) => {
         return () => {
             mounted = false
         }
-    }, [path])
+    }, [path, open])
 
     if (error)
         return (
@@ -63,19 +69,61 @@ const StackblitzContainer = ({ path }: Pick<Props, 'path'>) => {
 }
 
 interface Props {
-    manual: JSX.Element
     path: string
-    onRenderButton: () => JSX.Element
+    node: PathContextNode
+    open: boolean
+    onClose: () => void
 }
 
-const Stackblitz = ({ manual, path, onRenderButton }: Props) => {
+const Stackblitz = ({ path, node, open, onClose }: Props) => {
+    const { firebaseInstance, user } = useFirebaseContext()
+    const { onProgressChange, progressByRelDir } = useProgressContext()
+
+    const prevProgress = progressByRelDir.get(node.parent.relativeDirectory)
+
+    const handleResolveLecture = () => {
+        const [topic, technology, lecture] = node.parent.relativeDirectory.split('/')
+
+        onProgressChange({
+            topic,
+            technology,
+            lecture,
+            status: !prevProgress
+                ? 'inProgress'
+                : prevProgress.status === 'inProgress'
+                ? 'done'
+                : 'inProgress',
+            lastTimeWorkedOn: firebaseInstance.firestore.Timestamp.fromDate(new Date()),
+            documentId: prevProgress?.documentId,
+        })
+    }
+
     return (
-        <LectureSandbox
-            title="StackBlitz"
-            onRenderButton={onRenderButton}
-            onRenderManual={() => manual}>
-            {uiReady => uiReady && <StackblitzContainer path={path} />}
-        </LectureSandbox>
+        <Hidden xsDown implementation="css">
+            <LectureSandbox
+                open={open}
+                onClose={onClose}
+                title="StackBlitz"
+                onRenderManual={() => (
+                    <>
+                        {user && (
+                            <Button
+                                fullWidth
+                                onClick={handleResolveLecture}
+                                startIcon={<CheckCircle />}>
+                                lektion{' '}
+                                {!prevProgress || prevProgress.status === 'done'
+                                    ? 'starten'
+                                    : 'abschließen'}
+                            </Button>
+                        )}
+
+                        <div dangerouslySetInnerHTML={{ __html: node.html }} />
+                    </>
+                )}>
+                <StackblitzContainer open={open} path={path} />
+            </LectureSandbox>
+        </Hidden>
     )
 }
 

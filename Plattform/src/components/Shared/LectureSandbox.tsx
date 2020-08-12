@@ -8,7 +8,7 @@ import {
     Typography,
 } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect } from 'react'
 
 import { useNavTextContext } from '../Provider/NavTextProvider'
 
@@ -38,15 +38,13 @@ const useStyles = makeStyles(theme => ({
 
 interface Props {
     title: string
-    children: (sandboxState: { uiReady: boolean }) => React.ReactNode
-    onRenderButton: () => JSX.Element
+    children: React.ReactNode
     onRenderManual: () => JSX.Element
+    open: boolean
+    onClose: () => void
 }
 
-const LectureSandbox = ({ title, children, onRenderButton, onRenderManual }: Props) => {
-    const [open, setOpen] = useState(false)
-    const [transitionEnded, setTransitionEnded] = useState(false)
-
+const LectureSandbox = ({ title, children, onRenderManual, open, onClose }: Props) => {
     const classes = useStyles()
 
     const { onShowNavTextChange } = useNavTextContext()
@@ -56,36 +54,26 @@ const LectureSandbox = ({ title, children, onRenderButton, onRenderManual }: Pro
     }, [onShowNavTextChange, open])
 
     return (
-        <>
-            <Drawer
-                classes={{ paper: classes.paper }}
-                variant="persistent"
-                anchor="bottom"
-                onTransitionEnd={() => setTransitionEnded(true)}
-                open={open}>
-                <AppBar position="static" color="secondary">
-                    <Toolbar>
-                        <Grid container spacing={1} alignItems="center">
-                            <Grid item>
-                                <IconButton onClick={() => setOpen(false)} color="inherit">
-                                    <Close />
-                                </IconButton>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant="h5">{title}</Typography>
-                            </Grid>
+        <Drawer classes={{ paper: classes.paper }} variant="persistent" anchor="bottom" open={open}>
+            <AppBar position="static" color="secondary">
+                <Toolbar>
+                    <Grid container spacing={1} alignItems="center">
+                        <Grid item>
+                            <IconButton onClick={onClose} color="inherit">
+                                <Close />
+                            </IconButton>
                         </Grid>
-                    </Toolbar>
-                </AppBar>
-                <div className={classes.childrenContainer}>
-                    <div className={classes.childrenManual}>{onRenderManual()}</div>
-                    <div className={classes.childrenEditor}>
-                        {children({ uiReady: open && transitionEnded })}
-                    </div>
-                </div>
-            </Drawer>
-            <div onClick={() => setOpen(true)}>{onRenderButton()}</div>
-        </>
+                        <Grid item>
+                            <Typography variant="h5">{title}</Typography>
+                        </Grid>
+                    </Grid>
+                </Toolbar>
+            </AppBar>
+            <div className={classes.childrenContainer}>
+                <div className={classes.childrenManual}>{onRenderManual()}</div>
+                <div className={classes.childrenEditor}>{children}</div>
+            </div>
+        </Drawer>
     )
 }
 
