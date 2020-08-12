@@ -2,10 +2,11 @@ import { graphql, useStaticQuery } from 'gatsby'
 import { useEffect, useState } from 'react'
 import { useFlexSearch } from 'react-use-flexsearch'
 
-import { Frontmatter, PathContextNode } from '../model/model'
+import { TopicNodeProps } from '../components/Catalog/CatalogTopic'
+import { BaseFrontmatter } from '../model/model'
 
-export type Result = Pick<Frontmatter, 'title' | 'description' | 'pathTitle'> &
-    Pick<PathContextNode, 'id'> & { relativeDirectory: string }
+export type Result = Pick<BaseFrontmatter, 'title' | 'description' | 'pathTitle'> &
+    Pick<TopicNodeProps, 'id'> & { relativeDirectory: string }
 
 type Subheader = 'Thema' | 'Technologie' | 'Lektion'
 

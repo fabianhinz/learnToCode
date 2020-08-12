@@ -3,13 +3,18 @@ import React from 'react'
 
 import rootImage from '../../../static/root.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
-import { GatsbyProps } from '../../model/model'
+import { NodeContext } from '../../model/model'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import Title from '../Shared/Title'
 import Topic from '../Topic/Topic'
 import UserLectures from '../User/UserLectures'
+import { TopicNodeProps } from './CatalogTopic'
 
-const CatalogRoot = (props: GatsbyProps) => {
+export interface RootNodeProps {
+    children: TopicNodeProps[]
+}
+
+const CatalogRoot = (props: NodeContext<RootNodeProps>) => {
     const { user } = useFirebaseContext()
 
     useBackgroundEffect(rootImage)

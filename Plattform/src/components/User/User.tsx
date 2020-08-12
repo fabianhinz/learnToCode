@@ -5,14 +5,15 @@ import React from 'react'
 
 import accountImage from '../../../static/account.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
-import { GatsbyProps } from '../../model/model'
+import { NodeContext } from '../../model/model'
+import { RootNodeProps } from '../Catalog/CatalogRoot'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import { useProgressContext } from '../Provider/ProgressProvider'
 import FixedFab from '../Shared/FixedFab'
 import Title from '../Shared/Title'
 import UserProgress from './UserProgress'
 
-const User = (props: GatsbyProps) => {
+const User = (props: NodeContext<RootNodeProps>) => {
     const { user, firebaseInstance } = useFirebaseContext()
     const { topicsWithProgress } = useProgressContext()
 

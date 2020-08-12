@@ -4,7 +4,7 @@ import { Fade, makeStyles } from '@material-ui/core'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 
-import { GatsbyProps } from '../../model/model'
+import { NodeContext } from '../../model/model'
 import Header from '../Header'
 import Introduction from '../Introduction/Introduction'
 import Main from '../Main'
@@ -12,7 +12,7 @@ import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import Brand from '../Shared/Brand'
 import BuildVersion from '../Shared/BuildVersion'
 
-interface Props extends Pick<GatsbyProps, 'path'> {
+interface Props extends Pick<NodeContext<undefined>, 'path'> {
     children: React.ReactNode
 }
 

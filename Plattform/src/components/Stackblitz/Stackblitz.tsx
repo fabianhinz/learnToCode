@@ -6,7 +6,7 @@ import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
 import { VM } from '@stackblitz/sdk/typings/VM'
 import React, { useEffect, useState } from 'react'
 
-import { PathContextNode } from '../../model/model'
+import { LectureNodeProps } from '../Catalog/CatalogLecture'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import { useProgressContext } from '../Provider/ProgressProvider'
 import LectureSandbox from '../Shared/LectureSandbox'
@@ -70,7 +70,7 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
 
 interface Props {
     path: string
-    node: PathContextNode
+    node: LectureNodeProps
     open: boolean
     onClose: () => void
 }
