@@ -8,6 +8,7 @@ import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import Title from '../Shared/Title'
 import Topic from '../Topic/Topic'
 import UserLectures from '../User/UserLectures'
+import CatalogErrorBoundary from './CatalogErrorBoundary'
 import { TopicNodeProps } from './CatalogTopic'
 
 export interface RootNodeProps {
@@ -33,7 +34,9 @@ const CatalogRoot = (props: NodeContext<RootNodeProps>) => {
 
             {props.pathContext.node.children.map(node => (
                 <Grid item xs={12} md={6} xl={4} key={node.id}>
-                    <Topic node={node} />
+                    <CatalogErrorBoundary componentName="Topic">
+                        <Topic node={node} />
+                    </CatalogErrorBoundary>
                 </Grid>
             ))}
         </Grid>

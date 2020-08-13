@@ -15,7 +15,6 @@ const useStyles = makeStyles(theme => ({
     card: {
         display: 'flex',
         flexDirection: 'row',
-
         [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
         },

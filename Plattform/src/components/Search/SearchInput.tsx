@@ -8,6 +8,7 @@ type StyleProps = { focused: boolean }
 const useStyles = makeStyles(theme => ({
     searchRoot: {
         ...theme.typography.h6,
+        lineHeight: 'normal',
         color: ({ focused }: StyleProps) =>
             focused || theme.palette.type === 'light' ? '#000' : '#fff',
     },

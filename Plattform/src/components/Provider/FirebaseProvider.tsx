@@ -62,7 +62,6 @@ const FirebaseProvider: FC = props => {
             else {
                 setUser(null)
             }
-            // wait for the next tick ;)
             setAuthReady(true)
         })
 
