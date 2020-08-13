@@ -10,6 +10,7 @@ import LectureSpeedDial, { SpeedDialParentAction } from '../Lecture/LectureSpeed
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
+import CatalogErrorBoundary from './CatalogErrorBoundary'
 
 export interface LectureNodeProps {
     id: string
@@ -55,7 +56,7 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
     }
 
     return (
-        <>
+        <CatalogErrorBoundary componentName="CatalogLecture">
             <Grid container spacing={4}>
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
@@ -89,7 +90,7 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
                 open={stackblitzOpen}
                 onClose={() => setStackblitzOpen(false)}
             />
-        </>
+        </CatalogErrorBoundary>
     )
 }
 

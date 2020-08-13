@@ -1,4 +1,4 @@
-import { Fab, FabProps, makeStyles, Slide, useMediaQuery, useTheme } from '@material-ui/core'
+import { Fab, FabProps, makeStyles, useMediaQuery, useTheme, Zoom } from '@material-ui/core'
 import React, { ReactNode } from 'react'
 
 type StyleProps = Pick<Props, 'stackNumber'> & { smDown: boolean }
@@ -14,9 +14,6 @@ const useStyles = makeStyles(theme => ({
         marginRight: (props: StyleProps) => (props.smDown ? 0 : theme.spacing(1)),
         display: 'flex',
     },
-    fabLabel: {
-        fontWeight: 600,
-    },
 }))
 
 interface Props extends FabProps {
@@ -30,15 +27,12 @@ const FixedFab = ({ stackNumber, children, startIcon, ...fabProps }: Props) => {
     const classes = useStyles({ stackNumber, smDown })
 
     return (
-        <Slide direction="left" in>
-            <Fab
-                variant={smDown ? 'round' : 'extended'}
-                classes={{ root: classes.fixedFab, label: classes.fabLabel }}
-                {...fabProps}>
+        <Zoom in>
+            <Fab variant={smDown ? 'round' : 'extended'} className={classes.fixedFab} {...fabProps}>
                 {startIcon && <span className={classes.startIcon}>{startIcon}</span>}
                 {!smDown && children}
             </Fab>
-        </Slide>
+        </Zoom>
     )
 }
 

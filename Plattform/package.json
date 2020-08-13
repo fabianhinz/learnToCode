@@ -40,10 +40,12 @@
         "node-vibrant": "^3.1.5",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "react-error-boundary": "^2.3.1",
         "react-firebaseui": "^4.1.0",
         "react-helmet": "^6.1.0",
         "react-swipeable-views": "^0.13.9",
-        "react-use-flexsearch": "^0.1.1"
+        "react-use-flexsearch": "^0.1.1",
+        "stacktrace-js": "^2.0.2"
     },
     "devDependencies": {
         "@hot-loader/react-dom": "^16.13.0",

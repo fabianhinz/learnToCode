@@ -7,6 +7,7 @@ import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { NodeContext, ParentNode, TopicFrontmatter } from '../../model/model'
 import Title from '../Shared/Title'
 import TechnologyCard from '../Technology/TechnologyCard'
+import CatalogErrorBoundary from './CatalogErrorBoundary'
 import { TechnologyNodeProps } from './CatalogTechnology'
 
 export interface TopicNodeProps {
@@ -29,10 +30,12 @@ const CatalogTopic = (props: NodeContext<TopicNodeProps>) => {
             </Grid>
             {props.pathContext.node.children.map(node => (
                 <Grid item xs={12} lg={6} key={node.id}>
-                    <TechnologyCard
-                        node={node}
-                        topicPathTitle={props.pathContext.node.frontmatter.pathTitle}
-                    />
+                    <CatalogErrorBoundary componentName="TechnologyCard">
+                        <TechnologyCard
+                            node={node}
+                            topicPathTitle={props.pathContext.node.frontmatter.pathTitle}
+                        />
+                    </CatalogErrorBoundary>
                 </Grid>
             ))}
         </Grid>

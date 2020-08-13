@@ -38,6 +38,11 @@ const theme = responsiveFontSizes(
                     borderRadius: 'unset',
                 },
             },
+            MuiFab: {
+                label: {
+                    fontWeight: 600,
+                },
+            },
         },
     })
 )

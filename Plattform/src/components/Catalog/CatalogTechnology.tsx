@@ -8,6 +8,7 @@ import { NodeContext, ParentNode, TechnologyFrontmatter } from '../../model/mode
 import LectureListItem from '../Lecture/LectureListItem'
 import ActionCard from '../Shared/ActionCard'
 import Title from '../Shared/Title'
+import CatalogErrorBoundary from './CatalogErrorBoundary'
 import { LectureNodeProps } from './CatalogLecture'
 
 export interface TechnologyNodeProps {
@@ -38,13 +39,14 @@ const CatalogTechnology = (props: NodeContext<TechnologyNodeProps>) => {
                     <ActionCard disableActionArea>
                         <List disablePadding>
                             {props.pathContext.node.children.map((node, index) => (
-                                <LectureListItem
-                                    key={node.id}
-                                    node={node}
-                                    withDivider={
-                                        index !== props.pathContext.node.children.length - 1
-                                    }
-                                />
+                                <CatalogErrorBoundary key={node.id} componentName="LectureListItem">
+                                    <LectureListItem
+                                        node={node}
+                                        withDivider={
+                                            index !== props.pathContext.node.children.length - 1
+                                        }
+                                    />
+                                </CatalogErrorBoundary>
                             ))}
                         </List>
                     </ActionCard>
