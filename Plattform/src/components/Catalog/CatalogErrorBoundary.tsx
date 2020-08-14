@@ -7,20 +7,30 @@ import StackTrace from 'stacktrace-js'
 import { createPrefilledIssue } from '../../util/github-service'
 import ActionCard from '../Shared/ActionCard'
 
-interface Props {
-    children: React.ReactNode
-    componentName: string
+type CatalogError = { error: Error; trace: StackTrace.StackFrame[] }
+
+export interface ErrorFallbackPRops {
+    error: CatalogError | null
+    handleSubmit: () => void
 }
 
-const CatalogErrorBoundary = ({ children, componentName }: Props) => {
-    const [error, setError] = useState<{ error: Error; trace: StackTrace.StackFrame[] } | null>(
-        null
-    )
+interface Props {
+    children: React.ReactNode
+    componentName?: string
+    onRenderFallback?: (props: ErrorFallbackPRops) => React.ReactElement
+}
 
-    const handleSubmitClick = () => {
+const CatalogErrorBoundary = ({ onRenderFallback, children, componentName }: Props) => {
+    const [error, setError] = useState<CatalogError | null>(null)
+
+    const handleSubmit = () => {
+        if (!error) return
+
         window.open(
             createPrefilledIssue({
-                title: `Problem: Fehler in der Komponente ${componentName}, Version: ${__VERSION__}`,
+                title: `Problem: Fehler in der ${
+                    componentName ? 'Komponente ' + componentName : 'Anwendung'
+                }, Version: ${__VERSION__}`,
                 body: `error: ${error.error} \n\ntrace: ${error.trace}`,
                 template: 'general_bug_template.md',
                 labels: ['bug'],
@@ -35,13 +45,7 @@ const CatalogErrorBoundary = ({ children, componentName }: Props) => {
 
     const fallback = (
         <ActionCard disableActionArea>
-            <Alert
-                color="error"
-                action={
-                    <Button disabled={!error} onClick={handleSubmitClick}>
-                        melden
-                    </Button>
-                }>
+            <Alert color="error" action={<Button onClick={handleSubmit}>melden</Button>}>
                 <AlertTitle>Fehler</AlertTitle>
                 Teile des Katalogs funktionieren nicht ordnungsgemäß
             </Alert>
@@ -49,7 +53,9 @@ const CatalogErrorBoundary = ({ children, componentName }: Props) => {
     )
 
     return (
-        <ErrorBoundary fallback={fallback} onError={handleError}>
+        <ErrorBoundary
+            fallback={onRenderFallback ? onRenderFallback({ error, handleSubmit }) : fallback}
+            onError={handleError}>
             {children}
         </ErrorBoundary>
     )
