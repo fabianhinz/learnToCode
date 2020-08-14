@@ -18,12 +18,8 @@ export interface IconPath {
     publicURL: string
 }
 
-export interface TopicFrontmatter extends BaseFrontmatter {
-    design: string
-}
-
 export interface TechnologyFrontmatter extends BaseFrontmatter {
-    design: string
+    priorKnowledge?: string[]
 }
 
 export interface LectureFrontmatter extends BaseFrontmatter {

@@ -10,7 +10,6 @@ import Introduction from '../Introduction/Introduction'
 import Main from '../Main'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import Brand from '../Shared/Brand'
-import BuildVersion from '../Shared/BuildVersion'
 
 interface Props extends Pick<NodeContext<undefined>, 'path'> {
     children: React.ReactNode
@@ -55,7 +54,6 @@ const PageLayout = ({ children, path }: Props) => {
                     <Header />
                     <Main>{children}</Main>
                     <Introduction />
-                    <BuildVersion />
                 </div>
             </Fade>
         </>

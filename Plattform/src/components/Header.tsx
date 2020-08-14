@@ -10,6 +10,7 @@ import {
     ListItemText,
     makeStyles,
     Toolbar,
+    Typography,
 } from '@material-ui/core'
 import { Info, Menu as MenuIcon, QuestionAnswer } from '@material-ui/icons'
 import { navigate } from 'gatsby'
@@ -26,6 +27,12 @@ const useStyles = makeStyles(theme => ({
     },
     menuIcon: {
         marginRight: theme.spacing(1),
+    },
+    paper: {
+        flexDirection: 'column',
+    },
+    list: {
+        flexGrow: 1,
     },
 }))
 
@@ -45,9 +52,9 @@ const HeaderDrawer = () => {
                 <MenuIcon />
             </IconButton>
 
-            <Drawer open={open} onClose={() => setOpen(false)}>
+            <Drawer classes={{ paper: classes.paper }} open={open} onClose={() => setOpen(false)}>
                 <Toolbar />
-                <List>
+                <List className={classes.list}>
                     <ListItem button onClick={go2Path('/faq')}>
                         <ListItemAvatar>
                             <QuestionAnswer />
@@ -61,6 +68,9 @@ const HeaderDrawer = () => {
                         <ListItemText primary="About" secondary="Informationen über das Projekt" />
                     </ListItem>
                 </List>
+                <Typography align="center" gutterBottom color="textSecondary" variant="caption">
+                    Version: {__VERSION__}
+                </Typography>
             </Drawer>
         </>
     )

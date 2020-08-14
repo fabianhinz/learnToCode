@@ -1,4 +1,5 @@
-import { Grid, List } from '@material-ui/core'
+import { Chip, Grid, List } from '@material-ui/core'
+import { Check } from '@material-ui/icons'
 import React from 'react'
 
 import topicOrTechnologyImage from '../../../static/topicOrTechnology.png'
@@ -19,14 +20,35 @@ export interface TechnologyNodeProps {
 }
 
 const CatalogTechnology = (props: NodeContext<TechnologyNodeProps>) => {
-    useBackgroundEffect(
-        props.pathContext.node.frontmatter.iconPath?.publicURL || topicOrTechnologyImage
-    )
-    useNavTextEffect(props.pathContext.node.frontmatter.description)
+    const {
+        pathContext: {
+            node: { frontmatter, children },
+        },
+    } = props
+
+    useBackgroundEffect(frontmatter.iconPath?.publicURL || topicOrTechnologyImage)
+    useNavTextEffect(frontmatter.description)
 
     return (
         <>
             <Grid container spacing={4}>
+                {frontmatter.priorKnowledge && (
+                    <>
+                        <Grid item xs={12}>
+                            <Title>Empfohlene Kenntnisse</Title>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid container spacing={1}>
+                                {frontmatter.priorKnowledge.map((prior, index) => (
+                                    <Grid item key={index}>
+                                        <Chip label={prior} icon={<Check />} />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Grid>
+                    </>
+                )}
+
                 <Grid item xs={12}>
                     <Grid container spacing={2} justify="space-between" alignItems="center">
                         <Grid item>
@@ -38,13 +60,11 @@ const CatalogTechnology = (props: NodeContext<TechnologyNodeProps>) => {
                 <Grid item xs={12}>
                     <ActionCard disableActionArea>
                         <List disablePadding>
-                            {props.pathContext.node.children.map((node, index) => (
+                            {children.map((node, index) => (
                                 <CatalogErrorBoundary key={node.id} componentName="LectureListItem">
                                     <LectureListItem
                                         node={node}
-                                        withDivider={
-                                            index !== props.pathContext.node.children.length - 1
-                                        }
+                                        withDivider={index !== children.length - 1}
                                     />
                                 </CatalogErrorBoundary>
                             ))}
