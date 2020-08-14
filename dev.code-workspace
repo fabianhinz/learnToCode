@@ -7,14 +7,14 @@
 			"path": "Katalog"
 		},
 		{
-			"path": ".github\\workflows"
+			"path": "Plattform/functions"
 		},
 		{
-			"path": ".github\\ISSUE_TEMPLATE"
+			"path": ".github/ISSUE_TEMPLATE"
 		},
 		{
-			"path": "Plattform\\functions"
-		}
+			"path": ".github/workflows"
+		},
 	],
     "settings": {}
 }

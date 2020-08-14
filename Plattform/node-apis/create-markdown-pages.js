@@ -18,7 +18,7 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
                         pathTitle
                         title
                         description
-                        design
+                        priorKnowledge
                         iconPath {
                             publicURL
                         }
