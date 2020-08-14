@@ -46,7 +46,10 @@ const PageLayout = ({ children, path }: Props) => {
                         <title>
                             {path.length === 1
                                 ? 'learn2Code'
-                                : `learn2Code | ${path.split('/').slice(-1)}`}
+                                : `learn2Code | ${path
+                                      .split('/')
+                                      .reverse()
+                                      .find(path => path.length > 0)}`}
                         </title>
                     </Helmet>
                     <Header />
