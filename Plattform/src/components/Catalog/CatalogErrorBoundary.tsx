@@ -22,7 +22,7 @@ const CatalogErrorBoundary = ({ children, componentName }: Props) => {
             createPrefilledIssue({
                 title: `Problem: Fehler in der Komponente ${componentName}, Version: ${__VERSION__}`,
                 body: `error: ${error.error} \n\ntrace: ${error.trace}`,
-                template: 'general_issue_template.md',
+                template: 'general_bug_template.md',
                 labels: ['bug'],
             })
         )

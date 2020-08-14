@@ -10,11 +10,11 @@ labels: 'lecture improvement'
 
 ## Was wäre Bestandteil der neuen Lektion?
 
-1.
 
 ## An welches Wissensniveau richtet sich die Idee?
 
 
-## Was könnten studierende dadurch lernen?
+## Was könnten Studierende dadurch lernen?
+
 
 ## Wie kann die Idee umgesetzt werden?

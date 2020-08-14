@@ -37,8 +37,13 @@ export interface ParentNode {
 export interface GithubIssue {
     body?: string
     title?: string
+    // todo typisieren
     labels?: string[]
-    template?: string
+    template?:
+        | 'general_bug_template.md'
+        | 'improvement_template.md'
+        | 'lecture_help_template.md'
+        | 'lecture_idea_template.md'
     milestone?: string
     assignees?: string[]
     projects?: string[]

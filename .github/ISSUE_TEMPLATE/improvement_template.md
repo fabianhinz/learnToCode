@@ -10,7 +10,6 @@ labels: 'improvement'
 
 ## Welcher Bereich?
 
-1.
 
 ## Welche Verbesserung bringt die Änderung?
 

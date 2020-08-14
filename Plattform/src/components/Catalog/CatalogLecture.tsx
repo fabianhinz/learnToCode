@@ -44,10 +44,10 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
             case 'openGithubIssue': {
                 window.open(
                     createPrefilledIssue({
-                        title: title + ', Version: ' + __VERSION__,
+                        title: window.location.pathname + ', Version: ' + __VERSION__,
                         labels: ['help wanted'],
                         assignees: ['fabianhinz'],
-                        template: 'lecture_issue_template.md',
+                        template: 'lecture_help_template.md',
                     })
                 )
                 break

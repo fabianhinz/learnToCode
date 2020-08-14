@@ -5,6 +5,15 @@
 		},
 		{
 			"path": "Katalog"
+		},
+		{
+			"path": ".github\\workflows"
+		},
+		{
+			"path": ".github\\ISSUE_TEMPLATE"
+		},
+		{
+			"path": "Plattform\\functions"
 		}
 	],
     "settings": {}
