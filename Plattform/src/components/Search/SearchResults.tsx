@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
         top: 'calc(100% + 4px)',
         right: 0,
         minWidth: '100%',
-        zIndex: theme.zIndex.appBar + 1,
     },
     listSubheader: {
         backgroundColor: blueGrey[50],
