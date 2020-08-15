@@ -1,11 +1,12 @@
 :root {
-    --deckgo-highlight-code-font-size: 16px
+    --deckgo-highlight-code-font-size: 16px;
 }
 
 iframe {
-    border: none
+    border: none;
 }
 
 body {
-    margin: 0
+    margin: 0;
+    -webkit-text-size-adjust: 100%;
 }

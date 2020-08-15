@@ -15,9 +15,25 @@ const getUiConfig = (firebase: FirebaseInstance): firebaseui.auth.Config => ({
     signInOptions: [firebase.auth.GithubAuthProvider.PROVIDER_ID],
 })
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
     userContainer: {
         position: 'relative',
+    },
+    styledFirebaseAuth: {
+        '& .firebaseui-card-content': {
+            padding: 0,
+        },
+        '& .firebaseui-idp-text': {
+            whiteSpace: 'nowrap',
+        },
+        [theme.breakpoints.only('xs')]: {
+            '& .firebaseui-idp-text.firebaseui-idp-text-long': {
+                display: 'none',
+            },
+            '& .mdl-button': {
+                minWidth: 'unset',
+            },
+        },
     },
 }))
 
@@ -29,6 +45,7 @@ const UserAvatar = () => {
     if (!user)
         return (
             <StyledFirebaseAuth
+                className={classes.styledFirebaseAuth}
                 uiConfig={getUiConfig(firebaseInstance)}
                 firebaseAuth={firebaseInstance.auth()}
             />

@@ -52,7 +52,12 @@ const HeaderDrawer = () => {
                 <MenuIcon />
             </IconButton>
 
-            <Drawer classes={{ paper: classes.paper }} open={open} onClose={() => setOpen(false)}>
+            <Drawer
+                // let the search be focusable ;)
+                disableEnforceFocus
+                classes={{ paper: classes.paper }}
+                open={open}
+                onClose={() => setOpen(false)}>
                 <Toolbar />
                 <List className={classes.list}>
                     <ListItem button onClick={go2Path('/faq')}>
