@@ -3,6 +3,7 @@ pathTitle: "State"
 title: "React State"
 description: "Laborum sint occaecat consequat officia ad anim ad ea ipsum cillum tempor."
 lastUpdate: "2019-05-29"
+logicalOrder: 3
 ---
 
 ## State
