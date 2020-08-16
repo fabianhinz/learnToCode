@@ -16,5 +16,13 @@
 			"path": ".github/workflows"
 		},
 	],
-    "settings": {}
+	"settings": {
+        // turning this on enables gatsby config debugging
+		"debug.node.autoAttach": "off",
+		"editor.tabSize": 4,
+		"editor.detectIndentation": false,
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		}
+	}
 }

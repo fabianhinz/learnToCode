@@ -23,6 +23,7 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
                             publicURL
                         }
                         lastUpdate
+                        logicalOrder
                     }
                     parent {
                         ... on File {
@@ -108,9 +109,11 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
     technologyNodes.forEach(technologyNode => {
         const relPath =
             technologyNode.parent.relativeDirectory + '/' + technologyNode.frontmatter.pathTitle
-        technologyNode.children = lectureNodes.filter(lectureNode =>
-            lectureNode.parent.relativeDirectory.includes(relPath)
-        )
+
+        technologyNode.children = lectureNodes
+            .filter(lectureNode => lectureNode.parent.relativeDirectory.includes(relPath))
+            .sort((a, b) => a.frontmatter.logicalOrder - b.frontmatter.logicalOrder)
+
         createSpecificPage(relPath, TechnologyComponent, technologyNode)
     })
 

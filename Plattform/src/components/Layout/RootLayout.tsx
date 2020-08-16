@@ -19,7 +19,7 @@ const RootFallback = ({ error, handleSubmit }: ErrorFallbackPRops) => (
             <Card elevation={8}>
                 <Alert color="error">
                     <AlertTitle>{error?.error.message}</AlertTitle>
-                    Die Anwendung ist abgestürzt. Bitte gibt uns bescheid sollte der Fehler erneut
+                    Die Anwendung ist abgestürzt. Bitte gib uns bescheid sollte der Fehler erneut
                     auftreten
                 </Alert>
                 <CardActions>

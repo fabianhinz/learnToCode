@@ -24,6 +24,7 @@ export interface TechnologyFrontmatter extends BaseFrontmatter {
 
 export interface LectureFrontmatter extends BaseFrontmatter {
     lastUpdate?: string
+    logicalOrder: number
 }
 
 export interface ParentNode {

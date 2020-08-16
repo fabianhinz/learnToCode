@@ -26,12 +26,12 @@ const useStyles = makeStyles(() => ({
     listItemSecondaryAction: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end' },
 }))
 
-interface LectureListItemProps {
+interface Props {
     node: LectureNodeProps
     withDivider: boolean
 }
 
-const LectureListItem = ({ node, withDivider }: LectureListItemProps) => {
+const LectureListItem = ({ node, withDivider }: Props) => {
     const { progressByRelDir } = useProgressContext()
     const classes = useStyles()
 
