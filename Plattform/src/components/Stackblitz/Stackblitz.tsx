@@ -29,10 +29,14 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
+const BASE_URI = 'fabianhinz/learnToCode/tree/feature/saveProjects/Projekte/'
+
 const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boolean }) => {
     const [error, setError] = useState<string | null>(null)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [vm, setVm] = useState<VM | null>(null)
+
+    const { user, firebaseInstance } = useFirebaseContext()
 
     const classes = useStyles()
 
@@ -40,20 +44,45 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
         if (!open) return
 
         let mounted = true
-        StackBlitzSDK.embedGithubProject(path, 'fabianhinz/learnToCode/tree/master/dummy', options)
-            .then(instance => {
-                if (!mounted) return
-                setVm(instance)
-            })
-            .catch(reason => {
-                if (!mounted) return
-                setError(reason)
+
+        firebaseInstance
+            .firestore()
+            .collection(`users/${user.uid}/projects`)
+            .doc(path.replace(/\//g, ''))
+            .get()
+            .then(snapshot => {
+                // todo dependencies werden nicht geladen, warum?
+                // todo testen, ab wann neue Eingaben der VM bekannt sind, vor oder nach dem speichern?
+                if (snapshot.exists) {
+                    const data = snapshot.data()
+                    console.info(data)
+                    StackBlitzSDK.embedProject(
+                        path,
+                        {
+                            files: data,
+                            description: '',
+                            title: '',
+                            template: 'create-react-app',
+                        },
+                        options
+                    )
+                } else {
+                    StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
+                        .then(instance => {
+                            if (!mounted) return
+                            setVm(instance)
+                        })
+                        .catch(reason => {
+                            if (!mounted) return
+                            setError(reason)
+                        })
+                }
             })
 
         return () => {
             mounted = false
         }
-    }, [path, open])
+    }, [path, open, firebaseInstance, user.uid])
 
     if (error)
         return (
@@ -67,6 +96,13 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
         const snapshot = await vm.getFsSnapshot()
         console.info(snapshot)
         console.info('Bytes: ' + new Blob([JSON.stringify(snapshot)]).size)
+        console.info(path)
+        console.info(path.replace(/\//g, ''))
+        firebaseInstance
+            .firestore()
+            .collection(`users/${user.uid}/projects`)
+            .doc(path.replace(/\//g, ''))
+            .set(snapshot)
     }
 
     return (

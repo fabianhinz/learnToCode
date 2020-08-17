@@ -18,5 +18,9 @@ service cloud.firestore {
         match /users/{authUid}/rating/{document=**} {
             allow read, write: if request.auth.uid == authUid;
         }
+
+        match /users/{authUid}/projects/{document=**} {
+            allow read, write: if request.auth.uid == authUid;
+        }
     }
 }
