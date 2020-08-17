@@ -1,5 +1,5 @@
 import { Button, Hidden, makeStyles } from '@material-ui/core'
-import { CheckCircle } from '@material-ui/icons'
+import { CheckCircle, Save } from '@material-ui/icons'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import StackBlitzSDK from '@stackblitz/sdk'
 import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
@@ -10,6 +10,7 @@ import { relativeDir2CatalogBase } from '../../util/mapper'
 import { LectureNodeProps } from '../Catalog/CatalogLecture'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import { useProgressContext } from '../Provider/ProgressProvider'
+import FixedFab from '../Shared/FixedFab'
 import LectureSandbox from '../Shared/LectureSandbox'
 
 const options: EmbedOptions = {
@@ -62,9 +63,18 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
             </Alert>
         )
 
+    const printVMSnapshot = async () => {
+        const snapshot = await vm.getFsSnapshot()
+        console.info(snapshot)
+        console.info('Bytes: ' + new Blob([JSON.stringify(snapshot)]).size)
+    }
+
     return (
         <div className={classes.stackblitzContainer} key={path}>
             <div id={path} />
+            <FixedFab color="primary" startIcon={<Save />} onClick={printVMSnapshot}>
+                speichern
+            </FixedFab>
         </div>
     )
 }
