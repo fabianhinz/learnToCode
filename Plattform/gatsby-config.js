@@ -15,6 +15,13 @@ module.exports = {
             },
         },
         {
+            resolve: `gatsby-source-filesystem`,
+            options: {
+                name: `doc-pages`,
+                path: `${__dirname}/doc`,
+            },
+        },
+        {
             resolve: `gatsby-plugin-layout`,
             options: {
                 component: require.resolve(`${__dirname}/src/components/Layout/PageLayout.tsx`),

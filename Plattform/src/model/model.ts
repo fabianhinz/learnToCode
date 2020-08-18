@@ -51,3 +51,15 @@ export interface CatalogBase {
     technology: string
     lecture: string
 }
+
+export interface DocQueryNode<F> {
+    id: string
+    html: string
+    frontmatter: F
+}
+
+export interface DocQueryResult<F> {
+    allMarkdownRemark: {
+        nodes: DocQueryNode<F>[]
+    }
+}
