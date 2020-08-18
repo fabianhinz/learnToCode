@@ -4,29 +4,61 @@
 
 const { attachFields } = require(`gatsby-plugin-node-fields`)
 
-const isPageNode = node =>
-    Boolean(node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)/))
+const isTopicNode = node =>
+    node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)\/(\w+-?)+\.md/g)
+
+const isTechnologyNode = node =>
+    node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)(\/(\w+-?)+){1}\/(\w+-?)+\.md/g)
+
+const isLectureNode = node =>
+    node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)(\/(\w+-?)+){3}\/(\w+-?)+\.md/g)
+
+const isValidIconPath = value => !value || value.publicURL
 
 const isNonEmptyString = value => Boolean(value)
 
+const isValidOrder = value => Number.isInteger(value)
+
+const baseFields = [
+    {
+        name: 'pathTitle',
+        getter: node => node.frontmatter.pathTitle,
+        validator: isNonEmptyString,
+    },
+    {
+        name: 'title',
+        getter: node => node.frontmatter.title,
+        validator: isNonEmptyString,
+    },
+    {
+        name: 'description',
+        getter: node => node.frontmatter.description,
+        validator: isNonEmptyString,
+    },
+    {
+        name: 'iconPath',
+        getter: node => node.frontmatter.iconPath,
+        validator: isValidIconPath,
+    },
+]
+
 const descriptors = [
     {
-        predicate: isPageNode,
+        predicate: isTopicNode,
+        fields: baseFields,
+    },
+    {
+        predicate: isTechnologyNode,
+        fields: baseFields,
+    },
+    {
+        predicate: isLectureNode,
         fields: [
+            ...baseFields,
             {
-                name: 'pathTitle',
-                getter: node => node.frontmatter.pathTitle,
-                validator: isNonEmptyString,
-            },
-            {
-                name: 'title',
-                getter: node => node.frontmatter.title,
-                validator: isNonEmptyString,
-            },
-            {
-                name: 'description',
-                getter: node => node.frontmatter.description,
-                validator: isNonEmptyString,
+                name: 'logicalOrder',
+                getter: node => node.frontmatter.logicalOrder,
+                validator: isValidOrder,
             },
         ],
     },
