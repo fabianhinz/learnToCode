@@ -45,7 +45,7 @@ const useSearchQuery = (query: string) => {
     }, [query])
 
     const { localSearchKatalog } = useStaticQuery(graphql`
-        query MyQuery {
+        query SearchQuery {
             localSearchKatalog {
                 index
                 store
