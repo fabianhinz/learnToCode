@@ -4,7 +4,8 @@
 
 const { attachFields } = require(`gatsby-plugin-node-fields`)
 
-const isPageNode = node => Boolean(node.frontmatter)
+const isPageNode = node =>
+    Boolean(node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)/))
 
 const isNonEmptyString = value => Boolean(value)
 
