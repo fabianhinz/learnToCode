@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-const BASE_URI = 'fabianhinz/learnToCode/tree/feature/saveProjects/Projekte/'
+const BASE_URI = 'fabianhinz/learnToCode/tree/master/Projekte/'
 
 const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boolean }) => {
     const [error, setError] = useState<string | null>(null)
@@ -110,13 +110,13 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
         )
 
     const printVMSnapshot = async () => {
-        const snapshot = await vm.getFsSnapshot()
+        const files = await vm.getFsSnapshot()
         const dependencies = await vm.getDependencies()
         firebaseInstance
             .firestore()
             .collection(`users/${user.uid}/projects`)
             .doc(path.replace(/\//g, ''))
-            .set({ files: snapshot, dependencies: dependencies })
+            .set({ files, dependencies })
     }
 
     return (
