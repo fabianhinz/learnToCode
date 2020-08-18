@@ -44,45 +44,62 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
         if (!open) return
 
         let mounted = true
-
-        firebaseInstance
-            .firestore()
-            .collection(`users/${user.uid}/projects`)
-            .doc(path.replace(/\//g, ''))
-            .get()
-            .then(snapshot => {
-                // todo dependencies werden nicht geladen, warum?
-                // todo testen, ab wann neue Eingaben der VM bekannt sind, vor oder nach dem speichern?
-                if (snapshot.exists) {
-                    const data = snapshot.data()
-                    console.info(data)
-                    StackBlitzSDK.embedProject(
-                        path,
-                        {
-                            files: data,
-                            description: '',
-                            title: '',
-                            template: 'create-react-app',
-                        },
-                        options
-                    )
-                } else {
-                    StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
-                        .then(instance => {
-                            if (!mounted) return
-                            setVm(instance)
-                        })
-                        .catch(reason => {
-                            if (!mounted) return
-                            setError(reason)
-                        })
-                }
-            })
+        if (user) {
+            firebaseInstance
+                .firestore()
+                .collection(`users/${user.uid}/projects`)
+                .doc(path.replace(/\//g, ''))
+                .get()
+                .then(snapshot => {
+                    if (snapshot.exists) {
+                        const data = snapshot.data()
+                        StackBlitzSDK.embedProject(
+                            path,
+                            {
+                                files: data.files,
+                                description: '',
+                                title: '',
+                                template: 'create-react-app',
+                                dependencies: data.dependencies,
+                            },
+                            options
+                        )
+                            .then(instance => {
+                                if (!mounted) return
+                                setVm(instance)
+                            })
+                            .catch(reason => {
+                                if (!mounted) return
+                                setError(reason)
+                            })
+                    } else {
+                        StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
+                            .then(instance => {
+                                if (!mounted) return
+                                setVm(instance)
+                            })
+                            .catch(reason => {
+                                if (!mounted) return
+                                setError(reason)
+                            })
+                    }
+                })
+        } else {
+            StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
+                .then(instance => {
+                    if (!mounted) return
+                    setVm(instance)
+                })
+                .catch(reason => {
+                    if (!mounted) return
+                    setError(reason)
+                })
+        }
 
         return () => {
             mounted = false
         }
-    }, [path, open, firebaseInstance, user.uid])
+    }, [path, open, firebaseInstance, user])
 
     if (error)
         return (
@@ -94,15 +111,12 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
 
     const printVMSnapshot = async () => {
         const snapshot = await vm.getFsSnapshot()
-        console.info(snapshot)
-        console.info('Bytes: ' + new Blob([JSON.stringify(snapshot)]).size)
-        console.info(path)
-        console.info(path.replace(/\//g, ''))
+        const dependencies = await vm.getDependencies()
         firebaseInstance
             .firestore()
             .collection(`users/${user.uid}/projects`)
             .doc(path.replace(/\//g, ''))
-            .set(snapshot)
+            .set({ files: snapshot, dependencies: dependencies })
     }
 
     return (
