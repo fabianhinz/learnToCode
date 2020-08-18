@@ -109,7 +109,7 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
             </Alert>
         )
 
-    const printVMSnapshot = async () => {
+    const saveVMSnapshot = async () => {
         const files = await vm.getFsSnapshot()
         const dependencies = await vm.getDependencies()
         firebaseInstance
@@ -122,7 +122,7 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
     return (
         <div className={classes.stackblitzContainer} key={path}>
             <div id={path} />
-            <FixedFab color="primary" startIcon={<Save />} onClick={printVMSnapshot}>
+            <FixedFab color="primary" startIcon={<Save />} onClick={saveVMSnapshot}>
                 speichern
             </FixedFab>
         </div>
