@@ -10,7 +10,7 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
 
     const result = await graphql(`
         query {
-            allMarkdownRemark {
+            allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/(Katalog)/" } }) {
                 nodes {
                     id
                     fileAbsolutePath
