@@ -1,9 +1,14 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
 import { CloudDownload, Code, GitHub, Launch } from '@material-ui/icons'
 import { SpeedDial, SpeedDialAction, SpeedDialActionProps } from '@material-ui/lab'
-import React from 'react'
+import React, { useMemo } from 'react'
 
-const actions: (SpeedDialActionProps & { parentAction: SpeedDialParentAction })[] = [
+const mobileActions: (SpeedDialActionProps & { parentAction: SpeedDialParentAction })[] = [
+    { icon: <CloudDownload />, tooltipTitle: 'Herunterladen', parentAction: 'downloadLecture' },
+    { icon: <GitHub />, tooltipTitle: 'Brauche Hilfe', parentAction: 'openGithubIssue' },
+]
+
+const desktopActions: (SpeedDialActionProps & { parentAction: SpeedDialParentAction })[] = [
     { icon: <Launch />, tooltipTitle: 'Starten', parentAction: 'openStackblitz' },
     { icon: <CloudDownload />, tooltipTitle: 'Herunterladen', parentAction: 'downloadLecture' },
     { icon: <GitHub />, tooltipTitle: 'Brauche Hilfe', parentAction: 'openGithubIssue' },
@@ -32,12 +37,16 @@ interface Props {
 const LectureSpeedDial = ({ onActionClick }: Props) => {
     const [open, setOpen] = React.useState(false)
 
+    const theme = useTheme()
+    const xsDown = useMediaQuery(theme.breakpoints.down('xs'))
     const classes = useStyles()
 
     const handleActionClick = (action: SpeedDialParentAction) => () => {
         onActionClick(action)
         setOpen(false)
     }
+
+    const actions = useMemo(() => (xsDown ? mobileActions : desktopActions), [xsDown])
 
     return (
         <SpeedDial

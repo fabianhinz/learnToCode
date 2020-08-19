@@ -40,7 +40,7 @@ const SearchInput = ({ focused, value, onValueChange }: Props) => {
                 value={value}
                 onChange={({ target }) => onValueChange(target.value)}
                 fullWidth
-                placeholder="Suche"
+                placeholder="Katalog durchsuchen"
                 startAdornment={
                     <InputAdornment position="start">
                         <SearchIcon />

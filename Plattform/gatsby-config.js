@@ -85,7 +85,7 @@ module.exports = {
                 index: ['title', 'description'],
                 query: `
                 {
-                    allMarkdownRemark {
+                    allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/(Katalog)/" } }) {
                         nodes {
                             id
                             frontmatter {

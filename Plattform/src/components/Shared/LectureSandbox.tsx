@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
         overflow: 'hidden',
     },
     childrenContainer: {
-        height: '100%',
         display: 'flex',
         flexDirection: 'row',
     },
@@ -33,6 +32,9 @@ const useStyles = makeStyles(theme => ({
         flex: '0 0 max(25vw, 400px)',
         padding: theme.spacing(2),
         borderRight: `2px solid ${theme.palette.divider}`,
+        // 3 appbars
+        height: 'calc(100vh - 193px)',
+        overflowY: 'auto',
     },
 }))
 

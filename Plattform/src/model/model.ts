@@ -52,14 +52,14 @@ export interface CatalogBase {
     lecture: string
 }
 
-export interface DocQueryNode<F> {
+export interface DocNode {
     id: string
     html: string
-    frontmatter: F
+    parent: { name: string }
 }
 
-export interface DocQueryResult<F> {
+export interface DocQueryResult {
     allMarkdownRemark: {
-        nodes: DocQueryNode<F>[]
+        nodes: DocNode[]
     }
 }
