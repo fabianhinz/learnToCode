@@ -40,7 +40,7 @@ const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { o
         if (!open) return
 
         let mounted = true
-        let embededPromise: Promise<VM> = null
+        let embededPromise: Promise<VM> | null = null
 
         if (!user) {
             StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
