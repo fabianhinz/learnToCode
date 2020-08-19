@@ -13,8 +13,6 @@ const isTechnologyNode = node =>
 const isLectureNode = node =>
     node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)(\/(\w+-?)+){3}\/(\w+-?)+\.md/g)
 
-const isValidIconPath = value => !value || value.publicURL
-
 const isNonEmptyString = value => Boolean(value)
 
 const isValidOrder = value => Number.isInteger(value)
@@ -34,11 +32,6 @@ const baseFields = [
         name: 'description',
         getter: node => node.frontmatter.description,
         validator: isNonEmptyString,
-    },
-    {
-        name: 'iconPath',
-        getter: node => node.frontmatter.iconPath,
-        validator: isValidIconPath,
     },
 ]
 
