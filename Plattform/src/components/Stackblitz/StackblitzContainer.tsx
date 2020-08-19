@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
 }))
 
 // ! ToDo change path
-const BASE_URI = 'fabianhinz/learnToCode/tree/feature/saveProjects/Lektionen/'
+const BASE_URI = 'fabianhinz/learnToCode/tree/master/Lektionen/'
 
 const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { open: boolean }) => {
     const [error, setError] = useState<string | null>(null)
