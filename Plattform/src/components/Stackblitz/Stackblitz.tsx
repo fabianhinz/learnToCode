@@ -47,7 +47,7 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
         if (user) {
             firebaseInstance
                 .firestore()
-                .collection(`users/${user.uid}/projects`)
+                .collection(`users/${user.uid}/lectures`)
                 .doc(path.replace(/\//g, ''))
                 .get()
                 .then(snapshot => {
@@ -114,7 +114,7 @@ const StackblitzContainer = ({ path, open }: Pick<Props, 'path'> & { open: boole
         const dependencies = await vm.getDependencies()
         firebaseInstance
             .firestore()
-            .collection(`users/${user.uid}/projects`)
+            .collection(`users/${user.uid}/lectures`)
             .doc(path.replace(/\//g, ''))
             .set({ files, dependencies })
     }

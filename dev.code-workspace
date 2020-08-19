@@ -15,6 +15,9 @@
 		{
 			"path": ".github/workflows"
 		},
+		{
+			"path": "Lektionen"
+		},
 	],
 	"settings": {
         // turning this on enables gatsby config debugging

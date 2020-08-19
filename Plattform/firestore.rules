@@ -19,7 +19,7 @@ service cloud.firestore {
             allow read, write: if request.auth.uid == authUid;
         }
 
-        match /users/{authUid}/projects/{document=**} {
+        match /users/{authUid}/lectures/{document=**} {
             allow read, write: if request.auth.uid == authUid;
         }
     }
