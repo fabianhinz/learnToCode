@@ -6,6 +6,7 @@ import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
 import { VM } from '@stackblitz/sdk/typings/VM'
 import React, { useEffect, useState } from 'react'
 
+import { relativeDir2CatalogBase } from '../../util/mapper'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import FixedFab from '../Shared/FixedFab'
 import { StackblitzProps } from './Stackblitz'
@@ -26,6 +27,7 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
+// ! ToDo change path
 const BASE_URI = 'fabianhinz/learnToCode/tree/feature/saveProjects/Lektionen/'
 
 const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { open: boolean }) => {
@@ -116,7 +118,7 @@ const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { o
             .firestore()
             .collection(`users/${user.uid}/lectures`)
             .doc(path.replace(/\//g, ''))
-            .set({ files, dependencies })
+            .set({ files, dependencies, ...relativeDir2CatalogBase(path.substring(1)) })
     }
 
     return (
