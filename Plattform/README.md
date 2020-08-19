@@ -1,99 +1,81 @@
-<!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
-<p align="center">
-  <a href="https://www.gatsbyjs.org">
-    <img alt="Gatsby" src="https://www.gatsbyjs.org/monogram.svg" width="60" />
-  </a>
-</p>
-<h1 align="center">
-  Gatsby's hello-world starter
-</h1>
-
-Kick off your project with this hello-world boilerplate. This starter ships with the main Gatsby configuration files you might need to get up and running blazing fast with the blazing fast app generator for React.
-
-_Have another more specific idea? You may want to check out our vibrant collection of [official and community-created starters](https://www.gatsbyjs.org/docs/gatsby-starters/)._
+# <center /> learn2Code@HSKA - gatsby
 
 ## 🚀 Quick start
 
-1.  **Create a Gatsby site.**
+### Umgebung
 
-    Use the Gatsby CLI to create a new site, specifying the hello-world starter.
+> erforderliche Werkzeuge bevor die Entwicklung starten kann
 
-    ```shell
-    # create a new Gatsby site using the hello-world starter
-    gatsby new my-hello-world-starter https://github.com/gatsbyjs/gatsby-starter-hello-world
-    ```
+1. [Node.js (LTS)](https://nodejs.org/en/)
+1. [VSCode](https://code.visualstudio.com/)
+1. [ESLint plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
-1.  **Start developing.**
+> herunterladen der Abhängigkeiten (aka node-modules)
 
-    Navigate into your new site’s directory and start it up.
+1. In das Verzeichnis der Plattform navigieren: `cd Plattform`
+1. `npm install` ausführen
 
-    ```shell
-    cd my-hello-world-starter/
-    gatsby develop
-    ```
+### Start der Entwicklung
 
-1.  **Open the source code and start editing!**
+1. `npm start` 
+1. Zugriff auf die Seite über `http://localhost:8000`
+1. Zugriff auf [GraphiQL](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql), einer GraphQL IDE über `http://localhost:8000/___graphql`
 
-    Your site is now running at `http://localhost:8000`!
-
-    _Note: You'll also see a second link: _`http://localhost:8000/___graphql`_. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql)._
-
-    Open the `my-hello-world-starter` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
-
-## 🧐 What's inside?
-
-A quick look at the top-level files and directories you'll see in a Gatsby project.
+### 🧐 Ordnerstruktur?
 
     .
-    ├── node_modules
+    ├── doc
+    ├── functions
+    ├── node-apis
     ├── src
-    ├── .gitignore
-    ├── .prettierrc
+        ├── @types
+        ├── components
+        ├── gatsby-theme-material-ui-top-layout
+        ├── hooks
+        ├── model
+        ├── pages
+        ├── util
+    ├── static
+    ├── firestore.rules
     ├── gatsby-browser.js
     ├── gatsby-config.js
     ├── gatsby-node.js
     ├── gatsby-ssr.js
-    ├── LICENSE
-    ├── package-lock.json
     ├── package.json
-    └── README.md
 
-1.  **`/node_modules`**: This directory contains all of the modules of code that your project depends on (npm packages) are automatically installed.
+1. **doc**: Markdown Dateien unterhalb von doc informieren Anwender der Plattform über häufig gestellte Fragen und generelle Informationen zur Anwendung. 
 
-2.  **`/src`**: This directory will contain all of the code related to what you will see on the front-end of your site (what you see in the browser) such as your site header or a page template. `src` is a convention for “source code”.
+1. **functions**: Beinhalten [Cloud Functions](https://www.youtube.com/watch?v=vr0Gfvp5v1A&feature=emb_title) für Firebase.
 
-3.  **`.gitignore`**: This file tells git which files it should not track / not maintain a version history for.
+1. **node-apis**: Module die zur Erstellung von pages und deren Validierung geschrieben worden sind.
 
-4.  **`.prettierrc`**: This is a configuration file for [Prettier](https://prettier.io/). Prettier is a tool to help keep the formatting of your code consistent.
+1. **src**: Quellcode der Webanwendung
 
-5.  **`gatsby-browser.js`**: This file is where Gatsby expects to find any usage of the [Gatsby browser APIs](https://www.gatsbyjs.org/docs/browser-apis/) (if any). These allow customization/extension of default Gatsby settings affecting the browser.
+    1. **@types**: Typdefinitionen für module, die keine von der Community verwalteten Definitionen beinhalten
+    1. **components**: React Komponenten [gruppiert nach Features](https://reactjs.org/docs/faq-structure.html#grouping-by-features-or-routes)
+    1. **gatsby-theme-material-ui-top-layout**: [Anpassungen zu Material-ui](https://material-ui.com/customization/theming/) 
+    1. **hooks**: Für die Anwendung entwickelte [hooks](https://reactjs.org/docs/hooks-custom.html)
+    1. **model**: Typdefinitionen für das Model der Applikation
+    1. **pages**: Als Default-Export deklarierte Komponenten werden von Gatsby als pages behandelt
+    1. **util**: Funktionen die ohne Bezug zu Komponenten stehen
 
-6.  **`gatsby-config.js`**: This is the main configuration file for a Gatsby site. This is where you can specify information about your site (metadata) like the site title and description, which Gatsby plugins you’d like to include, etc. (Check out the [config docs](https://www.gatsbyjs.org/docs/gatsby-config/) for more detail).
+1. **static**: Webseiteninhalte statischer Natur
 
-7.  **`gatsby-node.js`**: This file is where Gatsby expects to find any usage of the [Gatsby Node APIs](https://www.gatsbyjs.org/docs/node-apis/) (if any). These allow customization/extension of default Gatsby settings affecting pieces of the site build process.
+1. **firestore.rules**: [Firestore Security Rules](https://firebase.google.com/docs/firestore/security/get-started)
 
-8.  **`gatsby-ssr.js`**: This file is where Gatsby expects to find any usage of the [Gatsby server-side rendering APIs](https://www.gatsbyjs.org/docs/ssr-apis/) (if any). These allow customization of default Gatsby settings affecting server-side rendering.
+1. **gatsby-*browser.js**: [API Dateien](https://www.gatsbyjs.com/docs/api-files/) um das Verhalten der Seite zu konfigurieren
 
-9.  **`LICENSE`**: Gatsby is licensed under the MIT license.
+1. **package.json**: Skripte und Abhängigkeiten werden in der package.json Datei verwaltet. Referenz auf [npmjs.com](https://docs.npmjs.com/files/package.json)
 
-10. **`package-lock.json`** (See `package.json` below, first). This is an automatically generated file based on the exact versions of your npm dependencies that were installed for your project. **(You won’t change this file directly).**
+### 🎓 Technische Unterstützung?
 
-11. **`package.json`**: A manifest file for Node.js projects, which includes things like metadata (the project’s name, author, etc). This manifest is how npm knows which packages to install for your project.
+- [Gatsby](https://www.gatsbyjs.org/)
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [JavaScript-Referenz](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference) der MDN web docs
+- React component library: [Material-UI](https://material-ui.com/)
 
-12. **`README.md`**: A text file containing useful reference information about your project.
+### 💫 Deploy
 
-## 🎓 Learning Gatsby
-
-Looking for more guidance? Full documentation for Gatsby lives [on the website](https://www.gatsbyjs.org/). Here are some places to start:
-
--   **For most developers, we recommend starting with our [in-depth tutorial for creating a site with Gatsby](https://www.gatsbyjs.org/tutorial/).** It starts with zero assumptions about your level of ability and walks through every step of the process.
-
--   **To dive straight into code samples, head [to our documentation](https://www.gatsbyjs.org/docs/).** In particular, check out the _Guides_, _API Reference_, and _Advanced Tutorials_ sections in the sidebar.
-
-## 💫 Deploy
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-hello-world)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/gatsbyjs/gatsby-starter-hello-world)
-
-<!-- AUTO-GENERATED-CONTENT:END -->
+1. `npm run build`
+1. `npm run deploy`
