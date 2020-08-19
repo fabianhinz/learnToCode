@@ -34,8 +34,9 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
     const handleSpeedDialAction = (action: SpeedDialParentAction) => {
         switch (action) {
             case 'downloadLecture': {
-                // ! ToDo download file depending on frontmatter params
-                window.open(`https://github.com/fabianhinz/learnToCode/raw/master/dummy/dummy.zip`)
+                window.open(
+                    `https://github.com/fabianhinz/learnToCode/raw/master/Lektionen${props.path}/lecture.zip`
+                )
                 break
             }
             case 'openStackblitz': {
