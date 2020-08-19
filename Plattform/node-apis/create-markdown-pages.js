@@ -81,7 +81,8 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
     sortNodes(technologyNodes)
     sortNodes(lectureNodes)
 
-    const createSpecificPage = (path, component, node) =>
+    const createSpecificPage = (path, component, node) => {
+        if (!path) return
         createPage({
             path,
             component,
@@ -89,6 +90,7 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
                 node,
             },
         })
+    }
 
     // create root page to display topics
     createSpecificPage('/', RootComponent, { children: topicNodes })
