@@ -14,6 +14,10 @@ exports.enableHotReload = ({ stage, actions }) => {
     }
 }
 
+/**
+ * Defines a global variable to access the HEADs shortSHA.
+ */
+
 exports.getBuildVersion = ({ plugins, actions }) => {
     const shortSHA = require(`child_process`)
         .execSync(`git rev-parse --short HEAD`, {
