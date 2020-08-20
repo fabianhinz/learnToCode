@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, Snackbar } from '@material-ui/core'
 import { Save } from '@material-ui/icons'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import StackBlitzSDK from '@stackblitz/sdk'
@@ -33,6 +33,7 @@ const BASE_URI = 'fabianhinz/learnToCode/tree/master/Lektionen/'
 const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { open: boolean }) => {
     const [error, setError] = useState<string | null>(null)
     const [vm, setVm] = useState<VM | null>(null)
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
 
     const { user, firebaseInstance } = useFirebaseContext()
 
@@ -114,21 +115,32 @@ const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { o
     const saveVMSnapshot = async () => {
         const files = await vm.getFsSnapshot()
         const dependencies = await vm.getDependencies()
-        firebaseInstance
+        await firebaseInstance
             .firestore()
             .collection(`users/${user.uid}/lectures`)
             .doc(path.replace(/\//g, ''))
             .set({ files, dependencies, ...relativeDir2CatalogBase(path.substring(1)) })
+        setSnackbarOpen(true)
     }
 
     return (
         <div className={classes.stackblitzContainer} key={path}>
-            <div id={path} />{' '}
+            <div id={path} />
+
             {user && (
                 <FixedFab color="primary" startIcon={<Save />} onClick={saveVMSnapshot}>
                     speichern
                 </FixedFab>
             )}
+
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={6000}
+                onClose={() => setSnackbarOpen(false)}>
+                <Alert elevation={6} onClose={() => setSnackbarOpen(false)} severity="success">
+                    Lektion gespeichert
+                </Alert>
+            </Snackbar>
         </div>
     )
 }

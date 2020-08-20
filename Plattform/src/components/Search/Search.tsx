@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
         transition: theme.transitions.create('all', {
             easing: theme.transitions.easing.easeOut,
         }),
-        width: (props: StyleProps) => (props.focused ? 300 : 200),
+        width: (props: StyleProps) => (props.focused ? 300 : 250),
     },
 }))
 

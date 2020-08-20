@@ -70,7 +70,7 @@ const HeaderDrawer = () => {
                         <ListItemAvatar>
                             <Info />
                         </ListItemAvatar>
-                        <ListItemText primary="About" secondary="Informationen über das Projekt" />
+                        <ListItemText primary="About" secondary="Informationen zum Projekt" />
                     </ListItem>
                 </List>
                 <Typography align="center" gutterBottom color="textSecondary" variant="caption">

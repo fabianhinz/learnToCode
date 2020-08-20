@@ -1,0 +1,1 @@
+Details zur Umsetzung der Plattform selbst sind dem offiziellen [GitHub Repository](https://github.com/fabianhinz/learnToCode) zu entnehmen.

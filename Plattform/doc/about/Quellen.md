@@ -1,5 +1,3 @@
----
-title: "Quellen"
----
-
-Magna aliquip ipsum magna aute elit qui irure eu ea commodo. Culpa excepteur magna labore sunt ipsum est tempor. Sit in ullamco amet duis nostrud id id sit. Sit eu ea mollit labore reprehenderit laborum ea ipsum deserunt veniam quis. Ad anim labore culpa aute in.
+- Icons made by [ultimatearm](https://www.flaticon.com/authors/ultimatearm) from [www.flaticon.com](https://www.flaticon.com/)
+- Hosting, Authentifizierung und Datenhaltung obliegen [Firebase](https://firebase.google.com/)
+- Die Plattform setzt auf [Gatsby](https://www.gatsbyjs.org/) um dynamisch in Markdown geschriebene Inhalte in die Webanwendung zu Integrieren
