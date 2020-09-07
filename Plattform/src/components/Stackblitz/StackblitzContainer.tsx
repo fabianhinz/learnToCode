@@ -6,6 +6,7 @@ import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
 import { VM } from '@stackblitz/sdk/typings/VM'
 import React, { useEffect, useState } from 'react'
 
+import { StackblitzFiles } from '../../model/model'
 import { relativeDir2CatalogBase } from '../../util/mapper'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import FixedFab from '../Shared/FixedFab'
@@ -27,7 +28,6 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-// ! ToDo change path
 const BASE_URI = 'fabianhinz/learnToCode/tree/master/Lektionen/'
 
 const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { open: boolean }) => {
@@ -113,8 +113,9 @@ const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { o
         )
 
     const saveVMSnapshot = async () => {
-        const files = await vm.getFsSnapshot()
+        const allFiles = (await vm.getFsSnapshot()) as StackblitzFiles
         const dependencies = await vm.getDependencies()
+        const { 'package-lock.json': string, ...files } = allFiles
         await firebaseInstance
             .firestore()
             .collection(`users/${user.uid}/lectures`)
