@@ -97,7 +97,8 @@ const StackblitzContainer = ({
         return () => {
             mounted = false
         }
-    }, [path, open, user, actualLecture])
+        // ! wie verhindere ich das rerendern bei speichern der Lektion außer so?
+    }, [path, open, user])
 
     if (error)
         return (
@@ -117,6 +118,7 @@ const StackblitzContainer = ({
             dependencies,
             ...relativeDir2CatalogBase(relDir),
         })
+        // ! wie warte ich hier auf success oder nicht?
         setSnackbarOpen(true)
     }
 
