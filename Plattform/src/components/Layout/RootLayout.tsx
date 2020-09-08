@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 
 import CatalogErrorBoundary, { ErrorFallbackPRops } from '../Catalog/CatalogErrorBoundary'
 import FirebaseProvider from '../Provider/FirebaseProvider'
+import LectureProvider from '../Provider/LectureProvider'
 import ProgressProvider from '../Provider/ProgressProvider'
 import RatingProvider from '../Provider/RatingProvider'
 
@@ -36,7 +37,9 @@ const RootLayout: FC = ({ children }) => (
     <CatalogErrorBoundary onRenderFallback={RootFallback}>
         <FirebaseProvider>
             <ProgressProvider>
-                <RatingProvider>{children}</RatingProvider>
+                <LectureProvider>
+                    <RatingProvider>{children}</RatingProvider>
+                </LectureProvider>
             </ProgressProvider>
         </FirebaseProvider>
     </CatalogErrorBoundary>

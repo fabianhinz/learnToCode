@@ -64,7 +64,11 @@ const Stackblitz = ({ path, node, open, onClose }: StackblitzProps) => {
                         <div dangerouslySetInnerHTML={{ __html: node.html }} />
                     </>
                 )}>
-                <StackblitzContainer open={open} path={path} />
+                <StackblitzContainer
+                    open={open}
+                    path={path}
+                    relDir={node.parent.relativeDirectory}
+                />
             </LectureSandbox>
         </Hidden>
     )

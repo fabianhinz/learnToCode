@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react'
 import { StackblitzFiles } from '../../model/model'
 import { relativeDir2CatalogBase } from '../../util/mapper'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
+import { useLectureContext } from '../Provider/LectureProvider'
 import FixedFab from '../Shared/FixedFab'
 import { StackblitzProps } from './Stackblitz'
 
@@ -30,12 +31,19 @@ const useStyles = makeStyles(() => ({
 
 const BASE_URI = 'fabianhinz/learnToCode/tree/master/Lektionen/'
 
-const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { open: boolean }) => {
+const StackblitzContainer = ({
+    path,
+    open,
+    relDir,
+}: Pick<StackblitzProps, 'path'> & { open: boolean; relDir: string }) => {
     const [error, setError] = useState<string | null>(null)
     const [vm, setVm] = useState<VM | null>(null)
     const [snackbarOpen, setSnackbarOpen] = useState(false)
 
-    const { user, firebaseInstance } = useFirebaseContext()
+    const { user } = useFirebaseContext()
+    const { lectureByRelativeDir, onLectureChange } = useLectureContext()
+
+    const actualLecture = lectureByRelativeDir.get(relDir)
 
     const classes = useStyles()
 
@@ -60,49 +68,36 @@ const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { o
                 mounted = false
             }
         }
+        if (actualLecture) {
+            embededPromise = StackBlitzSDK.embedProject(
+                path,
+                {
+                    files: actualLecture.files,
+                    description: '',
+                    title: '',
+                    template: 'create-react-app',
+                    dependencies: actualLecture.dependencies,
+                },
+                options
+            )
+        } else {
+            embededPromise = StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
+        }
 
-        firebaseInstance
-            .firestore()
-            .collection(`users/${user.uid}/lectures`)
-            .doc(path.replace(/\//g, ''))
-            .get()
-            .then(snapshot => {
-                if (snapshot.exists) {
-                    const data = snapshot.data()
-                    embededPromise = StackBlitzSDK.embedProject(
-                        path,
-                        {
-                            files: data.files,
-                            description: '',
-                            title: '',
-                            template: 'create-react-app',
-                            dependencies: data.dependencies,
-                        },
-                        options
-                    )
-                } else {
-                    embededPromise = StackBlitzSDK.embedGithubProject(
-                        path,
-                        BASE_URI + path,
-                        options
-                    )
-                }
-
-                embededPromise
-                    .then(instance => {
-                        if (!mounted) return
-                        setVm(instance)
-                    })
-                    .catch(reason => {
-                        if (!mounted) return
-                        setError(reason)
-                    })
+        embededPromise
+            .then(instance => {
+                if (!mounted) return
+                setVm(instance)
+            })
+            .catch(reason => {
+                if (!mounted) return
+                setError(reason)
             })
 
         return () => {
             mounted = false
         }
-    }, [path, open, firebaseInstance, user])
+    }, [path, open, user, actualLecture])
 
     if (error)
         return (
@@ -116,11 +111,12 @@ const StackblitzContainer = ({ path, open }: Pick<StackblitzProps, 'path'> & { o
         const allFiles = (await vm.getFsSnapshot()) as StackblitzFiles
         const dependencies = await vm.getDependencies()
         const { 'package-lock.json': string, ...files } = allFiles
-        await firebaseInstance
-            .firestore()
-            .collection(`users/${user.uid}/lectures`)
-            .doc(path.replace(/\//g, ''))
-            .set({ files, dependencies, ...relativeDir2CatalogBase(path.substring(1)) })
+        onLectureChange({
+            documentId: actualLecture?.documentId,
+            files,
+            dependencies,
+            ...relativeDir2CatalogBase(relDir),
+        })
         setSnackbarOpen(true)
     }
 
