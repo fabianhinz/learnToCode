@@ -2,6 +2,7 @@
 pathTitle: "HTML"
 title: "HTML"
 description: "Lerne die Grundlagen von HTML, der Beschreibungssprache für Webinhalte. Die Lektion beschäftigt sich mit der Struktur von HTML-Dokumenten, gängigen HTML-Tags sowie kleinen Übungen zum Thema."
+lastUpdate: "2020-09-09"
 logicalOrder: 1
 ---
 
