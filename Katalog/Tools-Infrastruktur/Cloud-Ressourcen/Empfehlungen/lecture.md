@@ -3,6 +3,7 @@ pathTitle: "Empfehlungen"
 title: "Empfehlungen"
 description: "Eine Sammlung von Cloud-Ressourcen mit großzügigen Free-Plans, ideal für kleiner Side-Projects."
 lastUpdate: "2020-09-09"
+logicalOrder: 1
 ---
 
 Studenten sind als zukünftige Arbeitskräfte und Entscheidungsträger ideale Zielgruppe für Anbieter von Software-Tools, sodass viele Anbieter dazu übergegangen sind, großzügige kostenlose Test- oder Free-Pläne zur Verfügung zu stellen, um diese von der Qualität dieser Angebote zu überzeugen. Solche Ressourcen sind ideal, um kleinere Projekte darauf aufzubauen und Erfahrung mit diesen Technologien zu erwerben. In dieser Lektion lernst du verschiedene Angebote und Ressourcen kennen, die du für dein nächstes Side-Project einsetzen kannst!
