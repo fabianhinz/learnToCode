@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import { FirestoreUserProgressDoc } from '../../model/firebase'
+import { catalogBase2RelativeDir } from '../../util/mapper'
 import { useFirebaseContext } from './FirebaseProvider'
 
 export interface Progress extends FirestoreUserProgressDoc {
@@ -73,9 +74,7 @@ const ProgressProvider: FC = ({ children }) => {
                 new Set(progress.filter(p => p.status === 'done').map(p => p.topic))
             )
             setProgressByTechnology(newProgressByTechnology)
-            setProgressByRelDir(
-                new Map(progress.map(p => [`${p.topic}/${p.technology}/${p.lecture}`, p]))
-            )
+            setProgressByRelDir(new Map(progress.map(p => [catalogBase2RelativeDir(p), p])))
         })
     }, [firebaseInstance, user])
 

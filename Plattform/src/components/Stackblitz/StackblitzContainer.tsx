@@ -4,7 +4,7 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import StackBlitzSDK from '@stackblitz/sdk'
 import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
 import { VM } from '@stackblitz/sdk/typings/VM'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { StackblitzFiles } from '../../model/model'
 import { relativeDir2CatalogBase } from '../../util/mapper'
@@ -35,7 +35,7 @@ const StackblitzContainer = ({
     path,
     open,
     relDir,
-}: Pick<StackblitzProps, 'path'> & { open: boolean; relDir: string }) => {
+}: Pick<StackblitzProps, 'path' | 'open'> & { relDir: string }) => {
     const [error, setError] = useState<string | null>(null)
     const [vm, setVm] = useState<VM | null>(null)
     const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -43,7 +43,7 @@ const StackblitzContainer = ({
     const { user } = useFirebaseContext()
     const { lectureByRelativeDir, onLectureChange } = useLectureContext()
 
-    const actualLecture = lectureByRelativeDir.get(relDir)
+    const actualLecture = useRef(lectureByRelativeDir.get(relDir))
 
     const classes = useStyles()
 
@@ -68,15 +68,15 @@ const StackblitzContainer = ({
                 mounted = false
             }
         }
-        if (actualLecture) {
+        if (actualLecture.current) {
             embededPromise = StackBlitzSDK.embedProject(
                 path,
                 {
-                    files: actualLecture.files,
+                    files: actualLecture.current.files,
                     description: '',
                     title: '',
                     template: 'create-react-app',
-                    dependencies: actualLecture.dependencies,
+                    dependencies: actualLecture.current.dependencies,
                 },
                 options
             )
@@ -97,7 +97,6 @@ const StackblitzContainer = ({
         return () => {
             mounted = false
         }
-        // ! wie verhindere ich das rerendern bei speichern der Lektion außer so?
     }, [path, open, user])
 
     if (error)
@@ -113,7 +112,7 @@ const StackblitzContainer = ({
         const dependencies = await vm.getDependencies()
         const { 'package-lock.json': string, ...files } = allFiles
         onLectureChange({
-            documentId: actualLecture?.documentId,
+            documentId: actualLecture.current?.documentId,
             files,
             dependencies,
             ...relativeDir2CatalogBase(relDir),

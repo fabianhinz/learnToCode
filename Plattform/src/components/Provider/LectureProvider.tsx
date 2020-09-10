@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
 import { FirestoreLecturesDoc } from '../../model/firebase'
+import { catalogBase2RelativeDir } from '../../util/mapper'
 import { useFirebaseContext } from './FirebaseProvider'
 
 export interface Lecture extends FirestoreLecturesDoc {
@@ -40,9 +41,7 @@ const LectureProvider: FC = ({ children }) => {
                 doc => ({ documentId: doc.id, ...doc.data() } as Lecture)
             )
 
-            setLectureByRelDir(
-                new Map(lectures.map(l => [`${l.topic}/${l.technology}/${l.lecture}`, l]))
-            )
+            setLectureByRelDir(new Map(lectures.map(l => [catalogBase2RelativeDir(l), l])))
         })
     }, [firebaseInstance, user])
 
