@@ -4,6 +4,7 @@
  */
 
 const path = require('path')
+const { PATH_LEVELS } = require('./node-apis-constants')
 
 exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
     const { createPage } = actions
@@ -58,13 +59,13 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
         const relDir = node.parent.relativeDirectory
         const pathLevel = !relDir ? 0 : relDir.split('/').length
         switch (pathLevel) {
-            case 0:
+            case PATH_LEVELS.topic:
                 topicNodes.push(node)
                 break
-            case 1:
+            case PATH_LEVELS.technology:
                 technologyNodes.push(node)
                 break
-            case 3:
+            case PATH_LEVELS.lecture:
                 lectureNodes.push(node)
                 break
             default:

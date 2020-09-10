@@ -8,11 +8,21 @@ const { enableHotReload, getBuildVersion } = require(`./node-apis/create-webpack
 const { createMarkdownPages } = require(`./node-apis/create-markdown-pages`)
 const { validateFrontmatterFields } = require(`./node-apis/validate-markdown-fields.js`)
 
+const log = (...args) => console.log('\x1b[33m%s\x1b[0m', ...args)
+
 exports.onCreateWebpackConfig = helpers => {
+    log('customizing webpack config')
     getBuildVersion(helpers)
     enableHotReload(helpers)
 }
 
-exports.createPages = async helpers => await createMarkdownPages(helpers)
+exports.createPages = async helpers => {
+    log('creating catalog pages')
+    await createMarkdownPages(helpers)
+}
 
-exports.onCreateNode = helpers => validateFrontmatterFields(helpers)
+exports.onCreateNode = helpers => {
+    if (!helpers.node.fileAbsolutePath) return
+    log('validating frontmatter fields ', helpers.node.fileAbsolutePath.split('/').slice(-1))
+    validateFrontmatterFields(helpers)
+}
