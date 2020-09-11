@@ -3,18 +3,9 @@
  */
 
 const { attachFields } = require(`gatsby-plugin-node-fields`)
-
-const isTopicNode = node =>
-    node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)\/(\w+-?)+\.md/g)
-
-const isTechnologyNode = node =>
-    node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)(\/(\w+-?)+){1}\/(\w+-?)+\.md/g)
-
-const isLectureNode = node =>
-    node.fileAbsolutePath && node.fileAbsolutePath.match(/(Katalog)(\/(\w+-?)+){3}\/(\w+-?)+\.md/g)
+const { PATH_LEVELS } = require('./node-apis-constants')
 
 const isNonEmptyString = value => Boolean(value)
-
 const isValidOrder = value => Number.isInteger(value)
 
 const baseFields = [
@@ -35,23 +26,27 @@ const baseFields = [
     },
 ]
 
+const predicateByNode = (node, pathLevel) =>
+    node.fileAbsolutePath &&
+    node.fileAbsolutePath.includes('Katalog') &&
+    node.fileAbsolutePath.split('Katalog')[1].split('/').length - 2 === pathLevel
+
 const descriptors = [
     {
-        predicate: isTopicNode,
+        predicate: node =>
+            predicateByNode(node, PATH_LEVELS.topic) ||
+            predicateByNode(node, PATH_LEVELS.technology),
         fields: baseFields,
     },
     {
-        predicate: isTechnologyNode,
-        fields: baseFields,
-    },
-    {
-        predicate: isLectureNode,
+        predicate: node => predicateByNode(node, PATH_LEVELS.lecture),
         fields: [
             ...baseFields,
             {
                 name: 'logicalOrder',
                 getter: node => node.frontmatter.logicalOrder,
                 validator: isValidOrder,
+                defaultValue: 0,
             },
         ],
     },
