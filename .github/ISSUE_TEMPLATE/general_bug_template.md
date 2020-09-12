@@ -1,8 +1,8 @@
 ---
-name: "🐛 Allgemeiner Bug Report"
-about: Melde dich bei allgemeinen Problemen mit der Anwendung.
+name: "🐛 Lektionen: Bug Report"
+about: Melde dich bei Problemen mit den Inhalten der Lernplattform.
 title: 'Problem: , Version:  '
-labels: 'bug'
+labels: bug, lerninhalt
 ---
 <!--
   Bitte beschreibe möglichst genau was deine Probleme sind.
