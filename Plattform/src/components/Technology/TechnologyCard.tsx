@@ -46,7 +46,6 @@ const TechnologyCard = ({ node, topicPathTitle }: Props) => {
                 title={<Typography variant="h5">{title}</Typography>}
             />
             <Alert color="info" className={classes.alert}>
-                <AlertTitle>Lorem</AlertTitle>
                 {description}
             </Alert>
         </ActionCard>

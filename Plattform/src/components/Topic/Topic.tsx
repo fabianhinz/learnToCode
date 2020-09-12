@@ -3,6 +3,7 @@ import { Check } from '@material-ui/icons'
 import { navigate } from 'gatsby'
 import React from 'react'
 
+import defaultIcon from '../../../static/topicOrTechnology.png'
 import useVibrantBackground from '../../hooks/useVibrantBackground'
 import { TopicNodeProps } from '../Catalog/CatalogTopic'
 import ActionCard from '../Shared/ActionCard'
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.easeOut,
         }),
         backgroundColor: (props: StyleProps) => props.background,
-        flex: '1 0 200px',
+        flex: '0 0 200px',
         display: 'flex',
         alignItems: 'center',
         [theme.breakpoints.down('xs')]: {
@@ -46,7 +47,8 @@ interface Props {
 }
 
 const Topic = ({ node }: Props) => {
-    const background = useVibrantBackground(node.frontmatter.iconPath.publicURL)
+    const icon = node.frontmatter.iconPath?.publicURL || defaultIcon
+    const background = useVibrantBackground(icon)
     const classes = useStyles({ background })
 
     return (
@@ -57,7 +59,7 @@ const Topic = ({ node }: Props) => {
                 <img
                     alt={node.frontmatter.pathTitle + ' icon'}
                     className={classes.icon}
-                    src={node.frontmatter.iconPath.publicURL}
+                    src={icon}
                 />
             </div>
             <div>
