@@ -21,6 +21,15 @@
 1. Zugriff auf die Seite über `http://localhost:8000`
 1. Zugriff auf [GraphiQL](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql), einer GraphQL IDE über `http://localhost:8000/___graphql`
 
+### Debugging 
+
+> Einsatz von VSCode erforderlich
+
+1. Die Datei `dev.code-workspace` in einem Texteditor öffnen
+1. `"debug.node.autoAttach": "off"` auf `"on"` ändern
+1. `npm run gatsbyDebug`
+1. ... Debug 🤓
+
 ### 🧐 Ordnerstruktur?
 
     .
