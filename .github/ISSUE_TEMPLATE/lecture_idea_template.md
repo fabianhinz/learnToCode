@@ -2,7 +2,7 @@
 name: "💻 Vorschläge für neue Lektionen"
 about: Melde dich wenn du Vorschläge für neue Lektionen hast.
 title: 'Thema: , Technologie: , Lektion: '
-labels: 'lecture improvement'
+labels: lerninhalt
 ---
 <!--
   Bitte beschreibe möglichst genau was deine Idee ist.

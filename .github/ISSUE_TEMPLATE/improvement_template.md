@@ -1,6 +1,6 @@
 ---
 name: "💡 Verbesserungsvorschläge"
-about: Melde dich wenn du eine Idee hast, wie man die App verbessern könnte.
+about: Melde dich wenn du eine Idee hast, wie man die Plattform verbessern könnte.
 title: 'Verbesserungsvorschlag: , Version: '
 labels: 'improvement'
 ---
