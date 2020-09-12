@@ -16,13 +16,13 @@ export interface RootNodeProps {
 }
 
 const CatalogRoot = (props: NodeContext<RootNodeProps>) => {
-    const { user } = useFirebaseContext()
+    const { isLoggedIn } = useFirebaseContext()
 
     useBackgroundEffect(rootImage)
 
     return (
         <Grid container spacing={4}>
-            {user && (
+            {isLoggedIn && (
                 <Grid item xs={12}>
                     <UserLectures />
                 </Grid>

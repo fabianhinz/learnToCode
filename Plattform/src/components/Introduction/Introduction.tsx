@@ -3,7 +3,7 @@ import { blue, green, red } from '@material-ui/core/colors'
 import { Check, Close, Help } from '@material-ui/icons'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import { AutoRotatingCarousel, Slide } from 'material-auto-rotating-carousel'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { FirestoreUserDoc } from '../../model/firebase'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
@@ -15,20 +15,13 @@ const Introduction = () => {
         else return JSON.parse(prevIntroduction)
     })
     const [carouselOpen, setCarouselOpen] = useState(false)
-    const { firebaseInstance, user } = useFirebaseContext()
-
-    const userDocRef = useMemo(() => {
-        if (!user) return null
-        return firebaseInstance.firestore().collection('users').doc(user.uid)
-    }, [firebaseInstance, user])
+    const { firebaseInstance, resolveUser } = useFirebaseContext()
 
     useEffect(() => {
-        if (!userDocRef) return
-        userDocRef.get().then(doc => {
-            const introductionPreference = doc.data().introduction
-            if (introductionPreference !== undefined) setSnackbarOpen(introductionPreference)
+        resolveUser.then(user => {
+            if (user.introduction !== undefined) setSnackbarOpen(user.introduction)
         })
-    }, [userDocRef])
+    }, [resolveUser])
 
     const handleCheckClick = () => {
         setSnackbarOpen(false)
@@ -36,14 +29,22 @@ const Introduction = () => {
     }
 
     const saveDecision = async () => {
-        if (!userDocRef) localStorage.setItem('introduction', 'false')
-        else
-            userDocRef.set(
-                {
-                    introduction: false,
-                } as Pick<FirestoreUserDoc, 'introduction'>,
-                { merge: true }
-            )
+        resolveUser.then(
+            user => {
+                firebaseInstance
+                    .firestore()
+                    .doc(`users/${user.uid}`)
+                    .set(
+                        {
+                            introduction: false,
+                        } as Pick<FirestoreUserDoc, 'introduction'>,
+                        { merge: true }
+                    )
+            },
+            _noUser => {
+                localStorage.setItem('introduction', 'false')
+            }
+        )
     }
 
     const handleDenyClick = () => {

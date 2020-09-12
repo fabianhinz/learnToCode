@@ -148,6 +148,8 @@ const UserLectures = () => {
         }
     `)
 
+    if (lectureInProgress.length === 0) return <></>
+
     return (
         <Grid container spacing={4}>
             <Grid item xs={12}>

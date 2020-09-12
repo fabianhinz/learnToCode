@@ -63,3 +63,8 @@ export interface DocQueryResult {
         nodes: DocNode[]
     }
 }
+
+export interface StackblitzFiles {
+    'package-lock.json': string
+    [path: string]: string
+}

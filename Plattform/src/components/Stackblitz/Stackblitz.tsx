@@ -17,7 +17,7 @@ export interface StackblitzProps {
 }
 
 const Stackblitz = ({ path, node, open, onClose }: StackblitzProps) => {
-    const { firebaseInstance, user } = useFirebaseContext()
+    const { firebaseInstance, isLoggedIn } = useFirebaseContext()
     const { onProgressChange, progressByRelDir } = useProgressContext()
 
     const prevProgress = progressByRelDir.get(node.parent.relativeDirectory)
@@ -49,7 +49,7 @@ const Stackblitz = ({ path, node, open, onClose }: StackblitzProps) => {
                 title="StackBlitz"
                 onRenderManual={() => (
                     <>
-                        {user && (
+                        {isLoggedIn && (
                             <Button
                                 fullWidth
                                 onClick={handleResolveLecture}
@@ -64,7 +64,11 @@ const Stackblitz = ({ path, node, open, onClose }: StackblitzProps) => {
                         <div dangerouslySetInnerHTML={{ __html: node.html }} />
                     </>
                 )}>
-                <StackblitzContainer open={open} path={path} />
+                <StackblitzContainer
+                    open={open}
+                    path={path}
+                    relDir={node.parent.relativeDirectory}
+                />
             </LectureSandbox>
         </Hidden>
     )

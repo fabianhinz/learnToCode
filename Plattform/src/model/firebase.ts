@@ -22,4 +22,13 @@ export interface FirestoreUserDoc {
     introduction?: boolean
 }
 
+export interface FirestoreLecturesDoc extends CatalogBase {
+    dependencies: { [name: string]: string }
+    files: {
+        [path: string]: string
+    }
+}
+
 export type FirebaseInstance = typeof import('firebase/app')
+
+export type UnsubscribeFn = () => void | undefined
