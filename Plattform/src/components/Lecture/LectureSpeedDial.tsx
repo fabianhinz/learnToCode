@@ -1,17 +1,18 @@
-import { makeStyles, useMediaQuery, useTheme } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import { CloudDownload, Code, GitHub, Launch } from '@material-ui/icons'
 import { SpeedDial, SpeedDialAction, SpeedDialActionProps } from '@material-ui/lab'
 import React, { useMemo } from 'react'
 
-const mobileActions: (SpeedDialActionProps & { parentAction: SpeedDialParentAction })[] = [
+import { OnlineIDEs } from '../../model/model'
+
+const baseActions: (SpeedDialActionProps & { parentAction: SpeedDialParentAction })[] = [
     { icon: <CloudDownload />, tooltipTitle: 'Herunterladen', parentAction: 'downloadLecture' },
     { icon: <GitHub />, tooltipTitle: 'Brauche Hilfe', parentAction: 'openGithubIssue' },
 ]
 
-const desktopActions: (SpeedDialActionProps & { parentAction: SpeedDialParentAction })[] = [
+const stackblitzActions: (SpeedDialActionProps & { parentAction: SpeedDialParentAction })[] = [
     { icon: <Launch />, tooltipTitle: 'Starten', parentAction: 'openStackblitz' },
-    { icon: <CloudDownload />, tooltipTitle: 'Herunterladen', parentAction: 'downloadLecture' },
-    { icon: <GitHub />, tooltipTitle: 'Brauche Hilfe', parentAction: 'openGithubIssue' },
+    ...baseActions,
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -32,13 +33,12 @@ export type SpeedDialParentAction = 'openStackblitz' | 'downloadLecture' | 'open
 
 interface Props {
     onActionClick: (action: SpeedDialParentAction) => void
+    onlineIDE: OnlineIDEs
 }
 
-const LectureSpeedDial = ({ onActionClick }: Props) => {
+const LectureSpeedDial = ({ onActionClick, onlineIDE }: Props) => {
     const [open, setOpen] = React.useState(false)
 
-    const theme = useTheme()
-    const xsDown = useMediaQuery(theme.breakpoints.down('xs'))
     const classes = useStyles()
 
     const handleActionClick = (action: SpeedDialParentAction) => () => {
@@ -46,7 +46,16 @@ const LectureSpeedDial = ({ onActionClick }: Props) => {
         setOpen(false)
     }
 
-    const actions = useMemo(() => (xsDown ? mobileActions : desktopActions), [xsDown])
+    const actions = useMemo(() => {
+        switch (onlineIDE) {
+            case 'stackblitz': {
+                return stackblitzActions
+            }
+            default: {
+                return baseActions
+            }
+        }
+    }, [onlineIDE])
 
     return (
         <SpeedDial

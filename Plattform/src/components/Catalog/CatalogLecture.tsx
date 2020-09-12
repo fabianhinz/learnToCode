@@ -5,6 +5,7 @@ import lectureImage from '../../../static/lecture.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { LectureFrontmatter, NodeContext, ParentNode } from '../../model/model'
+import { GITHUB_BASE_URI } from '../../util/constants'
 import { createPrefilledIssue } from '../../util/github-service'
 import LectureSpeedDial, { SpeedDialParentAction } from '../Lecture/LectureSpeedDial'
 import Title from '../Shared/Title'
@@ -25,16 +26,14 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
     useNavTextEffect(props.pathContext.node.frontmatter.description)
 
     const {
-        frontmatter: { title, lastUpdate },
+        frontmatter: { title, lastUpdate, onlineIDE },
         html,
     } = props.pathContext.node
 
     const handleSpeedDialAction = (action: SpeedDialParentAction) => {
         switch (action) {
             case 'downloadLecture': {
-                window.open(
-                    `https://github.com/fabianhinz/learnToCode/raw/master/Lektionen${props.path}/lecture.zip`
-                )
+                window.open(GITHUB_BASE_URI + `raw/master/Lektionen${props.path}/lecture.zip`)
                 break
             }
             case 'openStackblitz': {
@@ -45,7 +44,7 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
                 window.open(
                     createPrefilledIssue({
                         title: window.location.pathname + ', Version: ' + __VERSION__,
-                        labels: ['help wanted'],
+                        labels: ['help wanted', 'lerninhalt'],
                         assignees: ['fabianhinz'],
                         template: 'lecture_help_template.md',
                     })
@@ -76,7 +75,7 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
                 </Grid>
             </Grid>
 
-            <LectureSpeedDial onActionClick={handleSpeedDialAction} />
+            <LectureSpeedDial onlineIDE={onlineIDE} onActionClick={handleSpeedDialAction} />
 
             <Stackblitz
                 path={props.path}

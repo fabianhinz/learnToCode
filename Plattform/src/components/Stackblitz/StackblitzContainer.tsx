@@ -8,6 +8,7 @@ import { useSnackbar } from 'notistack'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { StackblitzFiles } from '../../model/model'
+import { STACKBLITZ_REPO_SLUG_BASE } from '../../util/constants'
 import { createPrefilledIssue } from '../../util/github-service'
 import { relativeDir2CatalogBase } from '../../util/mapper'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
@@ -31,13 +32,10 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-const BASE_URI = 'fabianhinz/learnToCode/tree/master/Lektionen/'
-
 const StackblitzContainer = ({
-    path,
     open,
     relDir,
-}: Pick<StackblitzProps, 'path' | 'open'> & { relDir: string }) => {
+}: Pick<StackblitzProps, 'open'> & { relDir: string }) => {
     const [error, setError] = useState<string | null>(null)
     const [vm, setVm] = useState<VM | null>(null)
     const { enqueueSnackbar } = useSnackbar()
@@ -54,9 +52,10 @@ const StackblitzContainer = ({
 
         let mounted = true
         let embededPromise: Promise<VM> | null = null
-
+        const repoSlug = STACKBLITZ_REPO_SLUG_BASE + relDir
+        console.log({ repoSlug })
         if (!isLoggedIn) {
-            StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
+            StackBlitzSDK.embedGithubProject(relDir, repoSlug, options)
                 .then(instance => {
                     if (!mounted) return
                     setVm(instance)
@@ -72,7 +71,7 @@ const StackblitzContainer = ({
         }
         if (actualLecture.current) {
             embededPromise = StackBlitzSDK.embedProject(
-                path,
+                relDir,
                 {
                     files: actualLecture.current.files,
                     description: '',
@@ -83,7 +82,7 @@ const StackblitzContainer = ({
                 options
             )
         } else {
-            embededPromise = StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
+            embededPromise = StackBlitzSDK.embedGithubProject(relDir, repoSlug, options)
         }
 
         embededPromise
@@ -99,7 +98,7 @@ const StackblitzContainer = ({
         return () => {
             mounted = false
         }
-    }, [path, open, isLoggedIn])
+    }, [relDir, open, isLoggedIn])
 
     if (error)
         return (
@@ -120,7 +119,7 @@ const StackblitzContainer = ({
                 dependencies,
                 ...relativeDir2CatalogBase(relDir),
             })
-            enqueueSnackbar('Speichern erfolgreich', { variant: 'success', key: path })
+            enqueueSnackbar('Speichern erfolgreich', { variant: 'success', key: relDir })
         } catch (e) {
             enqueueSnackbar('Speichern fehlgeschlagen', {
                 variant: 'error',
@@ -133,8 +132,8 @@ const StackblitzContainer = ({
                                 createPrefilledIssue({
                                     title: `Problem: Fehler beim Speichern der Lektion ${relDir}, Version: ${__VERSION__}`,
                                     body: `error: ${e.toString()}`,
-                                    template: 'general_bug_template.md',
-                                    labels: ['bug'],
+                                    template: 'platform_bug_template.md',
+                                    labels: ['bug', 'platform'],
                                 })
                             )
                         }>
@@ -146,8 +145,8 @@ const StackblitzContainer = ({
     }
 
     return (
-        <div className={classes.stackblitzContainer} key={path}>
-            <div id={path} />
+        <div className={classes.stackblitzContainer} key={relDir}>
+            <div id={relDir} />
 
             <Zoom in={Boolean(vm && isLoggedIn)}>
                 <FixedFab color="primary" startIcon={<Save />} onClick={saveVMSnapshot}>
