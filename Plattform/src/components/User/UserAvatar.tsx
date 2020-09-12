@@ -1,8 +1,8 @@
 import { Avatar, ButtonBase, makeStyles } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 
-import { FirebaseInstance } from '../../model/firebase'
+import { FirebaseInstance, FirestoreUserDoc } from '../../model/firebase'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import AppLink from '../Shared/AppLink'
 
@@ -39,10 +39,20 @@ const useStyles = makeStyles(theme => ({
 
 const UserAvatar = () => {
     const classes = useStyles()
+    const { firebaseInstance, isLoggedIn, resolveUser } = useFirebaseContext()
 
-    const { firebaseInstance, user } = useFirebaseContext()
+    const [avatarInformation, setAvatarInformation] = useState<null | Pick<
+        FirestoreUserDoc,
+        'photoURL' | 'displayName'
+    >>(null)
 
-    if (!user)
+    useEffect(() => {
+        resolveUser.then(({ photoURL, displayName }) =>
+            setAvatarInformation({ photoURL, displayName })
+        )
+    }, [resolveUser])
+
+    if (!isLoggedIn)
         return (
             <StyledFirebaseAuth
                 className={classes.styledFirebaseAuth}
@@ -55,8 +65,8 @@ const UserAvatar = () => {
         <div className={classes.userContainer}>
             <AppLink to="/account">
                 <ButtonBase>
-                    <Avatar variant="square" src={user.photoURL}>
-                        {user.displayName[0]}
+                    <Avatar variant="square" src={avatarInformation?.photoURL}>
+                        {avatarInformation?.displayName[0]}
                     </Avatar>
                 </ButtonBase>
             </AppLink>

@@ -1,11 +1,12 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 
 import { FirebaseInstance, FirestoreUserDoc } from '../../model/firebase'
 
 interface FirebaseContext {
     firebaseInstance: FirebaseInstance | null
-    user: FirestoreUserDoc | null
     authReady: boolean
+    resolveUser: Promise<FirestoreUserDoc>
+    isLoggedIn: boolean
 }
 
 const Context = React.createContext<FirebaseContext | null>(null)
@@ -42,33 +43,56 @@ const getInstance = async () => {
 const FirebaseProvider: FC = props => {
     const [firebaseInstance, setFirebaseInstance] = useState<FirebaseInstance | null>(null)
     const [user, setUser] = useState<FirestoreUserDoc | null>(null)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [authReady, setAuthReady] = useState(false)
 
     useEffect(() => {
         getInstance().then(setFirebaseInstance)
     }, [])
 
+    useLayoutEffect(() => {
+        setIsLoggedIn(Boolean(user))
+    }, [user])
+
     useEffect(() => {
         if (!firebaseInstance) return
 
         const unsubscribe = firebaseInstance.auth().onAuthStateChanged(authState => {
-            if (authState)
-                setUser({
-                    photoURL: authState.providerData[0].photoURL,
-                    providerId: authState.providerData[0].providerId,
-                    displayName: authState.displayName,
-                    uid: authState.uid,
+            if (authState) {
+                const userLecturesDoc = firebaseInstance
+                    .firestore()
+                    .collection('users')
+                    .doc(authState.uid)
+
+                userLecturesDoc.get().then(docSnapshot => {
+                    if (docSnapshot.exists) {
+                        setUser(docSnapshot.data() as FirestoreUserDoc)
+                        return
+                    }
+                    // user logged in for the first time
+                    const newUser = {
+                        photoURL: authState.providerData[0].photoURL,
+                        providerId: authState.providerData[0].providerId,
+                        displayName: authState.displayName,
+                        uid: authState.uid,
+                    }
+                    userLecturesDoc.set(newUser).then(() => {
+                        setUser(newUser)
+                    })
                 })
-            else {
+            } else {
                 setUser(null)
             }
             setAuthReady(true)
         })
 
-        return () => {
-            unsubscribe()
-        }
+        return unsubscribe
     }, [firebaseInstance])
+
+    const resolveUser = useMemo(
+        () => new Promise<FirestoreUserDoc>((resolve, reject) => (user ? resolve(user) : reject())),
+        [user]
+    )
 
     if (!firebaseInstance) return <></>
 
@@ -77,7 +101,8 @@ const FirebaseProvider: FC = props => {
             value={{
                 firebaseInstance,
                 authReady,
-                user,
+                resolveUser,
+                isLoggedIn,
             }}>
             {props.children}
         </Context.Provider>

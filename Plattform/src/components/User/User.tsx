@@ -1,7 +1,7 @@
 import { Card, Grid, List } from '@material-ui/core'
 import { ExitToApp } from '@material-ui/icons'
 import { Redirect } from '@reach/router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import accountImage from '../../../static/account.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
@@ -14,18 +14,24 @@ import Title from '../Shared/Title'
 import UserProgress from './UserProgress'
 
 const User = (props: NodeContext<RootNodeProps>) => {
-    const { user, firebaseInstance } = useFirebaseContext()
+    const { isLoggedIn, firebaseInstance, resolveUser } = useFirebaseContext()
     const { topicsWithProgress } = useProgressContext()
+
+    const [displayName, setDisplayName] = useState('')
+
+    useEffect(() => {
+        resolveUser.then(user => setDisplayName(user.displayName))
+    }, [resolveUser])
 
     useBackgroundEffect(accountImage)
 
-    if (!user) return <Redirect noThrow to="/" />
+    if (!isLoggedIn) return <Redirect noThrow to="/" />
 
     return (
         <>
             <Grid container spacing={4}>
                 <Grid item xs={12}>
-                    <Title>Willkommen zurück {user?.displayName}</Title>
+                    <Title>Willkommen zurück {displayName}</Title>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -42,7 +48,7 @@ const User = (props: NodeContext<RootNodeProps>) => {
             </Grid>
 
             <FixedFab
-                onClick={() => firebaseInstance.auth().signOut().then()}
+                onClick={() => firebaseInstance.auth().signOut()}
                 color="primary"
                 startIcon={<ExitToApp />}>
                 ausloggen

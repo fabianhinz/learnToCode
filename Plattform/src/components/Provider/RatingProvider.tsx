@@ -1,6 +1,10 @@
 import React, { FC, useContext, useEffect, useState } from 'react'
 
-import { FirestoreCommunityRatingDoc, FirestoreUserRatingDoc } from '../../model/firebase'
+import {
+    FirestoreCommunityRatingDoc,
+    FirestoreUserRatingDoc,
+    UnsubscribeFn,
+} from '../../model/firebase'
 import { catalogBase2RelativeDir } from '../../util/mapper'
 import { useFirebaseContext } from './FirebaseProvider'
 
@@ -22,31 +26,39 @@ const RatingProvider: FC = ({ children }) => {
     const [userRatings, setUserRatings] = useState<UserRatingsMap>(new Map())
     const [communityRatings, setCommunityRatings] = useState<CommunityRatingsMap>(new Map())
 
-    const { user, firebaseInstance } = useFirebaseContext()
+    const { firebaseInstance, resolveUser } = useFirebaseContext()
 
     useEffect(() => {
-        if (!user) {
-            setUserRatings(new Map())
-            return
-        }
+        let unsubscribe: UnsubscribeFn
+        resolveUser.then(
+            user => {
+                unsubscribe = firebaseInstance
+                    .firestore()
+                    .collection(`users/${user.uid}/rating`)
+                    .onSnapshot(snapshot => {
+                        setUserRatings(
+                            new Map(
+                                snapshot.docs.map(doc => {
+                                    const {
+                                        value,
+                                        ...catalogBase
+                                    } = doc.data() as FirestoreUserRatingDoc
+                                    return [
+                                        catalogBase2RelativeDir(catalogBase),
+                                        { value, documentId: doc.id },
+                                    ]
+                                })
+                            )
+                        )
+                    })
+            },
+            _noUser => {
+                setUserRatings(new Map())
+            }
+        )
 
-        return firebaseInstance
-            .firestore()
-            .collection(`users/${user.uid}/rating`)
-            .onSnapshot(snapshot => {
-                setUserRatings(
-                    new Map(
-                        snapshot.docs.map(doc => {
-                            const { value, ...catalogBase } = doc.data() as FirestoreUserRatingDoc
-                            return [
-                                catalogBase2RelativeDir(catalogBase),
-                                { value, documentId: doc.id },
-                            ]
-                        })
-                    )
-                )
-            })
-    }, [firebaseInstance, user])
+        return unsubscribe
+    }, [firebaseInstance, resolveUser])
 
     useEffect(() => {
         return firebaseInstance
@@ -69,18 +81,22 @@ const RatingProvider: FC = ({ children }) => {
     }, [firebaseInstance])
 
     const onUserRatingChange = ({ topic, technology, lecture, value }: FirestoreUserRatingDoc) => {
-        if (!user) return
+        resolveUser.then(user => {
+            const collectionRef = firebaseInstance
+                .firestore()
+                .collection(`users/${user.uid}/rating`)
+            const previousRating = userRatings.get(
+                catalogBase2RelativeDir({ topic, technology, lecture })
+            )
 
-        const collectionRef = firebaseInstance.firestore().collection(`users/${user.uid}/rating`)
-        const previousRating = userRatings.get(
-            catalogBase2RelativeDir({ topic, technology, lecture })
-        )
-
-        if (!previousRating || !previousRating.documentId) {
-            collectionRef.doc().set({ topic, technology, lecture, value } as FirestoreUserRatingDoc)
-        } else {
-            collectionRef.doc(previousRating.documentId).set({ value }, { merge: true })
-        }
+            if (!previousRating || !previousRating.documentId) {
+                collectionRef
+                    .doc()
+                    .set({ topic, technology, lecture, value } as FirestoreUserRatingDoc)
+            } else {
+                collectionRef.doc(previousRating.documentId).set({ value }, { merge: true })
+            }
+        })
     }
 
     return (

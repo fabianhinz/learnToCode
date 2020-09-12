@@ -1,5 +1,6 @@
 import { Box, Button, Card, CardActions } from '@material-ui/core'
 import { Alert, AlertTitle } from '@material-ui/lab'
+import { SnackbarProvider } from 'notistack'
 import React, { FC } from 'react'
 
 import CatalogErrorBoundary, { ErrorFallbackPRops } from '../Catalog/CatalogErrorBoundary'
@@ -35,13 +36,18 @@ const RootFallback = ({ error, handleSubmit }: ErrorFallbackPRops) => (
 
 const RootLayout: FC = ({ children }) => (
     <CatalogErrorBoundary onRenderFallback={RootFallback}>
-        <FirebaseProvider>
-            <ProgressProvider>
-                <LectureProvider>
-                    <RatingProvider>{children}</RatingProvider>
-                </LectureProvider>
-            </ProgressProvider>
-        </FirebaseProvider>
+        <SnackbarProvider
+            anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
+            autoHideDuration={3000}
+            preventDuplicate>
+            <FirebaseProvider>
+                <ProgressProvider>
+                    <LectureProvider>
+                        <RatingProvider>{children}</RatingProvider>
+                    </LectureProvider>
+                </ProgressProvider>
+            </FirebaseProvider>
+        </SnackbarProvider>
     </CatalogErrorBoundary>
 )
 

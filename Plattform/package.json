@@ -39,6 +39,7 @@
         "gatsby-transformer-sharp": "^2.5.12",
         "material-auto-rotating-carousel": "^3.0.2",
         "node-vibrant": "^3.1.5",
+        "notistack": "^1.0.0",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-error-boundary": "^2.3.1",

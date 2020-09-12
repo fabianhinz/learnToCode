@@ -12,7 +12,7 @@ interface Props {
 }
 
 const LectureRating = ({ relativeDirectory }: Props) => {
-    const { user } = useFirebaseContext()
+    const { isLoggedIn } = useFirebaseContext()
     const { userRatings, onUserRatingChange, communityRatings } = useRatingContext()
 
     const userRating = userRatings.get(relativeDirectory)
@@ -31,7 +31,7 @@ const LectureRating = ({ relativeDirectory }: Props) => {
                 <Hidden xsDown>
                     <Box mr={1}>
                         <Rating
-                            disabled={!user}
+                            disabled={!isLoggedIn}
                             value={userRating?.value ?? null}
                             onChange={handleRatingChange}
                             name={relativeDirectory}

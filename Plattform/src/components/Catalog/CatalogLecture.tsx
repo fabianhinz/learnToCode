@@ -1,4 +1,4 @@
-import { Box, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import React, { useState } from 'react'
 
 import lectureImage from '../../../static/lecture.png'
@@ -7,7 +7,6 @@ import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { LectureFrontmatter, NodeContext, ParentNode } from '../../model/model'
 import { createPrefilledIssue } from '../../util/github-service'
 import LectureSpeedDial, { SpeedDialParentAction } from '../Lecture/LectureSpeedDial'
-import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import Title from '../Shared/Title'
 import Stackblitz from '../Stackblitz/Stackblitz'
 import CatalogErrorBoundary from './CatalogErrorBoundary'
@@ -21,7 +20,6 @@ export interface LectureNodeProps {
 
 const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
     const [stackblitzOpen, setStackblitzOpen] = useState(false)
-    const { user } = useFirebaseContext()
 
     useBackgroundEffect(props.pathContext.node.frontmatter.iconPath?.publicURL || lectureImage)
     useNavTextEffect(props.pathContext.node.frontmatter.description)
@@ -76,12 +74,6 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
                 <Grid item xs={12}>
                     <div dangerouslySetInnerHTML={{ __html: html }} />
                 </Grid>
-
-                {user && (
-                    <Grid item xs={12}>
-                        <Box display="flex" justifyContent="center"></Box>
-                    </Grid>
-                )}
             </Grid>
 
             <LectureSpeedDial onActionClick={handleSpeedDialAction} />

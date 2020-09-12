@@ -30,3 +30,5 @@ export interface FirestoreLecturesDoc extends CatalogBase {
 }
 
 export type FirebaseInstance = typeof import('firebase/app')
+
+export type UnsubscribeFn = () => void | undefined

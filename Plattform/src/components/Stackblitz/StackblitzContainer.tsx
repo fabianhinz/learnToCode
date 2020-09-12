@@ -1,12 +1,14 @@
-import { makeStyles, Snackbar } from '@material-ui/core'
+import { Button, makeStyles, Zoom } from '@material-ui/core'
 import { Save } from '@material-ui/icons'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import StackBlitzSDK from '@stackblitz/sdk'
 import { EmbedOptions } from '@stackblitz/sdk/typings/interfaces'
 import { VM } from '@stackblitz/sdk/typings/VM'
+import { useSnackbar } from 'notistack'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { StackblitzFiles } from '../../model/model'
+import { createPrefilledIssue } from '../../util/github-service'
 import { relativeDir2CatalogBase } from '../../util/mapper'
 import { useFirebaseContext } from '../Provider/FirebaseProvider'
 import { useLectureContext } from '../Provider/LectureProvider'
@@ -38,9 +40,9 @@ const StackblitzContainer = ({
 }: Pick<StackblitzProps, 'path' | 'open'> & { relDir: string }) => {
     const [error, setError] = useState<string | null>(null)
     const [vm, setVm] = useState<VM | null>(null)
-    const [snackbarOpen, setSnackbarOpen] = useState(false)
+    const { enqueueSnackbar } = useSnackbar()
 
-    const { user } = useFirebaseContext()
+    const { isLoggedIn } = useFirebaseContext()
     const { lectureByRelativeDir, onLectureChange } = useLectureContext()
 
     const actualLecture = useRef(lectureByRelativeDir.get(relDir))
@@ -53,7 +55,7 @@ const StackblitzContainer = ({
         let mounted = true
         let embededPromise: Promise<VM> | null = null
 
-        if (!user) {
+        if (!isLoggedIn) {
             StackBlitzSDK.embedGithubProject(path, BASE_URI + path, options)
                 .then(instance => {
                     if (!mounted) return
@@ -97,7 +99,7 @@ const StackblitzContainer = ({
         return () => {
             mounted = false
         }
-    }, [path, open, user])
+    }, [path, open, isLoggedIn])
 
     if (error)
         return (
@@ -108,37 +110,50 @@ const StackblitzContainer = ({
         )
 
     const saveVMSnapshot = async () => {
-        const allFiles = (await vm.getFsSnapshot()) as StackblitzFiles
-        const dependencies = await vm.getDependencies()
-        const { 'package-lock.json': string, ...files } = allFiles
-        onLectureChange({
-            documentId: actualLecture.current?.documentId,
-            files,
-            dependencies,
-            ...relativeDir2CatalogBase(relDir),
-        })
-        // ! wie warte ich hier auf success oder nicht?
-        setSnackbarOpen(true)
+        try {
+            const allFiles = (await vm.getFsSnapshot()) as StackblitzFiles
+            const dependencies = await vm.getDependencies()
+            const { 'package-lock.json': string, ...files } = allFiles
+            onLectureChange({
+                documentId: actualLecture.current?.documentId,
+                files,
+                dependencies,
+                ...relativeDir2CatalogBase(relDir),
+            })
+            enqueueSnackbar('Speichern erfolgreich', { variant: 'success', key: path })
+        } catch (e) {
+            enqueueSnackbar('Speichern fehlgeschlagen', {
+                variant: 'error',
+                persist: true,
+                action: (
+                    <Button
+                        color="inherit"
+                        onClick={() =>
+                            window.open(
+                                createPrefilledIssue({
+                                    title: `Problem: Fehler beim Speichern der Lektion ${relDir}, Version: ${__VERSION__}`,
+                                    body: `error: ${e.toString()}`,
+                                    template: 'general_bug_template.md',
+                                    labels: ['bug'],
+                                })
+                            )
+                        }>
+                        melden
+                    </Button>
+                ),
+            })
+        }
     }
 
     return (
         <div className={classes.stackblitzContainer} key={path}>
             <div id={path} />
 
-            {user && (
+            <Zoom in={Boolean(vm && isLoggedIn)}>
                 <FixedFab color="primary" startIcon={<Save />} onClick={saveVMSnapshot}>
                     speichern
                 </FixedFab>
-            )}
-
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                onClose={() => setSnackbarOpen(false)}>
-                <Alert elevation={6} onClose={() => setSnackbarOpen(false)} severity="success">
-                    Lektion gespeichert
-                </Alert>
-            </Snackbar>
+            </Zoom>
         </div>
     )
 }

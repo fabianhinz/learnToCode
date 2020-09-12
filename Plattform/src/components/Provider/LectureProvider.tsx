@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 
-import { FirestoreLecturesDoc } from '../../model/firebase'
+import { FirestoreLecturesDoc, UnsubscribeFn } from '../../model/firebase'
 import { catalogBase2RelativeDir } from '../../util/mapper'
 import { useFirebaseContext } from './FirebaseProvider'
 
@@ -20,41 +20,44 @@ export const useLectureContext = () => useContext(Context)
 const LectureProvider: FC = ({ children }) => {
     const [lectureByRelativeDir, setLectureByRelDir] = useState<Map<string, Lecture>>(new Map())
 
-    const { firebaseInstance, user } = useFirebaseContext()
+    const { firebaseInstance, resolveUser } = useFirebaseContext()
 
     useEffect(() => {
-        if (!user) {
-            setLectureByRelDir(new Map())
-            return
-        }
+        let unsubscribe: UnsubscribeFn
+        resolveUser.then(
+            user => {
+                unsubscribe = firebaseInstance
+                    .firestore()
+                    .collection(`users/${user.uid}/lectures`)
+                    .onSnapshot(snapshot => {
+                        const lectures = snapshot.docs.map(
+                            doc => ({ documentId: doc.id, ...doc.data() } as Lecture)
+                        )
 
-        const userLecturesDoc = firebaseInstance.firestore().collection('users').doc(user.uid)
-
-        userLecturesDoc.get().then(snapshot => {
-            if (snapshot.exists) return
-            // user logged in for the first time
-            userLecturesDoc.set(user)
-        })
-
-        userLecturesDoc.collection('lectures').onSnapshot(snapshot => {
-            const lectures = snapshot.docs.map(
-                doc => ({ documentId: doc.id, ...doc.data() } as Lecture)
-            )
-
-            setLectureByRelDir(new Map(lectures.map(l => [catalogBase2RelativeDir(l), l])))
-        })
-    }, [firebaseInstance, user])
+                        setLectureByRelDir(
+                            new Map(lectures.map(l => [catalogBase2RelativeDir(l), l]))
+                        )
+                    })
+            },
+            _noUser => {
+                setLectureByRelDir(new Map())
+            }
+        )
+        return unsubscribe
+    }, [firebaseInstance, resolveUser])
 
     const onLectureChange = useCallback(
         ({ documentId, ...firestoreDoc }: Lecture) => {
-            if (!user) throw new Error('cannot update lecture of a non existing user')
+            resolveUser.then(user => {
+                const collection = firebaseInstance
+                    .firestore()
+                    .collection(`users/${user.uid}/lectures`)
 
-            const collection = firebaseInstance.firestore().collection(`users/${user.uid}/lectures`)
-
-            if (documentId) collection.doc(documentId).set(firestoreDoc)
-            else collection.doc().set(firestoreDoc)
+                if (documentId) collection.doc(documentId).set(firestoreDoc)
+                else collection.doc().set(firestoreDoc)
+            })
         },
-        [firebaseInstance, user]
+        [firebaseInstance, resolveUser]
     )
 
     const providerValue = useMemo(
