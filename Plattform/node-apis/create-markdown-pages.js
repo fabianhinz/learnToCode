@@ -25,6 +25,7 @@ exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
                         }
                         lastUpdate
                         logicalOrder
+                        onlineIDE
                     }
                     parent {
                         ... on File {

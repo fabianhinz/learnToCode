@@ -25,6 +25,7 @@ export interface TechnologyFrontmatter extends BaseFrontmatter {
 export interface LectureFrontmatter extends BaseFrontmatter {
     lastUpdate?: string
     logicalOrder: number
+    onlineIDE?: OnlineIDEs
 }
 
 export interface ParentNode {
@@ -35,12 +36,25 @@ export interface GithubIssue {
     body?: string
     title?: string
     // todo typisieren
-    labels?: string[]
+    labels?: (
+        | 'bug'
+        | 'duplicate'
+        | 'feature'
+        | 'good first issue'
+        | 'help wanted'
+        | 'improvement'
+        | 'lerninhalt'
+        | 'platform'
+        | 'question'
+        | 'wiki'
+        | 'wontfix'
+    )[]
     template?:
-        | 'general_bug_template.md'
         | 'improvement_template.md'
+        | 'lecture_bug_template.md'
         | 'lecture_help_template.md'
         | 'lecture_idea_template.md'
+        | 'platform_bug_template.md'
     milestone?: string
     assignees?: string[]
     projects?: string[]
@@ -68,3 +82,5 @@ export interface StackblitzFiles {
     'package-lock.json': string
     [path: string]: string
 }
+
+export type OnlineIDEs = 'stackblitz'

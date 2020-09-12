@@ -32,8 +32,8 @@ const CatalogErrorBoundary = ({ onRenderFallback, children, componentName }: Pro
                     componentName ? 'Komponente ' + componentName : 'Anwendung'
                 }, Version: ${__VERSION__}`,
                 body: `error: ${error.error} \n\ntrace: ${error.trace}`,
-                template: 'general_bug_template.md',
-                labels: ['bug'],
+                template: 'platform_bug_template.md',
+                labels: ['bug', 'platform'],
             })
         )
     }
