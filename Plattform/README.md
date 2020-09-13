@@ -72,7 +72,7 @@
 
 1. **firestore.rules**: [Firestore Security Rules](https://firebase.google.com/docs/firestore/security/get-started)
 
-1. **gatsby-*browser.js**: [API Dateien](https://www.gatsbyjs.com/docs/api-files/) um das Verhalten der Seite zu konfigurieren
+1. **gatsby-*.js**: [API Dateien](https://www.gatsbyjs.com/docs/api-files/) um das Verhalten der Seite zu konfigurieren. 
 
 1. **package.json**: Skripte und Abhängigkeiten werden in der package.json Datei verwaltet. Referenz auf [npmjs.com](https://docs.npmjs.com/files/package.json)
 
