@@ -26,4 +26,4 @@ A learning platform for students - by students. Build with [Gatsby](https://www.
 
 ## 🤓 Neugierig?
 
-> Starte noch heute eine [Lektion](https://learn2code-hska.web.app/), verfolge deinen Fortschritt und verbessere die Qualität der Lehrinhalte durch deine Beteiligung
+> Starte noch heute eine [Lektion](https://learn2code-hska.web.app/), verfolge deinen Fortschritt und verbessere die Qualität der Lehrinhalte durch deine Beteiligung. Weitere Informationen sind im [Wiki](https://github.com/fabianhinz/learnToCode/wiki) zu finden.
