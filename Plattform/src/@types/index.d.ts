@@ -11,3 +11,4 @@ declare module 'react-use-flexsearch' {
 }
 
 declare var __VERSION__: string
+declare var __BRANCH__: string

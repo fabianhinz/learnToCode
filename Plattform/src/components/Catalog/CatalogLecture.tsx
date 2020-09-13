@@ -5,7 +5,7 @@ import lectureImage from '../../../static/lecture.png'
 import useBackgroundEffect from '../../hooks/useBackgroundEffect'
 import useNavTextEffect from '../../hooks/useNavTextEffect'
 import { LectureFrontmatter, NodeContext, ParentNode } from '../../model/model'
-import { GITHUB_BASE_URI } from '../../util/constants'
+import { GITHUB_BASE_URI, LECTURE_DOWNLOAD_BASE_URI } from '../../util/constants'
 import { createPrefilledIssue } from '../../util/github-service'
 import LectureSpeedDial, { SpeedDialParentAction } from '../Lecture/LectureSpeedDial'
 import Title from '../Shared/Title'
@@ -33,7 +33,7 @@ const CatalogLecture = (props: NodeContext<LectureNodeProps>) => {
     const handleSpeedDialAction = (action: SpeedDialParentAction) => {
         switch (action) {
             case 'downloadLecture': {
-                window.open(GITHUB_BASE_URI + `raw/master/Lektionen${props.path}/lecture.zip`)
+                window.open(`${LECTURE_DOWNLOAD_BASE_URI}${props.path}/lecture.zip`)
                 break
             }
             case 'openStackblitz': {

@@ -53,7 +53,7 @@ const StackblitzContainer = ({
         let mounted = true
         let embededPromise: Promise<VM> | null = null
         const repoSlug = STACKBLITZ_REPO_SLUG_BASE + relDir
-        console.log({ repoSlug })
+
         if (!isLoggedIn) {
             StackBlitzSDK.embedGithubProject(relDir, repoSlug, options)
                 .then(instance => {
