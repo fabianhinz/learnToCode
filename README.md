@@ -10,12 +10,15 @@ A learning platform for students - by students. Build with [Gatsby](https://www.
     .
     ├── dev.code-workspace
     ├── Katalog
+    ├── Konzept
     ├── Lektionen
     ├── Plattform
 
 1. **dev.code-workspace**: [Multi-root Workspace](https://code.visualstudio.com/docs/editor/multi-root-workspaces) von VS Code
 
 1. **Katalog**: Webseiteninhalte die beim Bauen der Anwendung zur Erstellung von Seiten und Abschnitten erstellt werden. Der Katalog spiegelt den gesamten Lehrinhalt der Plattform wider
+
+1. **Konzept**: Unterlagen die im Zuge der Entwicklung der Lernplattform entstanden sind
 
 1. **Lektionen**: Eigenständige Projekte. Sofern möglich wird auf diese aus der Anwendung heraus referenziert, um im Browser die Entwicklung derer zu ermöglichen
 
