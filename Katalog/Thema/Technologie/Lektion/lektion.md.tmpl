@@ -1,0 +1,23 @@
+---
+pathTitle: 'Lektion' # Der pathTitle darf keine Leerzeichen enthalten. Er wird zur Route Erstellung verwendet und sollte deshalb mit dem zugehörigen Ordnernamen übereinstimmen.
+title: 'Meine Lektion' # Der title dient zur Anzeige in der Webanwendung. Er kann Leerzeichen enthalten und hat keine Auswirkung auf die Erstellung der Routes. 
+description: 'Beschreibung meiner Lektion. Diese Beschreibung wird in der Web Anwendung angezeigt.'
+logicalOrder: 2 # Number zur Definition einer Reihenfolge in welcher die Lektionen angezeigt werden. Zum Beispiel könnte man die Lektion HTML vor der Lektion CSS einordnen.
+lastUpdate: '23.08.2020 19:00' # Datum des letzten Updates, wird als String angezeigt. (optional)
+onlineIDE: 'stackblitz' # String der angibt, in welcher online IDE das Projekt geöffnet werden kann. Momentan ist stackblitz der einzig mögliche Wert (optional)
+---
+
+<!-- Die Anleitung für die jeweilige Lektion wird in vollumfänglicher Markdown Syntax in die Datei geschrieben. Beispiel siehe unten. -->
+
+![Alt text here](../../technologie.png) <!-- Verlinken eines Bildes zur Anzeige -->
+
+## Funktionen 
+
+<h1 style="color: red;"> Headline in red </h1> <!-- Markdown Renderer versteht HTML -->
+
+<!-- Code der gehighlighted wird-->
+
+```jsx
+const Header = () => <h1>hello header</h1>
+const FancyButton = () => <button>hello component</button>
+```
