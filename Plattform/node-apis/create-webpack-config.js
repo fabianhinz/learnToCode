@@ -32,3 +32,22 @@ exports.getBuildVersion = ({ plugins, actions }) => {
         ],
     })
 }
+
+/**
+ * Defines a global variable to access the current branch.
+ */
+
+exports.getCurrentBranch = ({ plugins, actions }) => {
+    const currentBranch = require(`child_process`)
+        .execSync(`git branch --show-current`, {
+            encoding: `utf-8`,
+        })
+        .trim()
+    actions.setWebpackConfig({
+        plugins: [
+            plugins.define({
+                __BRANCH__: currentBranch ? JSON.stringify(currentBranch) : 'master',
+            }),
+        ],
+    })
+}
