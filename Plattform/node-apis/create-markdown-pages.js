@@ -8,7 +8,10 @@ const { PATH_LEVELS } = require('./node-apis-constants')
 
 exports.createMarkdownPages = async ({ graphql, actions, reporter }) => {
     const { createPage } = actions
-
+    /**
+     * only fields that are defined in the query below are available in the components frontmatter object
+     * new fields under the object require a restart of the dev-server
+     */
     const result = await graphql(`
         query {
             allMarkdownRemark(filter: { fileAbsolutePath: { regex: "/(Katalog)/" } }) {
